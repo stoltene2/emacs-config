@@ -1,10 +1,10 @@
 ;; Load initialization files
 (mapcar
  (lambda (f) (load-file f))
- (file-expand-wildcards "~/.emacs.d/init/*.el"))
+ (file-expand-wildcards "./init/*.el"))
 
 ;; el-get
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'load-path "./el-get/el-get")
 (unless (require 'el-get nil t)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -17,7 +17,11 @@
 ;; Load elget recipe files
 (mapcar
  (lambda (f) (add-to-list 'el-get-sources (el-get-read-recipe-file f)))
- (file-expand-wildcards "~/.emacs.d/recipes/*.rcp"))
+ (file-expand-wildcards "./recipes/*.rcp"))
 
 ;; Load them
 (el-get 'sync (mapcar 'el-get-source-name el-get-sources))
+
+;; Load aliases not related to specific packages
+(if (file-exists-p "init/90-aliases.el")
+    (load-file "init/90-aliases.el"))
