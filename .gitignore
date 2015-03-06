@@ -4,3 +4,4 @@
 /el-get
 /elpa/archives/gnu/archive-contents
 /tramp
+*.elc

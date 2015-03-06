@@ -1,27 +1,46 @@
-;; Load initialization files
-(mapcar
- (lambda (f) (load-file f))
- (file-expand-wildcards "./init/*.el"))
+;; Allow this to function outside of an emacs.d directory
+(setq el-get-dir
+      (let* ((current-dir-name
+              (file-name-directory (or load-file-name (buffer-file-name)))))
+        (concat current-dir-name "el-get")))
 
-;; el-get
-(add-to-list 'load-path "./el-get/el-get")
-(unless (require 'el-get nil t)
+(setenv "PATH" (concat (getenv "HOME") "/bin:"
+                       "/opt/local/bin:"
+                       (getenv "PATH")))
+
+(add-to-list 'load-path (concat (file-name-as-directory el-get-dir) "el-get"))
+
+;;(package-initialize)
+
+(unless (require 'el-get nil 'noerror)
   (with-current-buffer
       (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (let (el-get-master-branch)
-      (end-of-buffer)
-      (eval-print-last-sexp))))
-(setq el-get-git-shallow-clone t)
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 
-;; Load elget recipe files
-(mapcar
- (lambda (f) (add-to-list 'el-get-sources (el-get-read-recipe-file f)))
- (file-expand-wildcards "./recipes/*.rcp"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Load package inits and sync packages
+(setq el-get-user-package-directory "./packages")
 
-;; Load them
-(el-get 'sync (mapcar 'el-get-source-name el-get-sources))
+(if (file-exists-p el-get-user-package-directory)
+    (let*
+        ((files (directory-files el-get-user-package-directory nil "^init-.*\.el$"))
 
-;; Load aliases not related to specific packages
-(if (file-exists-p "init/90-aliases.el")
-    (load-file "init/90-aliases.el"))
+         (remove-init-ext (lambda (f)
+                             (file-name-sans-extension
+                              (mapconcat 'identity (cdr (split-string f "-")) "-"))))
+
+         (packages (mapcar remove-init-ext files)))
+
+      (setq my-packages packages))
+  (message "There are no packages found in %s") el-get-user-package-directory)
+
+
+(el-get 'sync my-packages)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load custom initialization for after packages have loaded
+(mapcar (lambda (f) (load-file f))
+        (file-expand-wildcards "./init/*.el"))
