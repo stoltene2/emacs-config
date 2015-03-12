@@ -9,7 +9,6 @@
 
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-
 (setq el-get-dir
       (let* ((current-dir-name
               (file-name-directory (or load-file-name (buffer-file-name)))))
@@ -19,6 +18,11 @@
 (add-to-list 'load-path (concat (file-name-as-directory el-get-dir) "el-get"))
 
 ;;(package-initialize)
+;; (mapcar
+;;  (lambda (f) (add-to-list 'el-get-sources (el-get-read-recipe-file f)))
+;;  (file-expand-wildcards "~/.emacs.d/recipes/*.rcp"))
+
+;;(setq custom-packages (mapcar 'el-get-source-name el-get-sources))
 
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -44,6 +48,7 @@
       (setq my-packages packages))
   (message "There are no packages found in %s" el-get-user-package-directory))
 
+
 (el-get 'sync my-packages)
 
 
@@ -56,7 +61,5 @@
           (message "loading %s" f)
           (load-file f))
         (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
-
-
 
 (setq debug-on-error nil)
