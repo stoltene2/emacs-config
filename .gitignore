@@ -6,3 +6,5 @@
 /tramp
 *.elc
 *~
+/projectile-bookmarks.eld
+/projectile.cache

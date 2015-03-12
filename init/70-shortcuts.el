@@ -22,3 +22,6 @@
 
 (global-set-key [f9] 'es/toggle-window-split)
 (global-set-key [f10] 'es/rotate-windows)
+
+
+(js2r-add-keybindings-with-prefix "C-c RET")
