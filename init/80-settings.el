@@ -20,3 +20,13 @@
 
 (show-paren-mode)
 (setq show-paren-style 'expression)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ediff
+
+;; Don't spawn a new frame for the ediff commands, keep it all in one frame
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+;; Have ediff buffers show in a side-by-side view
+(setq ediff-split-window-function 'split-window-horizontally)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
