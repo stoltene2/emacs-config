@@ -25,3 +25,7 @@
 
 
 (js2r-add-keybindings-with-prefix "C-c RET")
+
+(global-set-key (kbd "M-s s") 'helm-swoop)
+
+(global-set-key [f5] 'helm-projectile-grep)

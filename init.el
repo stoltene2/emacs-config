@@ -17,12 +17,6 @@
 
 (add-to-list 'load-path (concat (file-name-as-directory el-get-dir) "el-get"))
 
-;;(package-initialize)
-;; (mapcar
-;;  (lambda (f) (add-to-list 'el-get-sources (el-get-read-recipe-file f)))
-;;  (file-expand-wildcards "~/.emacs.d/recipes/*.rcp"))
-
-;;(setq custom-packages (mapcar 'el-get-source-name el-get-sources))
 
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -30,6 +24,22 @@
        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
     (goto-char (point-max))
     (eval-print-last-sexp)))
+
+
+
+;; Have el-get sync with elpa and melpa
+;; Periodically refresh with el-get-elpa-build-local-recipies
+;; This caches the recipies
+
+(require 'el-get-elpa)
+(unless (file-directory-p el-get-recipe-path-elpa)
+  (el-get-elpa-build-local-recipes))
+
+(require 'package)
+(add-to-list 'package-archives
+             ;; The 't' means to append, so that MELPA comes after the more
+             ;; stable ELPA archive.
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Load package inits and sync packages

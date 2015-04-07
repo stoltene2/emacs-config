@@ -1,7 +1,7 @@
 (custom-set-variables
  '(org-agenda-files
    (quote
-    ("~/Documents/Redbox/sprints/sprints.org" "~/Documents/Redbox/projects.org")))
+    ("~/Documents/deft")))
  '(org-clock-clocktable-default-properties (quote (:maxlevel 3 :scope file)))
  '(org-clock-idle-time 15)
  '(org-clock-into-drawer "LOGBOOK")
@@ -23,3 +23,7 @@
    (org-bibtex org-crypt org-docview org-gnus org-info org-jsinfo org-habit org-irc org-mew org-mhe org-vm org-wl org-w3m org-mouse))
  '(org-tags-column -120)
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198")))))
+
+
+(custom-set-variables
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain)))
