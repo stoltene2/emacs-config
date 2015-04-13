@@ -73,3 +73,14 @@
   (newline-and-indent)
   (forward-line -1)
   (indent-for-tab-command))
+
+
+(setq es/font-sizes '( "12" "14" "16" "20" "24"))
+
+(defun es/cycle-font-size ()
+  "Cycle between 14, 16, 18, 24 pt fonts"
+  (interactive)
+  (let* ((size (car es/font-sizes))
+         (font (concat "Monaco-" size)))
+    (progn (setq es/font-sizes (-rotate -1 es/font-sizes))
+           (set-default-font font))))

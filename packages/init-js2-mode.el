@@ -11,3 +11,6 @@
  '(js2-basic-offset 2)
  '(js2-bounce-indent-p nil)
  '(js2-mode-indent-ignore-first-tab nil))
+
+(eval-after-load 'js2-mode
+  (progn (flycheck-mode)))

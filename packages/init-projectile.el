@@ -1,4 +1,4 @@
-
+(require 'projectile)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 
@@ -10,3 +10,10 @@
 (custom-set-variables
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
  '(projectile-test-suffix-function (quote es/projectile-test-suffix)))
+
+
+(eval-after-load 'helm
+  '(progn
+     (require 'helm-projectile)
+     (setq projectile-completion-system 'helm)
+     (helm-projectile-on)))
