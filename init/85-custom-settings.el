@@ -13,6 +13,7 @@
  '(org-enforce-todo-dependencies t)
  '(org-fontify-emphasized-text t)
  '(org-fontify-whole-heading-line t)
+ '(org-src-fontify-natively t)
  '(org-habit-following-days 5)
  '(org-habit-show-habits-only-for-today t)
  '(org-habit-today-glyph 124)

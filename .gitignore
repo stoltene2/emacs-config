@@ -10,3 +10,5 @@
 /projectile.cache
 /elpa/
 /.mc-lists.el
+/backups/
+/url/
