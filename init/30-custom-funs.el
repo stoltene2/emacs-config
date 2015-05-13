@@ -84,3 +84,23 @@
          (font (concat "Monaco-" size)))
     (progn (setq es/font-sizes (-rotate -1 es/font-sizes))
            (set-default-font font))))
+
+
+;; Re-indent pasts
+;; This came from the emacs wiki
+;; http://emacswiki.org/emacs/AutoIndentation
+(dolist (command '(yank yank-pop))
+   (eval `(defadvice ,command (after indent-region activate)
+            (and (not current-prefix-arg)
+                 (member major-mode '(emacs-lisp-mode js2-mode))
+                 (let ((mark-even-if-inactive transient-mark-mode))
+                   (indent-region (region-beginning) (region-end) nil))))))
+
+;; Remove indent when kill line at end of line
+(defadvice kill-line (before check-position activate)
+  (if (member major-mode
+              '(emacs-lisp-mode js2-mode))
+      (if (and (eolp) (not (bolp)))
+          (progn (forward-char 1)
+                 (just-one-space 0)
+                 (backward-char 1)))))

@@ -19,3 +19,6 @@
 ;; Setup flyspell on gitcommits
 (add-hook 'magit-commit-mode-hook (lambda ()
                                     (flyspell-mode)))
+
+(setq projectile-switch-project-action (lambda ()
+                                         (magit-status default-directory)))

@@ -5,6 +5,7 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+(setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
+(setq flycheck-checkers '(javascript-eslint))
 
-(custom-set-variables
- '(flycheck-jshintrc "~/config/jshintrc"))
+(flycheck-add-mode 'javascript-eslint 'web-mode)

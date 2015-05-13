@@ -17,7 +17,7 @@
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
 (setq helm-quick-update                     t
-      helm-split-window-in-side-p           t
+      helm-split-window-in-side-p           nil
       helm-buffers-fuzzy-matching           t
       helm-recentf-fuzzy-match              t
       helm-locate-fuzzy-match               t
