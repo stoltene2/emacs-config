@@ -5,6 +5,10 @@
 (add-hook 'js2-mode-hook (lambda ()
                            (subword-mode)))
 
+(add-hook 'js2-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   '((company-dabbrev-code company-yasnippet)))))
 
 (custom-set-variables
  '(js2-auto-insert-catch-block nil)

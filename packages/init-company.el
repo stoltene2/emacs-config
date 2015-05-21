@@ -1,4 +1,5 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
-;; Yasnippet stuff
-;;(push  'company-yasnippet company-backends ) 
+(setq company-minimum-prefix-length 2)
+(setq company-tooltip-margin 1)
+(setq company-tooltip-minimum-width 30)
