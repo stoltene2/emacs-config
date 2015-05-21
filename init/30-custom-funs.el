@@ -92,14 +92,14 @@
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
             (and (not current-prefix-arg)
-                 (member major-mode '(emacs-lisp-mode js2-mode))
+                 (member major-mode '(emacs-lisp-mode js2-mode web-mode))
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
 ;; Remove indent when kill line at end of line
 (defadvice kill-line (before check-position activate)
   (if (member major-mode
-              '(emacs-lisp-mode js2-mode))
+              '(emacs-lisp-mode js2-mode web-mode))
       (if (and (eolp) (not (bolp)))
           (progn (forward-char 1)
                  (just-one-space 0)

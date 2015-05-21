@@ -3,3 +3,5 @@
 
 (setq web-mode-enable-current-column-highlight t)
 (setq web-mode-enable-current-element-highlight t)
+
+(setq web-mode-markup-indent-offset 2)

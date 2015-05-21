@@ -28,7 +28,7 @@
 
 
 ;; Have el-get sync with elpa and melpa
-;; Periodically refresh with el-get-elpa-build-local-recipies
+;; Periodically refresh with (el-get-elpa-build-local-recipies)
 ;; This caches the recipies
 
 (require 'el-get-elpa)
