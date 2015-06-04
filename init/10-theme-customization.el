@@ -12,4 +12,7 @@
  ;; If there is more than one, they won't work right.
  '(company-scrollbar-fg ((t (:background "#3b3b3b"))))
  '(company-tooltip-annotation ((t (:inherit company-tooltip))))
- '(company-tooltip-selection ((t (:background "#6b6b6b" :foreground "#BBF7EF")))))
+ '(company-tooltip-selection ((t (:background "#6b6b6b" :foreground "#BBF7EF"))))
+ '(git-gutter:added ((t (:background "#276B22" :foreground "#276B22" :weight bold))))
+ '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
+ '(git-gutter:modified ((t (:background "#272888" :foreground "#272888" :weight bold)))))
