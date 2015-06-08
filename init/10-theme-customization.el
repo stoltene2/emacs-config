@@ -16,3 +16,5 @@
  '(git-gutter:added ((t (:background "#276B22" :foreground "#276B22" :weight bold))))
  '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
  '(git-gutter:modified ((t (:background "#272888" :foreground "#272888" :weight bold)))))
+
+(set-face-attribute 'region nil :background "#303029")

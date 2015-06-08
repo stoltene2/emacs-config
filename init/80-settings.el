@@ -18,8 +18,8 @@
 
 (setq default-line-spacing 3)
 
-(show-paren-mode)
-(setq show-paren-style 'expression)
+(show-paren-mode t)
+(setq show-paren-style (quote parenthesis))
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()

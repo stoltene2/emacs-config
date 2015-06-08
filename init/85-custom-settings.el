@@ -1,4 +1,6 @@
 (custom-set-variables
+ '(compilation-ask-about-save nil)
+ '(compilation-scroll-output (quote first-error))
  '(org-agenda-files
    (quote
     ("~/Documents/deft")))
