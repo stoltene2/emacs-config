@@ -9,9 +9,6 @@
                             (interactive)
                             (switch-to-buffer (other-buffer))))
 
-;; Not used a lot, but handy on new projects
-(global-set-key [f5] 'speedbar-get-focus)
-
 (global-set-key [(meta !)] 'async-shell-command)
 (global-set-key [(control meta !)] 'shell-command)
 
@@ -28,7 +25,7 @@
 
 (global-set-key (kbd "M-s s") 'helm-swoop)
 
-(global-set-key [S-f5] 'helm-projectile-grep)
+(global-set-key [S-f5] 'helm-projectile-ag)
 (global-set-key [f5] 'helm-swoop)
 
 (global-set-key [f2] 'es/cycle-font-size)

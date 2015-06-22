@@ -28,14 +28,14 @@
 
 
 
-(set-face-attribute 'region nil :background (region-bg-color))
+(set-face-attribute 'region nil :background (es/color-region-bg))
 
 
 ;; Ediff custom faces
-(set-face-attribute 'ediff-even-diff-A nil :background (es/color-region-bg) :foreground (es/color-default-fg))
-(set-face-attribute 'ediff-even-diff-B nil :background (es/color-region-bg) :foreground (es/color-default-fg))
-(set-face-attribute 'ediff-even-diff-C nil :background (es/color-region-bg) :foreground (es/color-default-fg))
-(set-face-attribute 'ediff-odd-diff-A nil :background (es/color-region-bg) :foreground (es/color-default-fg))
-(set-face-attribute 'ediff-odd-diff-Ancestor nil :background (es/color-region-bg) :foreground "cyan3")
-(set-face-attribute 'ediff-odd-diff-B nil :background (es/color-region-bg) :foreground (es/color-default-fg))
-(set-face-attribute 'ediff-odd-diff-C nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-even-diff-A nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-even-diff-B nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-even-diff-C nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-odd-diff-A nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-odd-diff-Ancestor nil :background (es/color-region-bg) :foreground "cyan3")
+;; (set-face-attribute 'ediff-odd-diff-B nil :background (es/color-region-bg) :foreground (es/color-default-fg))
+;; (set-face-attribute 'ediff-odd-diff-C nil :background (es/color-region-bg) :foreground (es/color-default-fg))
