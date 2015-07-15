@@ -23,7 +23,7 @@
  '(org-hide-leading-stars t)
  '(org-log-done (quote time))
  '(org-modules
-   (org-bibtex org-crypt org-docview org-gnus org-info org-jsinfo org-habit org-irc org-mew org-mhe org-vm org-wl org-w3m org-mouse))
+   ())
  '(org-tags-column -120)
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198")))))
 
