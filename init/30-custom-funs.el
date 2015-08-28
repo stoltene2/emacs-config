@@ -104,3 +104,18 @@
           (progn (forward-char 1)
                  (just-one-space 0)
                  (backward-char 1)))))
+
+;; This should be removable now
+(defun es/grab-constructor-name ()
+  "Grab the name of the constructor being used in js class.
+
+This above the current snippet expansion to find the name of the constructor used before the first use of .prototype."
+  (save-excursion
+    (save-match-data
+      (save-restriction
+        (progn
+          (widen)
+          (goto-char (point-min))
+          (if (re-search-forward "\\b\\(.*?\\)\\.prototype\\." nil t)
+              (match-string-no-properties 1)
+            "Class"))))))

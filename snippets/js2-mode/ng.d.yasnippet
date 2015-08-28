@@ -1,0 +1,26 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ng.directive
+# key: ng.d
+# condition: (looking-back "^\s*ng\.d")
+# expand-env: ((mod-prefix js-proj-prefix-module) (view-prefix js-proj-prefix-view) (yas-indent-line 'fixed))
+# --
+'use strict';
+
+angular.module('${1:`mod-prefix`}').controller('$1.directives.${2:$(s-lower-camel-case yas-text)}Ctrl', [
+  function() {
+    var vm = this;
+    $0
+  }
+]);
+
+angular.module('$1').directive('${2:directiveName}', [
+  function() {
+    return {
+      restrict: 'E',
+      scope: { },
+      templateUrl: '`view-prefix`/${2:$(s-dashed-words yas-text)}-directive-template.html',
+      controller: '$1.directives.${2:$(s-lower-camel-case yas-text)}Ctrl',
+      controllerAs: '${2:$(s-lower-camel-case yas-text)}Ctrl',
+      bindToController: true
+    };
+  }]);

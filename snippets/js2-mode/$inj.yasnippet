@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: $injector.get
+# key: $inj
+# condition: (looking-back "^\s*$inj")
+# --
+$1 = $injector.get('${1:injector}');
+$0

@@ -59,3 +59,15 @@
 
 ;; Remove lock files
 (setq create-lockfiles nil)
+
+;; IBuffer
+(setq ibuffer-formats
+ (quote
+  ((mark modified read-only " "
+         (name 60 60 :left :elide)
+         " "
+         (mode 14 14 :left :elide)
+         " " filename-and-process)
+   (mark " "
+         (name 12 -1)
+         " " filename))))

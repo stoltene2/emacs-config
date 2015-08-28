@@ -7,7 +7,7 @@
 (setenv "PATH" (concat "/usr/local/bin:"
                        (getenv "PATH")))
 
-(setq exec-path (append exec-path '("/usr/local/bin")))
+(setq exec-path (cons "/usr/local/bin" exec-path ))
 
 (setq el-get-dir
       (let* ((current-dir-name
@@ -73,3 +73,4 @@
         (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
 
 (setq debug-on-error nil)
+(put 'narrow-to-region 'disabled nil)

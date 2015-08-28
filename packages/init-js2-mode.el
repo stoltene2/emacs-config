@@ -5,6 +5,7 @@
 (add-hook 'js2-mode-hook (lambda ()
                            (subword-mode)))
 
+;; Setup company mode for js2-mode
 (add-hook 'js2-mode-hook
             (lambda ()
               (set (make-local-variable 'company-backends)
