@@ -25,6 +25,7 @@
  '(haskell-process-args-cabal-repl
    '("--ghc-option=-ferror-spans"))
  '(haskell-notify-p t)
+ '(haskell-indent-spaces 4)
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-log t)
  '(haskell-process-auto-import-loaded-modules t)
@@ -33,6 +34,14 @@
 
 ;;; Hooks
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
 
 ;;; Custom keys
 (define-key interactive-haskell-mode-map (kbd "C-c '") 'haskell-interactive-bring)
+
+(eval-after-load "haskell-mode"
+  '(progn
+     (define-key haskell-mode-map (kbd "C-,") 'haskell-move-nested-left)
+     (define-key haskell-mode-map (kbd "C-.") 'haskell-move-nested-right)))
+
+(setq haskell-process-path-stack "/Users/eric/Library/Haskell/bin/stack")
