@@ -1,0 +1,14 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: jsDoc comment
+# key: jsdoc
+# condition: (looking-back "^\s*jsdoc")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+/**
+ * ${1:Summary}
+ *
+ * $0
+ *
+ * @param {${2:ParamType}} ParamName - Purpose
+ * @returns {${3:ReturnType}} - What happens with return result
+ */
