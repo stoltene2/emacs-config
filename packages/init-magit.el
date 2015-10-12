@@ -21,4 +21,4 @@
                                     (flyspell-mode)))
 
 (setq projectile-switch-project-action (lambda ()
-                                         (magit-status default-directory)))
+                                         (magit-status)))
