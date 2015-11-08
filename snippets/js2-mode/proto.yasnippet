@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Name.prototype.method ...
+# key: proto
+# condition: (looking-back "^\s*proto")
+# expand-env: ((yas-indent-line 'fixed) (constructor (save-excursion (save-match-data (save-restriction (progn (widen) (goto-char (point-min)) (if (re-search-forward "\\b\\(.*?\\)\\.prototype\\." nil t) (match-string-no-properties 1) "Class")))))))
+# --
+${1:`constructor`}.prototype.${2:method} = function ($3) {
+  $0
+};
