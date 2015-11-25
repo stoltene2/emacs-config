@@ -16,4 +16,6 @@
   '(progn
      (require 'helm-projectile)
      (setq projectile-completion-system 'helm)
-     (helm-projectile-on)))
+     (helm-projectile-on)
+     (eval-after-load 'magit
+       '(setq projectile-switch-project-action #'magit-status))))
