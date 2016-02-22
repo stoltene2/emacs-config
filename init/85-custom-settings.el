@@ -14,7 +14,7 @@
            (puthash
             (projectile-project-root)
             (concat haskell-process-path-stack " test")
-            projectile-test-cmd-map))))))
+            projectile-test-cmd-map)))))
 
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
