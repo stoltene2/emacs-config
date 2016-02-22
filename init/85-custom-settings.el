@@ -1,4 +1,21 @@
 (custom-set-variables
+ '(safe-local-variable-values
+   (quote
+    ((projectile-test-suffix-function lambda
+                                      (project-type)
+                                      "" "Spec")
+     (eval progn
+           (require
+            (quote projectile))
+           (puthash
+            (projectile-project-root)
+            (concat haskell-process-path-stack " build")
+            projectile-compilation-cmd-map)
+           (puthash
+            (projectile-project-root)
+            (concat haskell-process-path-stack " test")
+            projectile-test-cmd-map))))))
+
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
  '(org-agenda-files
