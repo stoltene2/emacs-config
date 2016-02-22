@@ -13,6 +13,8 @@
 (global-set-key [(control meta !)] 'shell-command)
 
 (global-set-key (kbd "C-c r") 'rgrep)
+(global-set-key (kbd "C-c d") 'es/find-template-other-window)
+(global-set-key (kbd "C-c c") 'es/collapse-all-functions)
 
 (global-set-key (kbd "<C-return>") 'es/open-line-below)
 (global-set-key (kbd "<C-S-return>") 'es/open-line-above)
@@ -34,3 +36,9 @@
 
 (global-set-key [f1] 'delete-other-windows)
 (global-set-key [S-f1] 'delete-window)
+
+
+;; Capital L will recenter window to top
+(global-set-key (kbd "C-L") (lambda ()
+                              (interactive)
+                              (recenter-top-bottom nil)))

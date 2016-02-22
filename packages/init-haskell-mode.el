@@ -16,7 +16,7 @@
 
 ;; Check for hindent on the system
 (require 'haskell-process)
-(require 'haskell-simple-indent)
+
 (require 'haskell-interactive-mode)
 (require 'haskell-font-lock)
 
