@@ -124,6 +124,11 @@ This above the current snippet expansion to find the name of the constructor use
             "Class"))))))
 
 
+(defun es/find-class-from-module-string (str)
+  "Given a dot separated module string this yields the last
+  component"
+  (car (last (s-split "\\." str))))
+
 ;;;
 (defun es/find-template-other-window ()
   "See if there is a directive template and jump there"
@@ -174,3 +179,15 @@ search-cmd is typically 're-search-forward or
   (es/search-and-collapse re-search-forward "^\s*function\s")
   (es/search-and-collapse re-search-forward "^\s*this\..*function")
   (es/search-and-collapse search-forward ".prototype."))
+
+
+;;; Merge ediff region A and B into C
+(defun es/ediff-copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+
+(defun es/add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'es/ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'es/add-d-to-ediff-mode-map)

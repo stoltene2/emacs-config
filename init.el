@@ -42,6 +42,22 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Switch to use-package
+
+;;(package-initialize)
+
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
+
+;; ;; Installed via el-get now
+;; (eval-when-compile (require 'use-package))
+;; (use-package jasminejs-mode
+;;   :ensure t
+;;   :bind (:map jasminejs-prefix-map) "C-c j" )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Load package inits and sync packages
 (setq el-get-user-package-directory "~/.emacs.d/packages")
 
