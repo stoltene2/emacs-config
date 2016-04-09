@@ -25,20 +25,12 @@
 
 (js2r-add-keybindings-with-prefix "C-c RET")
 
-(global-set-key (kbd "M-s s") 'helm-swoop)
-
 (global-set-key [S-f5] 'helm-projectile-ag)
 (global-set-key [f5] 'helm-swoop)
 
-(global-set-key [f7] 'neotree-toggle)
+;;(global-set-key [f7] 'neotree-toggle)
 
 (global-set-key [f2] 'es/cycle-font-size)
 
 (global-set-key [f1] 'delete-other-windows)
 (global-set-key [S-f1] 'delete-window)
-
-
-;; Capital L will recenter window to top
-(global-set-key (kbd "C-L") (lambda ()
-                              (interactive)
-                              (recenter-top-bottom nil)))

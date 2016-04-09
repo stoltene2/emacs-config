@@ -41,7 +41,12 @@
 
 
 (use-package avy
-  :ensure t)
+  :ensure t
+  :bind (("C-c SPC" . avy-goto-word-1)
+         ("M-C-g" . avy-goto-line))
+
+  :config
+  (setq avy-background t))
 
 (use-package bookmark+
   :ensure t)
@@ -50,10 +55,17 @@
   :ensure t)
 
 (use-package deft
-  :ensure t)
+  :ensure t
+  :config
+  (setq deft-extension "org")
+  (setq deft-text-mode 'org-mode)
+  (setq deft-directory "~/Documents/deft")
+  (setq deft-use-filename-as-title t)
+  (setq deft-auto-save-interval 0))
 
 (use-package expand-region
-  :ensure t)
+  :ensure t
+  :bind ("C-=" . er/expand-region))
 
 (use-package flycheck
   :ensure t)
@@ -113,7 +125,10 @@
   :ensure t)
 
 (use-package neotree
-  :ensure t)
+  :ensure t
+  :bind ([f7] . neotree-toggle)
+  :config
+  (setq neo-window-width 50))
 
 (use-package paredit
   :ensure t)
