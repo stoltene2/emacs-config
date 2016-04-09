@@ -3,14 +3,20 @@
 (setq projectile-completion-system 'helm)
 
 (defun es/projectile-test-suffix (project-type)
-  "This is the default ending for javascript test files"
-  "-spec")
-
+  "Return test files of Spec for haskell-cabal projects
+Use -spec for all other project types"
+  (if (eq project-type 'haskell-cabal)
+      "Spec"
+    "-spec"))
 
 (custom-set-variables
- '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
- '(projectile-test-suffix-function (quote es/projectile-test-suffix)))
-
+ '(projectile-test-files-suffices
+   '("_test" "_spec" "Spec" "Test" "-test" "-spec"))
+ '(projectile-test-suffix-function #'es/projectile-test-suffix)
+ '(projectile-haskell-cabal-test-cmd
+   (concat haskell-process-path-stack " test"))
+ '(projectile-haskell-cabal-compile-cmd
+   (concat haskell-process-path-stack " build")))
 
 (eval-after-load 'helm
   '(progn
