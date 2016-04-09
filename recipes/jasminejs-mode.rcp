@@ -1,5 +1,0 @@
-(:name jasminejs-mode
-       :description "Help out with jasminejs spec files"
-       :website "https://github.com/stoltene2/jasminejs-mode"
-       :type github
-       :pkgname "stoltene2/jasminejs-mode")

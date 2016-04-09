@@ -9,33 +9,9 @@
 
 (setq exec-path (cons "/usr/local/bin" exec-path ))
 
-(setq el-get-dir
-      (let* ((current-dir-name
-              (file-name-directory (or load-file-name (buffer-file-name)))))
-        (concat current-dir-name "el-get")))
-
-
-(add-to-list 'load-path (concat (file-name-as-directory el-get-dir) "el-get"))
-
-
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-
-
-;; Have el-get sync with elpa and melpa
-;; Periodically refresh with (el-get-elpa-build-local-recipes)
-;; This caches the recipies
-
-(require 'el-get-elpa)
-(unless (file-directory-p el-get-recipe-path-elpa)
-  (el-get-elpa-build-local-recipes))
 
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
              ;; The 't' means to append, so that MELPA comes after the more
              ;; stable ELPA archive.
@@ -44,38 +20,124 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Switch to use-package
 
-;;(package-initialize)
+(package-initialize)
 
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
 
 ;; ;; Installed via el-get now
-;; (eval-when-compile (require 'use-package))
-;; (use-package jasminejs-mode
-;;   :ensure t
-;;   :bind (:map jasminejs-prefix-map) "C-c j" )
+(use-package jasminejs-mode
+  :ensure t)
+
+(use-package js2-mode
+  :ensure t)
+
+(use-package js2-refactor
+  :ensure t)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Load package inits and sync packages
-(setq el-get-user-package-directory "~/.emacs.d/packages")
+(use-package avy
+  :ensure t)
 
-(if (file-exists-p el-get-user-package-directory)
-    (let*
-        ((files (directory-files el-get-user-package-directory nil "^init-.*\.el$"))
+(use-package bookmark+
+  :ensure t)
 
-         (remove-init-ext (lambda (f)
-                             (file-name-sans-extension
-                              (mapconcat 'identity (cdr (split-string f "-")) "-"))))
+(use-package company
+  :ensure t)
 
-         (packages (mapcar remove-init-ext files)))
+(use-package deft
+  :ensure t)
 
-      (setq my-packages packages))
-  (message "There are no packages found in %s" el-get-user-package-directory))
+(use-package expand-region
+  :ensure t)
+
+(use-package flycheck
+  :ensure t)
+
+(use-package git-gutter
+  :ensure t)
 
 
-(el-get 'sync my-packages)
+(use-package haskell-mode
+  :ensure t)
+
+(use-package helm
+  :ensure t)
+
+(use-package helm-ag
+  :ensure t)
+
+(use-package helm-projectile
+  :ensure t)
+
+(use-package helm-swoop
+  :ensure t)
+
+(use-package jenkins
+  :ensure t)
+
+(use-package json-mode
+  :ensure t)
+
+(use-package magit
+  :ensure t
+  :bind (("C-c g" . magit-status)
+         :map magit-status-mode-map
+         ("q" . magit-quit-session))
+
+  :config
+
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen)))
+
+
+(use-package markdown-mode
+  :ensure t)
+
+(use-package monokai-theme
+  :ensure t)
+
+(use-package multiple-cursors
+  :ensure t)
+
+(use-package neotree
+  :ensure t)
+
+(use-package paredit
+  :ensure t)
+
+(use-package projectile
+  :ensure t)
+
+(use-package puppet-mode
+  :ensure t)
+
+(use-package restclient
+  :ensure t)
+
+(use-package ruby-mode
+  :ensure t)
+
+(use-package smartparens
+  :ensure t)
+
+(use-package web-mode
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -88,8 +150,8 @@
           (load-file f))
         (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
 
-(setq debug-on-error nil)
-(put 'narrow-to-region 'disabled nil)
+;; (setq debug-on-error nil)
+;; (put 'narrow-to-region 'disabled nil)
 
 ;; (custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
