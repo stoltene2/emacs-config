@@ -6,4 +6,6 @@
       '(("http://nullprogram.com/feed/" blog emacs)
         ("http://nedroid.com/feed/" webcomic)
         ("http://feeds.feedburner.com/brainpickings/rss" learning)
-        ("http://xkcd.com/atom.xml" webcomic)))
+        ("http://xkcd.com/atom.xml" webcomic)
+        ("http://feeds.feedburner.com/StudyHacks" learning)
+        ("https://www.farnamstreetblog.com/feed/" learning)))

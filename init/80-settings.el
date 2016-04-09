@@ -2,6 +2,9 @@
 
 (ansi-color-for-comint-mode-on)
 
+(defvar browse-url-generic-program)
+(defvar browse-url-browser-function)
+
 ;; Get to the browser
 (dolist (executable (list "google-chrome" "chromium-browser" "firefox"))
   (let ((browser-path (executable-find executable)))
@@ -16,10 +19,12 @@
 ;; Kill that trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(setq default-line-spacing 3)
+(setq default-line-spacing 4)
 
 (show-paren-mode t)
-(setq show-paren-style (quote parenthesis))
+
+(custom-set-variables
+ '(show-paren-style 'parenthesis))
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -46,19 +51,17 @@
 (define-key dired-mode-map
   (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
 
-;; Backup
-(setq
-   backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '(("." . "~/.saves"))    ; don't litter my fs tree
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t)       ; use versioned backups
-
-
-;; Remove lock files
-(setq create-lockfiles nil)
+;;; Backup
+(custom-set-variables
+ ;; don't clobber symlinks
+ '(backup-by-copying t)
+ ;; Don't litter
+ '(backup-directory-alist '(("." . "~/.saves")))
+ '(delete-old-versions t)
+ '(kept-new-versions 6)
+ '(kept-old-versions 2)
+ '(version-control t)
+ '(create-lockfiles nil))
 
 ;; IBuffer
 (setq ibuffer-formats

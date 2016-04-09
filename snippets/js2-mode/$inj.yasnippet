@@ -3,5 +3,4 @@
 # key: $inj
 # condition: (looking-back "^\s*$inj")
 # --
-$1 = $injector.get('${1:injector}');
-$0
+$0${1:$(es/find-class-from-module-string yas-text)} = $injector.get('${1:injector}');

@@ -3,11 +3,13 @@
 (setq projectile-completion-system 'helm)
 
 (defun es/projectile-test-suffix (project-type)
-  "Return test files of Spec for haskell-cabal projects
-Use -spec for all other project types"
-  (if (eq project-type 'haskell-cabal)
-      "Spec"
-    "-spec"))
+  "This is the default ending for javascript test files"
+  "-spec")
+
+(defun es/projectile-find-implementation-or-test-other-window ()
+  "Toggle between the implementation and test in the other window"
+  (interactive)
+  (find-file-other-window (projectile-find-implementation-or-test (buffer-file-name))))
 
 (custom-set-variables
  '(projectile-test-files-suffices
@@ -18,8 +20,11 @@ Use -spec for all other project types"
  '(projectile-haskell-cabal-compile-cmd
    (concat haskell-process-path-stack " build")))
 
-(eval-after-load 'helm
-  '(progn
-     (require 'helm-projectile)
-     (setq projectile-completion-system 'helm)
-     (helm-projectile-on)))
+(add-hook 'after-init-hook
+          (lambda ()
+            '(progn
+               (require 'helm-projectile)
+               (setq projectile-completion-system 'helm)
+               (helm-projectile-on)
+               (eval-after-load 'magit
+                 '(setq projectile-switch-project-action #'magit-status)))))
