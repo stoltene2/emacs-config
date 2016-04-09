@@ -29,15 +29,49 @@
 (eval-when-compile
   (require 'use-package))
 
-;; ;; Installed via el-get now
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; package configuration
 (use-package jasminejs-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'jasminejs-mode-hook
+            (lambda ()
+              (jasminejs-add-snippets-to-yas-snippet-dirs)))
+
+  (add-hook 'jasminejs-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
+
+  (add-hook 'js2-mode-hook (lambda () (jasminejs-mode))))
+
 
 (use-package js2-mode
-  :ensure t)
+  :ensure t
+
+  :config
+  (add-hook 'js2-mode-hook
+            (lambda () (subword-mode)))
+
+  ;; Setup company mode for js2-mode
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   '((company-dabbrev-code company-yasnippet)))))
+
+  (custom-set-variables
+   '(js2-auto-insert-catch-block nil)
+   '(js2-basic-offset 2)
+   '(js2-bounce-indent-p nil)
+   '(js2-mode-indent-ignore-first-tab nil))
+
+  (eval-after-load 'js2-mode
+    (progn (flycheck-mode))))
 
 (use-package js2-refactor
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  (js2r-add-keybindings-with-prefix "C-c RET"))
 
 
 (use-package avy
@@ -68,23 +102,61 @@
   :bind ("C-=" . er/expand-region))
 
 (use-package flycheck
-  :ensure t)
+  :ensure t
+  :bind (:map flycheck-mode-map
+              ("C-c ! h" . helm-flycheck))
+
+  :config
+  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
+  (setq flycheck-checkers '(javascript-eslint))
+
+  (flycheck-add-mode 'javascript-eslint 'js-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
 
 (use-package git-gutter
-  :ensure t)
+  :ensure t
+  :config
+  (global-git-gutter-mode 1))
 
 
 (use-package haskell-mode
   :ensure t)
 
 (use-package helm
-  :ensure t)
+  :ensure t
+  :bind (("M-x" . helm-M-x)
+         :map helm-map
+         ([tab] . helm-execute-persistent-action)
+         ("C-z" . helm-select-action))
+  :config
+  (global-unset-key (kbd "C-x c"))
+  (setq helm-quick-update                     t
+        helm-split-window-in-side-p           nil
+        helm-buffers-fuzzy-matching           t
+        helm-recentf-fuzzy-match              t
+        helm-locate-fuzzy-match               t
+        helm-M-x-fuzzy-match                  t
+        helm-semantic-fuzzy-match             t
+        helm-apropos-fuzzy-match              t
+        helm-imenu-fuzzy-match                t
+        helm-lisp-fuzzy-completion            t
+        helm-move-to-line-cycle-in-source     t
+        helm-scroll-amount                    8
+        helm-ff-search-library-in-sexp        t
+        helm-ff-file-name-history-use-recentf t)
+
+  (helm-mode 1))
 
 (use-package helm-ag
   :ensure t)
 
 (use-package helm-projectile
-  :ensure t)
+  :ensure t
+  :config
+  (setq helm-projectile-fuzzy-match t))
 
 (use-package helm-swoop
   :ensure t)
@@ -93,7 +165,11 @@
   :ensure t)
 
 (use-package json-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (setq js-indent-level 2))))
 
 (use-package magit
   :ensure t
@@ -134,7 +210,37 @@
   :ensure t)
 
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :config
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm)
+
+  (defun es/projectile-test-suffix (project-type)
+    "This is the default ending for javascript test files"
+    "-spec")
+
+  (defun es/projectile-find-implementation-or-test-other-window ()
+    "Toggle between the implementation and test in the other window"
+    (interactive)
+    (find-file-other-window (projectile-find-implementation-or-test (buffer-file-name))))
+
+  (custom-set-variables
+   '(projectile-test-files-suffices
+     '("_test" "_spec" "Spec" "Test" "-test" "-spec"))
+   '(projectile-test-suffix-function #'es/projectile-test-suffix)
+   '(projectile-haskell-cabal-test-cmd
+     (concat haskell-process-path-stack " test"))
+   '(projectile-haskell-cabal-compile-cmd
+     (concat haskell-process-path-stack " build")))
+
+  (add-hook 'after-init-hook
+            (lambda ()
+              '(progn
+                 (require 'helm-projectile)
+                 (setq projectile-completion-system 'helm)
+                 (helm-projectile-on)
+                 (eval-after-load 'magit
+                   '(setq projectile-switch-project-action #'magit-status))))))
 
 (use-package puppet-mode
   :ensure t)

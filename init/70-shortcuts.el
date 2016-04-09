@@ -23,7 +23,7 @@
 (global-set-key [f10] 'es/rotate-windows)
 
 
-(js2r-add-keybindings-with-prefix "C-c RET")
+
 
 (global-set-key [S-f5] 'helm-projectile-ag)
 (global-set-key [f5] 'helm-swoop)
