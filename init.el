@@ -92,7 +92,31 @@
 
 
 (use-package haskell-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq exec-path
+        (cons
+         (concat (getenv "HOME") "/Library/Haskell/bin")
+         exec-path))
+
+  ;; Check for hindent on the system
+  (require 'haskell-interactive-mode)
+  (require 'haskell-process)
+
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
+  (custom-set-variables
+   '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"))
+   '(haskell-process-auto-import-loaded-modules t)
+   '(haskell-process-log t)
+   '(haskell-process-suggest-remove-import-lines t)
+   '(haskell-process-type 'stack-ghci)
+   '(haskell-tags-on-save t)
+   '(haskell-process-use-presentation-mode t))
+
+  (setq haskell-process-path-stack
+        (concat (getenv "HOME")
+                "/Library/Haskell/bin/stack")))
 
 (use-package helm
   :ensure t
