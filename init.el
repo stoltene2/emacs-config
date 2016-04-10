@@ -31,48 +31,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package configuration
-(use-package jasminejs-mode
-  :ensure t
-  :config
-  (add-hook 'jasminejs-mode-hook
-            (lambda ()
-              (jasminejs-add-snippets-to-yas-snippet-dirs)))
 
-  (add-hook 'jasminejs-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
-
-  (add-hook 'js2-mode-hook (lambda () (jasminejs-mode))))
-
-
-(use-package js2-mode
-  :ensure t
-
-  :config
-  (add-hook 'js2-mode-hook
-            (lambda () (subword-mode)))
-
-  ;; Setup company mode for js2-mode
-  (add-hook 'js2-mode-hook
-            (lambda ()
-              (set (make-local-variable 'company-backends)
-                   '((company-dabbrev-code company-yasnippet)))))
-
-  (custom-set-variables
-   '(js2-auto-insert-catch-block nil)
-   '(js2-basic-offset 2)
-   '(js2-bounce-indent-p nil)
-   '(js2-mode-indent-ignore-first-tab nil))
-
-  (eval-after-load 'js2-mode
-    (progn (flycheck-mode))))
-
-(use-package js2-refactor
-  :ensure t
-  :config
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  (js2r-add-keybindings-with-prefix "C-c RET"))
-
+(use-package ag
+  :ensure t)
 
 (use-package avy
   :ensure t
@@ -86,7 +47,15 @@
   :ensure t)
 
 (use-package company
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'after-init-hook
+            (lambda ()
+              (progn
+                (global-company-mode)
+                (setq company-minimum-prefix-length 3)
+                (setq company-tooltip-margin 1)
+                (setq company-tooltip-minimum-width 30)))))
 
 (use-package deft
   :ensure t
@@ -151,7 +120,11 @@
   (helm-mode 1))
 
 (use-package helm-ag
-  :ensure t)
+  :ensure t
+  :config
+  (eval-after-load 'helm
+    '(progn
+       (require 'helm-ag))))
 
 (use-package helm-projectile
   :ensure t
@@ -161,8 +134,49 @@
 (use-package helm-swoop
   :ensure t)
 
+(use-package jasminejs-mode
+  :ensure t
+  :config
+  (add-hook 'jasminejs-mode-hook
+            (lambda ()
+              (jasminejs-add-snippets-to-yas-snippet-dirs)))
+
+  (add-hook 'jasminejs-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
+
+  (add-hook 'js2-mode-hook (lambda () (jasminejs-mode))))
+
 (use-package jenkins
   :ensure t)
+
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js$" . js2-mode)
+  :config
+  (add-hook 'js2-mode-hook
+            (lambda () (subword-mode)))
+
+  ;; Setup company mode for js2-mode
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   '((company-dabbrev-code company-yasnippet)))))
+
+  (custom-set-variables
+   '(js2-auto-insert-catch-block nil)
+   '(js2-basic-offset 2)
+   '(js2-bounce-indent-p nil)
+   '(js2-mode-indent-ignore-first-tab nil))
+
+  (eval-after-load 'js2-mode
+    (progn (flycheck-mode))))
+
+(use-package js2-refactor
+  :ensure t
+  :config
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  (js2r-add-keybindings-with-prefix "C-c RET"))
 
 (use-package json-mode
   :ensure t
@@ -170,6 +184,11 @@
   (add-hook 'json-mode-hook
             (lambda ()
               (setq js-indent-level 2))))
+
+(use-package less-css-mode
+  :ensure t
+  :config
+  (setq css-indent-offset 2))
 
 (use-package magit
   :ensure t
@@ -198,7 +217,11 @@
   :ensure t)
 
 (use-package multiple-cursors
-  :ensure t)
+  :ensure t
+  :bind (("C-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)))
 
 (use-package neotree
   :ensure t
@@ -243,22 +266,39 @@
                    '(setq projectile-switch-project-action #'magit-status))))))
 
 (use-package puppet-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.pp$" . puppet-mode))
 
 (use-package restclient
   :ensure t)
 
 (use-package ruby-mode
-  :ensure t)
+  :ensure t
+  :mode (("\\.rb$" . ruby-mode)
+         ("Gemfile" . ruby-mode)
+         ("Rakefile" . ruby-mode)
+         ("\\.rake$" . ruby-mode)))
 
 (use-package smartparens
-  :ensure t)
+  :ensure t
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  (sp-use-paredit-bindings))
 
 (use-package web-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.html\\'" . web-mode)
+  :config
+  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-markup-indent-offset 2))
 
 (use-package yasnippet
-  :ensure t)
+  :ensure t
+  :config
+  (yas-global-mode)
+  (define-key yas-keymap (kbd "<return>") 'yas-next-field))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
