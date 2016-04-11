@@ -294,6 +294,9 @@
   :ensure t
   :mode ("\\.pp$" . puppet-mode))
 
+(use-package rainbow-delimiters
+  :ensure t)
+
 (use-package restclient
   :ensure t)
 
