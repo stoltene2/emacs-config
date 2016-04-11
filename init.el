@@ -68,7 +68,8 @@
 
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region))
+  :bind (("C-=" . er/expand-region)
+         ("M-=" . er/contract-region)))
 
 (use-package flycheck
   :ensure t
