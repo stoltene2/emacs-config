@@ -324,9 +324,16 @@
 
 (use-package yasnippet
   :ensure t
+  :demand t
   :config
   (yas-global-mode)
   (define-key yas-keymap (kbd "<return>") 'yas-next-field))
+
+(use-package yatemplate
+  :ensure t
+  :demand t
+  :init (auto-insert-mode)
+  :config (yatemplate-fill-alist))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
