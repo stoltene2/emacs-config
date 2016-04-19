@@ -335,6 +335,10 @@
   :init (auto-insert-mode)
   :config (yatemplate-fill-alist))
 
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.yml" . yaml-mode))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom initialization for after packages have loaded
