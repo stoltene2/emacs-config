@@ -25,7 +25,7 @@
 
 
 
-(global-set-key [S-f5] 'helm-projectile-ag)
+(global-set-key [S-f5] 'helm-do-ag)
 (global-set-key [f5] 'helm-swoop)
 
 ;;(global-set-key [f7] 'neotree-toggle)
