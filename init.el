@@ -91,6 +91,8 @@
   :config
   (global-git-gutter-mode 1))
 
+(use-package git-timemachine
+  :ensure t)
 
 (use-package haskell-mode
   :ensure t
