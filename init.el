@@ -256,6 +256,9 @@
   :config
   (setq neo-window-width 50))
 
+(use-package org-pomodoro
+  :ensure t)
+
 (use-package paredit
   :ensure t)
 
