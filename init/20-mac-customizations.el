@@ -13,6 +13,7 @@
       (setq mouse-wheel-follow-mouse 't)                  ;; scroll window under mouse
       (setq scroll-step 1)                                ;; keyboard scroll one line at a time
 
+      (global-set-key (kbd "M-`") 'other-frame)
       ;; The popup message box destroys the system
       (defadvice yes-or-no-p (around prevent-dialog activate)
         "Prevent yes-or-no-p from activating a dialog"
