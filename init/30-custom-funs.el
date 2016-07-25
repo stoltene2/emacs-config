@@ -191,3 +191,15 @@ search-cmd is typically 're-search-forward or
 
 (defun es/add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'es/ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'es/add-d-to-ediff-mode-map)
+
+
+;;; collapse multiple blank lines down to one
+(defun es/remove-multiple-emtpy-lines ()
+  "Removes multiple empty lines from a file"
+  (interactive)
+  (let* ((blank-line-re "^\n\\{2,\\}")
+         (replacement "\n"))
+    (save-excursion (progn
+                      (goto-char (point-min))
+                      (while (re-search-forward blank-line-re nil t)
+                        (replace-match replacement nil nil))))))

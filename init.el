@@ -87,6 +87,12 @@
   :bind (("C-=" . er/expand-region)
          ("M-=" . er/contract-region)))
 
+(use-package fic-mode
+  :ensure t
+
+  :config
+  (add-hook 'js2-mode-hook 'fic-mode))
+
 (use-package flycheck
   :ensure t
   :diminish (flycheck-mode . "\u24BB") ;; Circled F
