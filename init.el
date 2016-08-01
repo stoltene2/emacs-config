@@ -39,8 +39,7 @@
 
 (use-package avy
   :ensure t
-  :bind (("C-c SPC" . avy-goto-word-1)
-         ("M-C-g" . avy-goto-line))
+  :bind (("C-c SPC" . avy-goto-word-1))
 
   :config
   (setq avy-background t))
@@ -68,6 +67,11 @@
   (setq deft-directory "~/Documents/deft")
   (setq deft-use-filename-as-title t)
   (setq deft-auto-save-interval 0))
+
+(use-package dumb-jump
+  :ensure t
+  :bind
+  ("C-M-g" . dumb-jump-go))
 
 (use-package emmet-mode
   :ensure t
