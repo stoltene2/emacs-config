@@ -353,6 +353,11 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
+;; Code highlighting for hamlet, cassius, and julius files
+(use-package shakespeare-mode
+  :ensure t)
+
+
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
