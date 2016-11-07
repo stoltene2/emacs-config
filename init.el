@@ -91,6 +91,7 @@
   :bind (("C-=" . er/expand-region)
          ("M-=" . er/contract-region)))
 
+
 (use-package fic-mode
   :ensure t
 
@@ -142,12 +143,11 @@
    '(haskell-process-log t)
    '(haskell-process-suggest-remove-import-lines t)
    '(haskell-process-type 'stack-ghci)
-;   '(haskell-tags-on-save t)
+   '(haskell-indentation-left-offset 4)
+   '(haskell-indent-spaces 4)
    '(haskell-process-use-presentation-mode t))
 
-  (setq haskell-process-path-stack
-        (concat (getenv "HOME")
-                "/Library/Haskell/bin/stack")))
+  (setq haskell-process-path-stack "/usr/local/bin/stack"))
 
 (use-package helm
   :ensure t
@@ -357,7 +357,6 @@
 (use-package shakespeare-mode
   :ensure t)
 
-
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
@@ -367,35 +366,37 @@
   (sp-use-paredit-bindings))
 
 
-;; (use-package tide
-;;   :ensure t
-;;   :config
-;;   (setq typescript-indent-level 2)
-;;   (add-hook 'typescript-mode-hook
-;;             (lambda ()
-;;               (tide-setup)
-;;               ;;(flycheck-mode +1)
-;;               ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;               (eldoc-mode +1)
-;;               ;; company is an optional dependency. You have to
-;;               ;; install it separately via package-install
-;;               (company-mode-on)
-;;               (setq company-tooltip-align-annotations t)
-;;               ))
-;;   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-;;   (add-hook 'web-mode-hook
-;;             (lambda ()
-;;               (when (string-equal "tsx" (file-name-extension buffer-file-name))
-;;                 (tide-setup)
-;;                 (flycheck-mode +1)
-;;                 ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;                 (eldoc-mode +1)
-;;                 (company-mode-on)))))
+(use-package sr-speedbar
+  :ensure t)
 
-;; (use-package typescript-mode
-;;   :ensure t
-;;   :mode ("\\.ts\\'" . typescript-mode)
-;;   :init (setq typescript-indent-level 2))
+(use-package tide
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+              ;;(flycheck-mode +1)
+              ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (eldoc-mode +1)
+              ;; company is an optional dependency. You have to
+              ;; install it separately via package-install
+              (company-mode-on)
+              (setq company-tooltip-align-annotations t)
+              ))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (tide-setup)
+                (flycheck-mode +1)
+                ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
+                (eldoc-mode +1)
+                (company-mode-on)))))
+
+(use-package typescript-mode
+  :ensure t
+  :mode ("\\.ts\\'" . typescript-mode)
+  :init (setq typescript-indent-level 2))
 
 (use-package web-mode
   :ensure t

@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: describe
+# key: desc
+# condition: (looking-back "^\s*desc")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+describe('When $1', () => {
+  $0
+});

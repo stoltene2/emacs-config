@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: expect(..).toEqual(..)
+# key: expe
+# condition: (looking-back "^\s*expe")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+expect($1).$2.toEqual($3);
+$0
