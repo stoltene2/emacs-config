@@ -106,7 +106,7 @@
 
   :config
   (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
-  (setq flycheck-checkers '(javascript-eslint))
+  (setq flycheck-checkers '(javascript-eslint typescript-tslint))
 
   (flycheck-add-mode 'javascript-eslint 'js-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
@@ -221,7 +221,7 @@
   :config
   (add-hook 'js2-mode-hook
             (lambda () (subword-mode)))
-
+  (add-hook 'js2-mode-hook #'hs-minor-mode)
   ;; Setup company mode for js2-mode
   (add-hook 'js2-mode-hook
             (lambda ()
@@ -372,6 +372,12 @@
 (use-package tide
   :ensure t
   :config
+
+  (defface font-lock-keyword-typescript-face
+    '((t :foreground "SlateBlue1"))
+    "My custom face for typescript keywords"
+    :group 'font-lock-faces)
+
   (add-hook 'typescript-mode-hook
             (lambda ()
               (tide-setup)
@@ -382,7 +388,9 @@
               ;; install it separately via package-install
               (company-mode-on)
               (setq company-tooltip-align-annotations t)
-              ))
+              (font-lock-add-keywords nil
+                                      (list
+                                       '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-hook 'web-mode-hook
             (lambda ()
@@ -396,7 +404,9 @@
 (use-package typescript-mode
   :ensure t
   :mode ("\\.ts\\'" . typescript-mode)
-  :init (setq typescript-indent-level 2))
+  :init (setq typescript-indent-level 2)
+  :config
+  (add-hook 'typescript-mode-hook #'hs-minor-mode))
 
 (use-package web-mode
   :ensure t

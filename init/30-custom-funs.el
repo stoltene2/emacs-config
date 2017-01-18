@@ -95,7 +95,7 @@
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
             (and (not current-prefix-arg)
-                 (member major-mode '(emacs-lisp-mode js2-mode web-mode))
+                 (member major-mode '(emacs-lisp-mode js2-mode web-mode typescript-mode))
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
