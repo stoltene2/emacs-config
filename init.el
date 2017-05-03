@@ -132,12 +132,14 @@
    '(haskell-process-log t)
    '(haskell-process-suggest-remove-import-lines t)
    '(haskell-process-type 'stack-ghci)
+   '(haskell-indentation-left-offset 4)
+   '(haskell-indent-spaces 4)
 ;   '(haskell-tags-on-save t)
    '(haskell-process-use-presentation-mode t))
 
   (setq haskell-process-path-stack
         (concat (getenv "HOME")
-                "/Library/Haskell/bin/stack")))
+                "/.local/bin/stack")))
 
 (use-package helm
   :ensure t
@@ -342,6 +344,9 @@
          ("Gemfile" . ruby-mode)
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
+
+(use-package shakespeare-mode
+  :ensure t)
 
 (use-package smartparens
   :ensure t
