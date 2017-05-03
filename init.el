@@ -428,3 +428,85 @@
         (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
 
 (setq debug-on-error nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(backup-by-copying t)
+ '(backup-directory-alist (quote (("." . "~/.saves"))))
+ '(bmkp-last-as-first-bookmark-file "/Users/eric/.emacs.d/bookmarks")
+ '(compilation-ask-about-save nil)
+ '(compilation-scroll-output (quote first-error))
+ '(create-lockfiles nil)
+ '(delete-old-versions t)
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans")))
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-type (quote stack-ghci))
+ '(haskell-process-use-presentation-mode t)
+ '(js2-auto-insert-catch-block nil)
+ '(js2-basic-offset 2)
+ '(js2-bounce-indent-p nil)
+ '(js2-mode-indent-ignore-first-tab nil)
+ '(kept-new-versions 6)
+ '(kept-old-versions 2)
+ '(org-agenda-files (quote ("~/Documents/deft")))
+ '(org-clock-clocktable-default-properties (quote (:maxlevel 3 :scope file)))
+ '(org-clock-idle-time 15)
+ '(org-clock-into-drawer "LOGBOOK")
+ '(org-clock-out-remove-zero-time-clocks t)
+ '(org-clocktable-defaults
+   (quote
+    (:maxlevel 3 :lang "en" :scope file :block nil :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil :formatter nil)))
+ '(org-enforce-todo-checkbox-dependencies t)
+ '(org-enforce-todo-dependencies t)
+ '(org-fontify-emphasized-text t)
+ '(org-fontify-whole-heading-line t)
+ '(org-habit-following-days 5)
+ '(org-habit-show-habits-only-for-today t)
+ '(org-habit-today-glyph 124)
+ '(org-hide-emphasis-markers t)
+ '(org-hide-leading-stars t)
+ '(org-log-done (quote time))
+ '(org-modules nil)
+ '(org-src-fontify-natively t)
+ '(org-tags-column -120)
+ '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
+ '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
+ '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
+ '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
+ '(projectile-test-suffix-function (function es/projectile-test-suffix))
+ '(safe-local-variable-values
+   (quote
+    ((haskell-process-use-ghci . t)
+     (haskell-indent-spaces . 4)
+     (projectile-test-suffix-function lambda
+                                      (project-type)
+                                      "" "Spec")
+     (eval progn
+           (require
+            (quote projectile))
+           (puthash
+            (projectile-project-root)
+            (concat haskell-process-path-stack " build")
+            projectile-compilation-cmd-map)
+           (puthash
+            (projectile-project-root)
+            (concat haskell-process-path-stack " test")
+            projectile-test-cmd-map)))))
+ '(show-paren-style (quote parenthesis))
+ '(version-control t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-scrollbar-fg ((t (:background "#3b3b3b"))))
+ '(company-tooltip-annotation ((t (:inherit company-tooltip))))
+ '(company-tooltip-selection ((t (:background "#6b6b6b" :foreground "#BBF7EF"))))
+ '(git-gutter:added ((t (:background "#276B22" :foreground "#276B22" :weight bold))))
+ '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
+ '(git-gutter:modified ((t (:background "#272888" :foreground "#272888" :weight bold)))))
