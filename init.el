@@ -39,8 +39,7 @@
 
 (use-package avy
   :ensure t
-  :bind (("C-c SPC" . avy-goto-word-1)
-         ("M-C-g" . avy-goto-line))
+  :bind (("C-c SPC" . avy-goto-word-1))
 
   :config
   (setq avy-background t))
@@ -56,6 +55,8 @@
             (lambda ()
               (progn
                 (global-company-mode)
+                ;; Stop dabbrev from throwing case away
+                (setq company-dabbrev-downcase nil)
                 (setq company-minimum-prefix-length 3)
                 (setq company-tooltip-margin 1)
                 (setq company-tooltip-minimum-width 30)))))
@@ -68,6 +69,11 @@
   (setq deft-directory "~/Documents/deft")
   (setq deft-use-filename-as-title t)
   (setq deft-auto-save-interval 0))
+
+(use-package dumb-jump
+  :ensure t
+  :bind
+  ("C-M-g" . dumb-jump-go))
 
 (use-package emmet-mode
   :ensure t
@@ -87,6 +93,13 @@
   :bind (("C-=" . er/expand-region)
          ("M-=" . er/contract-region)))
 
+
+(use-package fic-mode
+  :ensure t
+
+  :config
+  (add-hook 'js2-mode-hook 'fic-mode))
+
 (use-package flycheck
   :ensure t
   :diminish (flycheck-mode . "\u24BB") ;; Circled F
@@ -95,7 +108,7 @@
 
   :config
   (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
-  (setq flycheck-checkers '(javascript-eslint))
+  (setq flycheck-checkers '(javascript-eslint typescript-tslint))
 
   (flycheck-add-mode 'javascript-eslint 'js-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
@@ -134,7 +147,6 @@
    '(haskell-process-type 'stack-ghci)
    '(haskell-indentation-left-offset 4)
    '(haskell-indent-spaces 4)
-;   '(haskell-tags-on-save t)
    '(haskell-process-use-presentation-mode t))
 
   (setq haskell-process-path-stack
@@ -176,10 +188,13 @@
 
 (use-package helm-projectile
   :ensure t
-  :config
+  :init
   (setq helm-projectile-fuzzy-match t))
 
 (use-package helm-swoop
+  :ensure t)
+
+(use-package idris-mode
   :ensure t)
 
 ;; Helper mode for emacs but requires emacs 24.5
@@ -213,7 +228,7 @@
   :config
   (add-hook 'js2-mode-hook
             (lambda () (subword-mode)))
-
+  (add-hook 'js2-mode-hook #'hs-minor-mode)
   ;; Setup company mode for js2-mode
   (add-hook 'js2-mode-hook
             (lambda ()
@@ -239,6 +254,7 @@
 (use-package json-mode
   :ensure t
   :config
+  (add-hook 'json-mode-hook #'hs-minor-mode)
   (add-hook 'json-mode-hook
             (lambda ()
               (setq js-indent-level 2))))
@@ -258,15 +274,14 @@
   :config
 
   (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
+    (magit-save-window-configuration)
     ad-do-it
     (delete-other-windows))
 
   (defun magit-quit-session ()
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
-    (kill-buffer)
-    (jump-to-register :magit-fullscreen)))
+    (magit-restore-window-configuration)))
 
 
 (use-package markdown-mode
@@ -357,35 +372,50 @@
   (sp-use-paredit-bindings))
 
 
-;; (use-package tide
-;;   :ensure t
-;;   :config
-;;   (setq typescript-indent-level 2)
-;;   (add-hook 'typescript-mode-hook
-;;             (lambda ()
-;;               (tide-setup)
-;;               ;;(flycheck-mode +1)
-;;               ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;               (eldoc-mode +1)
-;;               ;; company is an optional dependency. You have to
-;;               ;; install it separately via package-install
-;;               (company-mode-on)
-;;               (setq company-tooltip-align-annotations t)
-;;               ))
-;;   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-;;   (add-hook 'web-mode-hook
-;;             (lambda ()
-;;               (when (string-equal "tsx" (file-name-extension buffer-file-name))
-;;                 (tide-setup)
-;;                 (flycheck-mode +1)
-;;                 ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;                 (eldoc-mode +1)
-;;                 (company-mode-on)))))
+(use-package sr-speedbar
+  :ensure t)
 
-;; (use-package typescript-mode
-;;   :ensure t
-;;   :mode ("\\.ts\\'" . typescript-mode)
-;;   :init (setq typescript-indent-level 2))
+(use-package tide
+  :ensure t
+  :config
+
+  ;; Highlight identifier at points
+
+  (defface font-lock-keyword-typescript-face
+    '((t :foreground "SlateBlue1"))
+    "My custom face for typescript keywords"
+    :group 'font-lock-faces)
+
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+              ;;(flycheck-mode +1)
+              ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (eldoc-mode +1)
+              ;; company is an optional dependency. You have to
+              ;; install it separately via package-install
+              (company-mode-on)
+              (tide-hl-identifier-mode +1)
+              (setq company-tooltip-align-annotations t)
+              (font-lock-add-keywords nil
+                                      (list
+                                       '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (tide-setup)
+                (flycheck-mode +1)
+                ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
+                (eldoc-mode +1)
+                (company-mode-on)))))
+
+(use-package typescript-mode
+  :ensure t
+  :mode ("\\.ts\\'" . typescript-mode)
+  :init (setq typescript-indent-level 2)
+  :config
+  (add-hook 'typescript-mode-hook #'hs-minor-mode))
 
 (use-package web-mode
   :ensure t

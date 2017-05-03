@@ -1,0 +1,38 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ng.component
+# key: ng.c
+# condition: (looking-back "^\s*ng\.c")
+# expand-env: ((mod-prefix js-proj-prefix-module) (view-prefix js-proj-prefix-view) (yas-indent-line 'fixed))
+# --
+(function() {
+  'use strict';
+
+  angular.module('${1:`js-proj-prefix-module`}').component('${2:SomeComponent}', {
+    bindings: { },
+    controller: ${2:$(s-upper-camel-case yas-text)}Ctrl,
+    templateUrl: '$3`(file-name-sans-extension (buffer-file-name))`.html'
+  });
+
+  ${2:$(s-upper-camel-case yas-text)}Ctrl.$inject = [
+    'dep1',
+    'dep2'
+  ];
+
+  function ${2:$(s-upper-camel-case yas-text)}Ctrl(dep1, dep2) {
+    var vm = this;
+
+    vm.$onInit = function() {
+      /* Handle any initialization logic here */
+      ${0}
+    };
+
+    vm.$onDestroy = function() {
+      /* Remove any sort of handlers */
+    };
+
+    vm.$onChanges = function (changesObj) {
+      /* update changes based on bindings change */
+    };
+  }
+
+})();

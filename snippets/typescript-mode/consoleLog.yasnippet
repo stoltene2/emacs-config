@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: console.log
+# key: log
+# condition: (looking-back "^\s*log")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+console.log('$1', $1);
+$0

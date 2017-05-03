@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: beforeEach(inject(function($injector) { ... }))
+# key: befi
+# condition: (looking-back "^\s*befi")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+beforeEach(() => {
+  inject(($injector: angular.auto.IInjectorService) => {
+    ${1:variable} = $injector.get<typecast>('$2');
+    $0
+  });
+});
+$0

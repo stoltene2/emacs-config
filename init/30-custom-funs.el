@@ -95,7 +95,7 @@
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
             (and (not current-prefix-arg)
-                 (member major-mode '(emacs-lisp-mode js2-mode web-mode))
+                 (member major-mode '(emacs-lisp-mode js2-mode web-mode typescript-mode))
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
@@ -191,3 +191,43 @@ search-cmd is typically 're-search-forward or
 
 (defun es/add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'es/ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'es/add-d-to-ediff-mode-map)
+
+
+;;; collapse multiple blank lines down to one
+(defun es/remove-multiple-emtpy-lines ()
+  "Removes multiple empty lines from a file"
+  (interactive)
+  (let* ((blank-line-re "^\n\\{2,\\}")
+         (replacement "\n"))
+    (save-excursion (progn
+                      (goto-char (point-min))
+                      (while (re-search-forward blank-line-re nil t)
+                        (replace-match replacement nil nil))))))
+
+
+(defun es/file-exists-at-point ()
+  "Find if the path under the cursor exists.
+
+This reports to the message buffer if we can find the file or
+not."
+  (interactive)
+  (if (file-exists-p (ffap-string-at-point))
+      (message "File exists")
+    (message "Cannot find file")))
+
+
+(defvar es/git-server
+  "http://remote.repo.com/path#"
+  "Used for replacing contents in NPM for testing")
+
+(defun es/replace-branch-name-selection-with-git-branch ()
+  "This will generate the NPM location from the branch provided from es/git-server
+  string at point. To use, highlight region and it will be prefixed by a git path"
+  (interactive)
+  (if (use-region-p)
+
+      (let*
+          ((selected-region (delete-and-extract-region (region-beginning) (region-end))))
+        (insert (concat es/git-server selected-region)))
+
+    (message "You must have an active region to replace")))

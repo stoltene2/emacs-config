@@ -1,0 +1,26 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ng.spec
+# key: ng.spec
+# condition: (looking-back "^\s*ng\.spec")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+describe('redbox.time.timecard.services.${1:Class}', function() {
+  'use strict';
+
+  var $1;
+
+  beforeEach(module('redbox.time.timecard'));
+
+  beforeEach(function() {
+    inject(function($injector) {
+      $1 = $injector.get('redbox.time.timecard.services.$1');
+    });
+  });
+
+  describe('$2', function() {
+    it('$3', function() {
+      expect(true).toBe(false);
+      $0
+    });
+  });
+});
