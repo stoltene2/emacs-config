@@ -55,6 +55,8 @@
             (lambda ()
               (progn
                 (global-company-mode)
+                ;; Stop dabbrev from throwing case away
+                (setq company-dabbrev-downcase nil)
                 (setq company-minimum-prefix-length 3)
                 (setq company-tooltip-margin 1)
                 (setq company-tooltip-minimum-width 30)))))
@@ -184,10 +186,13 @@
 
 (use-package helm-projectile
   :ensure t
-  :config
+  :init
   (setq helm-projectile-fuzzy-match t))
 
 (use-package helm-swoop
+  :ensure t)
+
+(use-package idris-mode
   :ensure t)
 
 ;; Helper mode for emacs but requires emacs 24.5
@@ -247,6 +252,7 @@
 (use-package json-mode
   :ensure t
   :config
+  (add-hook 'json-mode-hook #'hs-minor-mode)
   (add-hook 'json-mode-hook
             (lambda ()
               (setq js-indent-level 2))))
@@ -266,15 +272,14 @@
   :config
 
   (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
+    (magit-save-window-configuration)
     ad-do-it
     (delete-other-windows))
 
   (defun magit-quit-session ()
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
-    (kill-buffer)
-    (jump-to-register :magit-fullscreen)))
+    (magit-restore-window-configuration)))
 
 
 (use-package markdown-mode
@@ -373,6 +378,8 @@
   :ensure t
   :config
 
+  ;; Highlight identifier at points
+
   (defface font-lock-keyword-typescript-face
     '((t :foreground "SlateBlue1"))
     "My custom face for typescript keywords"
@@ -387,6 +394,7 @@
               ;; company is an optional dependency. You have to
               ;; install it separately via package-install
               (company-mode-on)
+              (tide-hl-identifier-mode +1)
               (setq company-tooltip-align-annotations t)
               (font-lock-add-keywords nil
                                       (list

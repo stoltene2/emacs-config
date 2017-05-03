@@ -203,3 +203,31 @@ search-cmd is typically 're-search-forward or
                       (goto-char (point-min))
                       (while (re-search-forward blank-line-re nil t)
                         (replace-match replacement nil nil))))))
+
+
+(defun es/file-exists-at-point ()
+  "Find if the path under the cursor exists.
+
+This reports to the message buffer if we can find the file or
+not."
+  (interactive)
+  (if (file-exists-p (ffap-string-at-point))
+      (message "File exists")
+    (message "Cannot find file")))
+
+
+(defvar es/git-server
+  "http://remote.repo.com/path#"
+  "Used for replacing contents in NPM for testing")
+
+(defun es/replace-branch-name-selection-with-git-branch ()
+  "This will generate the NPM location from the branch provided from es/git-server
+  string at point. To use, highlight region and it will be prefixed by a git path"
+  (interactive)
+  (if (use-region-p)
+
+      (let*
+          ((selected-region (delete-and-extract-region (region-beginning) (region-end))))
+        (insert (concat es/git-server selected-region)))
+
+    (message "You must have an active region to replace")))
