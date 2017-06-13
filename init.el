@@ -61,6 +61,14 @@
                 (setq company-tooltip-margin 1)
                 (setq company-tooltip-minimum-width 30)))))
 
+(use-package default-text-scale
+  :ensure t
+  :config
+  (setq default-text-scale-amount 10)
+  :bind
+  ([f2] . default-text-scale-increase)
+  ([S-f2] . default-text-scale-decrease))
+
 (use-package deft
   :ensure t
   :config

@@ -30,7 +30,5 @@
 
 ;;(global-set-key [f7] 'neotree-toggle)
 
-(global-set-key [f2] 'es/cycle-font-size)
-
 (global-set-key [f1] 'delete-other-windows)
 (global-set-key [S-f1] 'delete-window)
