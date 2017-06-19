@@ -102,6 +102,9 @@
          ("M-=" . er/contract-region)))
 
 
+(use-package feature-mode
+  :ensure t)
+
 (use-package fic-mode
   :ensure t
 
