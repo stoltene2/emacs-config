@@ -1,5 +1,12 @@
 ;; This file is for overriding or configuring emacs settings
 
+;; Save place mode
+(if (/= 24 emacs-major-version)
+    (save-place-mode 1)
+  (progn
+    (require 'saveplace)
+    (setq-default save-place t)))
+
 (ansi-color-for-comint-mode-on)
 
 (defvar browse-url-generic-program)

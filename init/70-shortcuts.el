@@ -22,7 +22,7 @@
 (global-set-key [f9] 'es/toggle-window-split)
 (global-set-key [f10] 'es/rotate-windows)
 
-
+(global-set-key (kbd "<s-mouse-1>") 'hs-toggle-hiding)
 
 
 (global-set-key [f5] 'helm-do-ag)

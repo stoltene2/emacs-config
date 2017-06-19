@@ -423,7 +423,20 @@
   :mode ("\\.ts\\'" . typescript-mode)
   :init (setq typescript-indent-level 2)
   :config
-  (add-hook 'typescript-mode-hook #'hs-minor-mode))
+  (add-hook 'typescript-mode-hook #'hs-minor-mode)
+  (add-hook 'typescript-mode-hook #'subword-mode))
+
+(use-package undo-tree
+  :ensure t
+  :commands global-undo-tree-mode
+  :config
+  (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-relative-timestamps t))
+
+(use-package urlenc
+  :ensure t)
 
 (use-package web-mode
   :ensure t

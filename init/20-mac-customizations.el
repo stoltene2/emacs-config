@@ -7,6 +7,7 @@
       (setq ls-lisp-use-insert-directory-program nil)
 
       (setq mac-command-modifier 'meta)
+      (setq mac-option-modifier 'super)
 
       (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
       (setq mouse-wheel-progressive-speed nil)            ;; don't accelerate scrolling
