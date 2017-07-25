@@ -298,8 +298,6 @@
 (use-package markdown-mode
   :ensure t)
 
-(use-package monokai-theme
-  :ensure t)
 
 (use-package multiple-cursors
   :ensure t
@@ -343,7 +341,9 @@
    '(projectile-haskell-cabal-test-cmd
      (concat haskell-process-path-stack " test"))
    '(projectile-haskell-cabal-compile-cmd
-     (concat haskell-process-path-stack " build")))
+     (concat haskell-process-path-stack " build"))
+   '(haskell-indent-spaces 2)
+   '(haskell-indentation-left-offset 2))
 
   (add-hook 'after-init-hook
             (lambda ()
@@ -383,6 +383,11 @@
   (sp-use-paredit-bindings))
 
 
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (load-theme 'spacemacs-dark t))
+
 (use-package sr-speedbar
   :ensure t)
 
@@ -411,15 +416,9 @@
               (font-lock-add-keywords nil
                                       (list
                                        '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (tide-setup)
-                (flycheck-mode +1)
-                ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-                (eldoc-mode +1)
-                (company-mode-on)))))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
+
+
 
 (use-package typescript-mode
   :ensure t
