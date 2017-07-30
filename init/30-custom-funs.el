@@ -77,18 +77,6 @@
   (indent-for-tab-command))
 
 
-(defvar es/font-sizes '( "10" "12" "13" "14" "15" "16" "17" "18" "24")
-  "Font sizes used to cycle through while increasing the size")
-
-(defun es/cycle-font-size ()
-  "Cycle between 14, 16, 18, 24 pt fonts"
-  (interactive)
-  (let* ((size (car es/font-sizes))
-         (font (concat "Monaco-" size)))
-    (progn (setq es/font-sizes (-rotate -1 es/font-sizes))
-           (message (format "Setting font to: %s" size))
-           (set-default-font font))))
-
 ;; Re-indent pastes
 ;; This came from the emacs wiki
 ;; http://emacswiki.org/emacs/AutoIndentation

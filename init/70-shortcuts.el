@@ -22,15 +22,13 @@
 (global-set-key [f9] 'es/toggle-window-split)
 (global-set-key [f10] 'es/rotate-windows)
 
-
+(global-set-key (kbd "<s-mouse-1>") 'hs-toggle-hiding)
 
 
 (global-set-key [f5] 'helm-do-ag)
 (global-set-key [S-f5] 'helm-swoop)
 
 ;;(global-set-key [f7] 'neotree-toggle)
-
-(global-set-key [f2] 'es/cycle-font-size)
 
 (global-set-key [f1] 'delete-other-windows)
 (global-set-key [S-f1] 'delete-window)

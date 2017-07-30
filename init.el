@@ -61,6 +61,14 @@
                 (setq company-tooltip-margin 1)
                 (setq company-tooltip-minimum-width 30)))))
 
+(use-package default-text-scale
+  :ensure t
+  :config
+  (setq default-text-scale-amount 10)
+  :bind
+  ([f2] . default-text-scale-increase)
+  ([S-f2] . default-text-scale-decrease))
+
 (use-package deft
   :ensure t
   :config
@@ -93,6 +101,9 @@
   :bind (("C-=" . er/expand-region)
          ("M-=" . er/contract-region)))
 
+
+(use-package feature-mode
+  :ensure t)
 
 (use-package fic-mode
   :ensure t
@@ -287,8 +298,6 @@
 (use-package markdown-mode
   :ensure t)
 
-(use-package monokai-theme
-  :ensure t)
 
 (use-package multiple-cursors
   :ensure t
@@ -332,7 +341,9 @@
    '(projectile-haskell-cabal-test-cmd
      (concat haskell-process-path-stack " test"))
    '(projectile-haskell-cabal-compile-cmd
-     (concat haskell-process-path-stack " build")))
+     (concat haskell-process-path-stack " build"))
+   '(haskell-indent-spaces 2)
+   '(haskell-indentation-left-offset 2))
 
   (add-hook 'after-init-hook
             (lambda ()
@@ -372,6 +383,11 @@
   (sp-use-paredit-bindings))
 
 
+(use-package spacemacs-theme
+  :ensure t
+  :init
+  (load-theme 'spacemacs-dark t))
+
 (use-package sr-speedbar
   :ensure t)
 
@@ -400,22 +416,29 @@
               (font-lock-add-keywords nil
                                       (list
                                        '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (tide-setup)
-                (flycheck-mode +1)
-                ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
-                (eldoc-mode +1)
-                (company-mode-on)))))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
+
+
 
 (use-package typescript-mode
   :ensure t
   :mode ("\\.ts\\'" . typescript-mode)
   :init (setq typescript-indent-level 2)
   :config
-  (add-hook 'typescript-mode-hook #'hs-minor-mode))
+  (add-hook 'typescript-mode-hook #'hs-minor-mode)
+  (add-hook 'typescript-mode-hook #'subword-mode))
+
+(use-package undo-tree
+  :ensure t
+  :commands global-undo-tree-mode
+  :config
+  (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-relative-timestamps t))
+
+(use-package urlenc
+  :ensure t)
 
 (use-package web-mode
   :ensure t
@@ -471,14 +494,16 @@
  '(create-lockfiles nil)
  '(delete-old-versions t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(haskell-indent-spaces 2)
+ '(haskell-indentation-left-offset 2)
  '(haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans")))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-type (quote stack-ghci))
  '(haskell-process-use-presentation-mode t)
+ '(js-indent-level 2)
  '(js2-auto-insert-catch-block nil)
- '(js2-basic-offset 2)
  '(js2-bounce-indent-p nil)
  '(js2-mode-indent-ignore-first-tab nil)
  '(kept-new-versions 6)
@@ -505,6 +530,9 @@
  '(org-src-fontify-natively t)
  '(org-tags-column -120)
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
+ '(package-selected-packages
+   (quote
+    (urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
