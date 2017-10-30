@@ -162,7 +162,8 @@
 
   (setq haskell-process-path-stack
         (concat (getenv "HOME")
-                "/.local/bin/stack")))
+                "/.local/bin/stack"))
+  )
 
 (use-package helm
   :ensure t
@@ -370,6 +371,9 @@
          ("Gemfile" . ruby-mode)
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
+
+(use-package sass-mode
+  :ensure t)
 
 (use-package shakespeare-mode
   :ensure t)
