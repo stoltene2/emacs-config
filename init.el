@@ -162,7 +162,8 @@
 
   (setq haskell-process-path-stack
         (concat (getenv "HOME")
-                "/.local/bin/stack")))
+                "/.local/bin/stack"))
+  )
 
 (use-package helm
   :ensure t
@@ -396,6 +397,8 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
+(use-package sass-mode
+  :ensure t)
 
 (use-package shakespeare-mode
   :ensure t)
@@ -411,7 +414,7 @@
 
 
 (use-package spacemacs-theme
-  :defer t
+  :ensure t
   :init
   (load-theme 'spacemacs-dark t))
 
@@ -519,14 +522,16 @@
  '(create-lockfiles nil)
  '(delete-old-versions t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(haskell-indent-spaces 2)
+ '(haskell-indentation-left-offset 2)
  '(haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans")))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-type (quote stack-ghci))
  '(haskell-process-use-presentation-mode t)
+ '(js-indent-level 2)
  '(js2-auto-insert-catch-block nil)
- '(js2-basic-offset 2)
  '(js2-bounce-indent-p nil)
  '(js2-mode-indent-ignore-first-tab nil)
  '(kept-new-versions 6)
@@ -553,6 +558,9 @@
  '(org-src-fontify-natively t)
  '(org-tags-column -120)
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
+ '(package-selected-packages
+   (quote
+    (urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
