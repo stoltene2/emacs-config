@@ -197,6 +197,9 @@
     '(progn
        (require 'helm-ag))))
 
+(use-package helm-dash
+  :ensure t)
+
 (use-package helm-projectile
   :ensure t
   :init
@@ -270,6 +273,10 @@
             (lambda ()
               (setq js-indent-level 2))))
 
+;; Needs emacs 25
+;; (use-package json-navigator
+;;   :ensure t)
+
 (use-package less-css-mode
   :ensure t
   :config
@@ -318,6 +325,10 @@
 (use-package paredit
   :ensure t)
 
+;; pomadoro mode
+(use-package pomidor
+  :ensure t)
+
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
@@ -354,15 +365,29 @@
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
 
-(use-package puppet-mode
+(use-package psc-ide
   :ensure t
-  :mode ("\\.pp$" . puppet-mode))
+  :after purescript-mode
+
+  :config
+  (add-hook 'purescript-mode-hook
+            (lambda ()
+              (psc-ide-mode)
+              (company-mode)
+              (flycheck-mode)
+              (turn-on-purescript-indentation))))
+
+(use-package purescript-mode
+  :ensure t)
+
 
 (use-package rainbow-delimiters
   :ensure t)
 
+
 (use-package restclient
   :ensure t)
+
 
 (use-package ruby-mode
   :ensure t
@@ -371,8 +396,10 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
+
 (use-package shakespeare-mode
   :ensure t)
+
 
 (use-package smartparens
   :ensure t
@@ -387,9 +414,6 @@
   :defer t
   :init
   (load-theme 'spacemacs-dark t))
-
-(use-package sr-speedbar
-  :ensure t)
 
 (use-package tide
   :ensure t
@@ -425,6 +449,7 @@
   :mode ("\\.ts\\'" . typescript-mode)
   :init (setq typescript-indent-level 2)
   :config
+  (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
   (add-hook 'typescript-mode-hook #'hs-minor-mode)
   (add-hook 'typescript-mode-hook #'subword-mode))
 
