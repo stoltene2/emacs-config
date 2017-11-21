@@ -118,7 +118,7 @@
               ("C-c ! h" . helm-flycheck))
 
   :config
-  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
+  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
   (setq flycheck-checkers '(javascript-eslint typescript-tslint))
 
   (flycheck-add-mode 'javascript-eslint 'js-mode)
@@ -397,8 +397,7 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
-(use-package sass-mode
-  :ensure t)
+(use-package sass-mode)
 
 (use-package shakespeare-mode
   :ensure t)
