@@ -492,7 +492,7 @@
  ;; If there is more than one, they won't work right.
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.saves"))))
- '(bmkp-last-as-first-bookmark-file "/Users/eric/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
  '(create-lockfiles nil)
@@ -536,14 +536,15 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (psci psc-ide org sass-mode urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
  '(projectile-test-suffix-function (function es/projectile-test-suffix))
  '(safe-local-variable-values
    (quote
-    ((haskell-process-use-ghci . t)
+    ((intero-targets "MiniMathematicians:lib" "MiniMathematicians:exe:mini-web" "MiniMathematicians:test:Tests")
+     (haskell-process-use-ghci . t)
      (haskell-indent-spaces . 4)
      (projectile-test-suffix-function lambda
                                       (project-type)
