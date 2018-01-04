@@ -127,6 +127,10 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
+;; Scheme related mode for Racket development
+(use-package geiser
+  :ensure t)
+
 (use-package git-gutter
   :ensure t
   :diminish git-gutter-mode
@@ -397,7 +401,8 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
-(use-package sass-mode)
+(use-package sass-mode
+  :ensure t)
 
 (use-package shakespeare-mode
   :ensure t)
