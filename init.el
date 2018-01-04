@@ -143,31 +143,10 @@
 (use-package haskell-mode
   :ensure t
   :config
-  (setq exec-path
-        (cons
-         (concat (getenv "HOME") "/Library/Haskell/bin")
-         exec-path))
-
-  ;; Check for hindent on the system
-  (require 'haskell-interactive-mode)
-  (require 'haskell-process)
-
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
   (custom-set-variables
-   '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"))
-   '(haskell-process-auto-import-loaded-modules t)
-   '(haskell-process-log t)
-   '(haskell-process-suggest-remove-import-lines t)
-   '(haskell-process-type 'stack-ghci)
    '(haskell-indentation-left-offset 4)
-   '(haskell-indent-spaces 4)
-   '(haskell-process-use-presentation-mode t))
-
-  (setq haskell-process-path-stack
-        (concat (getenv "HOME")
-                "/.local/bin/stack"))
-  )
+   '(haskell-indent-spaces 4)))
 
 (use-package helm
   :ensure t
@@ -417,10 +396,9 @@
   (sp-use-paredit-bindings))
 
 
-(use-package spacemacs-theme
-  :ensure t
-  :init
-  (load-theme 'spacemacs-dark t))
+(use-package spacemacs-common
+  :ensure spacemacs-theme
+  :config (load-theme 'spacemacs-light t))
 
 (use-package tide
   :ensure t
@@ -571,7 +549,8 @@
  '(projectile-test-suffix-function (function es/projectile-test-suffix))
  '(safe-local-variable-values
    (quote
-    ((intero-targets "MiniMathematicians:lib" "MiniMathematicians:exe:mini-web" "MiniMathematicians:test:Tests")
+    ((intero-targets "MiniMathematicians:lib" "MiniMathematicians:test:Tests")
+     (intero-targets "MiniMathematicians:lib" "MiniMathematicians:exe:mini-web" "MiniMathematicians:test:Tests")
      (haskell-process-use-ghci . t)
      (haskell-indent-spaces . 4)
      (projectile-test-suffix-function lambda
