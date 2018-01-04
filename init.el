@@ -118,7 +118,7 @@
               ("C-c ! h" . helm-flycheck))
 
   :config
-  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
+  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
   (setq flycheck-checkers '(javascript-eslint typescript-tslint))
 
   (flycheck-add-mode 'javascript-eslint 'js-mode)
@@ -126,6 +126,10 @@
 
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+
+;; Scheme related mode for Racket development
+(use-package geiser
+  :ensure t)
 
 (use-package git-gutter
   :ensure t
@@ -139,30 +143,10 @@
 (use-package haskell-mode
   :ensure t
   :config
-  (setq exec-path
-        (cons
-         (concat (getenv "HOME") "/Library/Haskell/bin")
-         exec-path))
-
-  ;; Check for hindent on the system
-  (require 'haskell-interactive-mode)
-  (require 'haskell-process)
-
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
   (custom-set-variables
-   '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"))
-   '(haskell-process-auto-import-loaded-modules t)
-   '(haskell-process-log t)
-   '(haskell-process-suggest-remove-import-lines t)
-   '(haskell-process-type 'stack-ghci)
    '(haskell-indentation-left-offset 4)
-   '(haskell-indent-spaces 4)
-   '(haskell-process-use-presentation-mode t))
-
-  (setq haskell-process-path-stack
-        (concat (getenv "HOME")
-                "/.local/bin/stack")))
+   '(haskell-indent-spaces 4)))
 
 (use-package helm
   :ensure t
@@ -196,6 +180,9 @@
   (eval-after-load 'helm
     '(progn
        (require 'helm-ag))))
+
+(use-package helm-dash
+  :ensure t)
 
 (use-package helm-projectile
   :ensure t
@@ -270,6 +257,10 @@
             (lambda ()
               (setq js-indent-level 2))))
 
+;; Needs emacs 25
+;; (use-package json-navigator
+;;   :ensure t)
+
 (use-package less-css-mode
   :ensure t
   :config
@@ -318,6 +309,10 @@
 (use-package paredit
   :ensure t)
 
+;; pomadoro mode
+(use-package pomidor
+  :ensure t)
+
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
@@ -354,15 +349,29 @@
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
 
-(use-package puppet-mode
+(use-package psc-ide
   :ensure t
-  :mode ("\\.pp$" . puppet-mode))
+  :after purescript-mode
+
+  :config
+  (add-hook 'purescript-mode-hook
+            (lambda ()
+              (psc-ide-mode)
+              (company-mode)
+              (flycheck-mode)
+              (turn-on-purescript-indentation))))
+
+(use-package purescript-mode
+  :ensure t)
+
 
 (use-package rainbow-delimiters
   :ensure t)
 
+
 (use-package restclient
   :ensure t)
+
 
 (use-package ruby-mode
   :ensure t
@@ -371,8 +380,12 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
+(use-package sass-mode
+  :ensure t)
+
 (use-package shakespeare-mode
   :ensure t)
+
 
 (use-package smartparens
   :ensure t
@@ -383,13 +396,9 @@
   (sp-use-paredit-bindings))
 
 
-(use-package spacemacs-theme
-  :ensure t
-  :init
-  (load-theme 'spacemacs-dark t))
-
-(use-package sr-speedbar
-  :ensure t)
+(use-package spacemacs-common
+  :ensure spacemacs-theme
+  :config (load-theme 'spacemacs-light t))
 
 (use-package tide
   :ensure t
@@ -425,6 +434,7 @@
   :mode ("\\.ts\\'" . typescript-mode)
   :init (setq typescript-indent-level 2)
   :config
+  (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
   (add-hook 'typescript-mode-hook #'hs-minor-mode)
   (add-hook 'typescript-mode-hook #'subword-mode))
 
@@ -488,7 +498,7 @@
  ;; If there is more than one, they won't work right.
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.saves"))))
- '(bmkp-last-as-first-bookmark-file "/Users/eric/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
  '(create-lockfiles nil)
@@ -532,14 +542,16 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (psci psc-ide org sass-mode urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
  '(projectile-test-suffix-function (function es/projectile-test-suffix))
  '(safe-local-variable-values
    (quote
-    ((haskell-process-use-ghci . t)
+    ((intero-targets "MiniMathematicians:lib" "MiniMathematicians:test:Tests")
+     (intero-targets "MiniMathematicians:lib" "MiniMathematicians:exe:mini-web" "MiniMathematicians:test:Tests")
+     (haskell-process-use-ghci . t)
      (haskell-indent-spaces . 4)
      (projectile-test-suffix-function lambda
                                       (project-type)

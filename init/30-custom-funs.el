@@ -138,7 +138,11 @@ This above the current snippet expansion to find the name of the constructor use
 
              (found-template-p (re-search-forward "^\s*templateUrl\s*:\s*'\\(.*?\.html\\)'\s*,?\s*$" nil t)))
         (if found-template-p
-            (concat app-root-dir (match-string 1)))))))
+            (let* ((matched-text (match-string 1))
+                   (is-relative-path (s-prefix-p "." matched-text)))
+              (if is-relative-path
+                  matched-text
+                (concat app-root-dir (match-string 1)))))))))
 
 
 (defmacro es/search-and-collapse (search-cmd str-or-regex)
@@ -219,3 +223,16 @@ not."
         (insert (concat es/git-server selected-region)))
 
     (message "You must have an active region to replace")))
+
+
+(defun es/use-tslint-from-node-modules ()
+  "Load tslint from local node_modules if available.
+Given to me by Surya."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (tslint (and root
+                      (expand-file-name "node_modules/.bin/tslint" root))))
+
+    (when (and tslint (file-executable-p tslint))
+      (setq-local flycheck-typescript-tslint-executable tslint))))
