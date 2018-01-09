@@ -129,7 +129,9 @@
 
 ;; Scheme related mode for Racket development
 (use-package geiser
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'geiser-mode-hook 'rainbow-delimiters-mode))
 
 (use-package git-gutter
   :ensure t
