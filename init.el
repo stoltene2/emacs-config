@@ -314,6 +314,10 @@
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
+
+  :bind (:map projectile-mode-map
+              ("C-c p r" . rg-project))
+
   :config
   (projectile-global-mode)
   (setq projectile-completion-system 'helm)
