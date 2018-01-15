@@ -64,7 +64,7 @@
 (use-package default-text-scale
   :ensure t
   :config
-  (setq default-text-scale-amount 10)
+  (setq default-text-scale-amount 8)
   :bind
   ([f2] . default-text-scale-increase)
   ([S-f2] . default-text-scale-decrease))
@@ -90,7 +90,6 @@
   (add-hook 'web-mode-hook #'emmet-mode))
 
 (use-package ensime
-  :ensure t
   :commands ensime ensime-mode
   :config
   (add-hook 'scala-mode-hook 'ensime-mode)
@@ -102,14 +101,14 @@
          ("M-=" . er/contract-region)))
 
 
-(use-package feature-mode
-  :ensure t)
+(use-package feature-mode)
 
 (use-package fic-mode
   :ensure t
 
-  :config
-  (add-hook 'js2-mode-hook 'fic-mode))
+  :hook ((js2-mode-hook . fic-mode)
+         (html-mode . fic-mode)
+         (typescript-mode . fic-mode)))
 
 (use-package flycheck
   :ensure t
@@ -194,8 +193,7 @@
 (use-package helm-swoop
   :ensure t)
 
-(use-package idris-mode
-  :ensure t)
+(use-package idris-mode)
 
 ;; Helper mode for emacs but requires emacs 24.5
 ;; http://commercialhaskell.github.io/intero/
@@ -305,15 +303,13 @@
   :config
   (setq neo-window-width 50))
 
-(use-package org-pomodoro
-  :ensure t)
+(use-package org-pomodoro)
 
 (use-package paredit
   :ensure t)
 
 ;; pomadoro mode
-(use-package pomidor
-  :ensure t)
+(use-package pomidor)
 
 (use-package projectile
   :ensure t
@@ -366,27 +362,26 @@
 (use-package purescript-mode
   :ensure t)
 
-
 (use-package rainbow-delimiters
   :ensure t)
 
+(use-package restclient)
 
-(use-package restclient
-  :ensure t)
+(use-package rg
+  :ensure t
+
+  )
 
 
 (use-package ruby-mode
-  :ensure t
   :mode (("\\.rb$" . ruby-mode)
          ("Gemfile" . ruby-mode)
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
-(use-package sass-mode
-  :ensure t)
+(use-package sass-mode)
 
-(use-package shakespeare-mode
-  :ensure t)
+(use-package shakespeare-mode)
 
 
 (use-package smartparens
@@ -400,7 +395,7 @@
 
 (use-package spacemacs-common
   :ensure spacemacs-theme
-  :config (load-theme 'spacemacs-light t))
+  :config (load-theme 'spacemacs-dark t))
 
 (use-package tide
   :ensure t
@@ -451,14 +446,6 @@
 
 (use-package urlenc
   :ensure t)
-
-(use-package web-mode
-  :ensure t
-  :mode ("\\.html\\'" . web-mode)
-  :config
-  (setq web-mode-enable-current-column-highlight t)
-  (setq web-mode-enable-current-element-highlight t)
-  (setq web-mode-markup-indent-offset 2))
 
 (use-package yasnippet
   :ensure t

@@ -1,0 +1,43 @@
+# -*- mode: snippet -*-
+# name: use-package
+# key: up
+# condition: (looking-back "^\s*up")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+(use-package $1
+  :ensure t
+
+  ; Ensure that a system package is loaded, alternative to :ensure
+  :ensure-system-package rg
+
+  ; Diminish the mode in the menu-bar
+  :diminish $1-mode
+
+  ; Optionally register a file extension for this mode
+  :mode ("\\\.ext$" . $1-mode)
+
+  ; Code that _always_ runs when the file is processed and before the
+  ; mode is loaded.
+  :init
+  (some-init-that-must-always-succeed)
+
+  ; Code that runs after the mode is loaded
+  :config
+  (config-expression-here ...)
+
+  :hook ($1-mode . other-mode-to-load)
+
+  ; Keyboard bindings
+  :bind (("C-c C-d" . unquoted-function-to-call)
+         ([f8] . do-something-with-f8))
+
+         ;Add shortcuts to a modemap
+         :map $1-mode-map
+         ("M-p" . sequences-bound-to-key-map)
+
+  ; Set custom faces if we want
+  :custom-face
+  (eruby-standard-face ((t (:slant italic))))
+
+  ; Read more about conditional loading, sequencing, dependencies
+)
