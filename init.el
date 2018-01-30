@@ -316,7 +316,7 @@
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
 
   :bind (:map projectile-mode-map
-              ("C-c p r" . rg-project))
+              ("C-c p s r" . rg-project))
 
   :config
   (projectile-global-mode)
@@ -373,8 +373,8 @@
 
 (use-package rg
   :ensure t
-
-  )
+  :custom
+  (rg-group-result t "Group the results by filename"))
 
 
 (use-package ruby-mode
@@ -466,7 +466,6 @@
   :config (yatemplate-fill-alist))
 
 (use-package yaml-mode
-  :ensure t
   :mode ("\\.yml" . yaml-mode))
 
 ;; Diminish included modes
