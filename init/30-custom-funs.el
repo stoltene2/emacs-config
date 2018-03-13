@@ -236,3 +236,32 @@ Given to me by Surya."
 
     (when (and tslint (file-executable-p tslint))
       (setq-local flycheck-typescript-tslint-executable tslint))))
+
+
+
+(defun es/helm-projectile-insert-file-at-point-ts ()
+  "Insert a file at point from your git tree"
+  (interactive)
+  (let* ((project-root (projectile-project-root))
+         (project-files (projectile-current-project-files))
+         (files (projectile-select-files project-files)))
+    (if (= (length files) 1)
+        (insert (expand-file-name (car files) (projectile-project-root)))
+      (helm :sources (helm-build-sync-source "Projectile files"
+                       :candidates (if (> (length files) 1)
+                                       (helm-projectile--files-display-real files project-root)
+                                     (helm-projectile--files-display-real project-files project-root))
+                       :fuzzy-match helm-projectile-fuzzy-match
+                       :action-transformer 'helm-find-files-action-transformer
+                       :keymap helm-projectile-find-file-map
+                       :help-message helm-ff-help-message
+                       :mode-line helm-read-file-name-mode-line-string
+                       :action (lambda (filename)
+                                 (let* ((relative-file (file-relative-name filename default-directory))
+                                        (trimmed-file (s-replace-all '((".d.ts" . "") (".ts" . "") (".css" . "") (".js" . "")) relative-file)))
+                                   (insert trimmed-file)))
+                       :persistent-action #'helm-projectile-file-persistent-action
+                       :persistent-help "Preview file")
+            :buffer "*helm projectile*"
+            :truncate-lines helm-projectile-truncate-lines
+            :prompt (projectile-prepend-project-name "Find file: ")))))
