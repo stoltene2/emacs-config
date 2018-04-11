@@ -239,7 +239,7 @@ Given to me by Surya."
 
 
 
-(defun es/helm-projectile-insert-file-at-point-ts ()
+(defun es/typescript-helm-projectile-insert-file-at-point ()
   "Insert a file at point from your git tree"
   (interactive)
   (let* ((project-root (projectile-project-root))

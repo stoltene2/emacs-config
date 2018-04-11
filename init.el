@@ -44,6 +44,10 @@
   :config
   (setq avy-background t))
 
+(use-package bazel-mode
+  :ensure t
+  :diminish bazel-mode)
+
 (use-package bookmark+
   :ensure t)
 
@@ -446,7 +450,8 @@
   (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-relative-timestamps t))
+  (setq undo-tree-visualizer-relative-timestamps t)
+  (global-undo-tree-mode))
 
 (use-package urlenc
   :ensure t)

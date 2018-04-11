@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: TestBed
+# key: tb
+# condition: (looking-back "^\s*tb")
+# expand-env: ((yas-indent-line 'fixed'))
+# --
+beforeEach(
+  async(() => {
+    TestBed.configureTestingModule({
+      declarations: [$2],
+      providers: [$3],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent($1Component);
+        component = fixture.componentInstance;
+        nativeActionService = TestBed.get(NativeActionService);
+        router = TestBed.get(Router);
+        fixture.detectChanges();
+      });
+  })
+)
