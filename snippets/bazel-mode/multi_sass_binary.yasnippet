@@ -1,0 +1,16 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: multi_sass_binary(...)
+# key: multi_sass_binary
+# condition: (looking-back "^\s*multi_sass_binary")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+${1:load("@io_bazel_rules_sass//sass:sass.bzl", "multi_sass_binary")}
+
+multi_sass_binary(
+    name = "css",
+    srcs = glob(["**/*.scss"]),
+    deps = [
+        "$0",
+    ],
+    include_paths = ["node_modules"],
+)

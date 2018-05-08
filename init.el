@@ -313,7 +313,7 @@
   :ensure t)
 
 ;; pomadoro mode
-(use-package pomidor)
+;;(use-package pomidor)
 
 (use-package projectile
   :ensure t

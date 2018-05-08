@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: http_archive
+# key: http
+# condition: (looking-back "^\s*http")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+http_archive(
+    name = "${1:build_bazel_rules_nodejs}",
+    url = "${2:https://github.com/bazelbuild/rules_nodejs/archive/0.5.3.zip}",
+    strip_prefix = "${3:some_prefix}",
+    sha256 = "${4:abcabc}",
+)
+$0

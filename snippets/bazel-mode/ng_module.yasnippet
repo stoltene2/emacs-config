@@ -1,0 +1,19 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: beforeEach(inject(function($injector) { ... }))
+# key: befi
+# condition: (looking-back "^\s*befi")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+ng_module(
+    name = "${1:component-name}",
+    srcs = glob(
+        ["**/*.ts"],
+        exclude = ["**/*.spec.ts"],
+    ),
+    assets = [
+        ":css",
+        ":html",
+    ],
+    module_name = "@base/$1",
+)
+$0

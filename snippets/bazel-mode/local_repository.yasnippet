@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: beforeEach(inject(function($injector) { ... }))
+# key: befi
+# condition: (looking-back "^\s*befi")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+local_repository(
+    name = "${1:build_bazel_rules_nodejs}",
+    path = "${2:relative/path/or/absolute}",
+)
+$0
