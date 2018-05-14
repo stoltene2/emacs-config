@@ -37,6 +37,9 @@
 (use-package ag
   :ensure t)
 
+(use-package auto-yasnippet
+  :ensure t)
+
 (use-package avy
   :ensure t
   :bind (("C-c SPC" . avy-goto-word-1))
