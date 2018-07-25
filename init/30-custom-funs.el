@@ -265,3 +265,9 @@ Given to me by Surya."
             :buffer "*helm projectile*"
             :truncate-lines helm-projectile-truncate-lines
             :prompt (projectile-prepend-project-name "Find file: ")))))
+
+
+(defun es/neotree-dir-up ()
+  "Go up a directory in neotree"
+  (interactive)
+  (neotree-dir ".."))

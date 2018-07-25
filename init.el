@@ -37,9 +37,15 @@
 (use-package ag
   :ensure t)
 
+;; Fancy icons for use with neo-tree
+;; M-x all-the-icons-install-fonts
+(use-package all-the-icons
+  :ensure t)
+
 (use-package auto-yasnippet
   :ensure t)
 
+;; https://github.com/abo-abo/auto-yasnippet
 (use-package avy
   :ensure t
   :bind (("C-c SPC" . avy-goto-word-1))
@@ -66,7 +72,9 @@
                 (setq company-dabbrev-downcase nil)
                 (setq company-minimum-prefix-length 3)
                 (setq company-tooltip-margin 1)
-                (setq company-tooltip-minimum-width 30)))))
+                (setq company-tooltip-minimum-width 30))))
+  :bind
+  ("C-'" . company-complete))
 
 (use-package default-text-scale
   :ensure t
@@ -306,9 +314,13 @@
 
 (use-package neotree
   :ensure t
-  :bind ([f7] . neotree-toggle)
+  :bind
+  (([f7] . neotree-toggle)
+   :map neotree-mode-map
+   ("^" . es/neotree-dir-up))
   :config
-  (setq neo-window-width 50))
+  (setq neo-window-width 50)
+  (setq neo-theme 'icons))
 
 (use-package org-pomodoro)
 
@@ -390,7 +402,7 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
-(use-package sass-mode)
+;;(use-package sass-mode)
 
 (use-package shakespeare-mode)
 
@@ -477,8 +489,8 @@
   :mode ("\\.yml" . yaml-mode))
 
 ;; Diminish included modes
-(diminish 'auto-revert-mode)
-(diminish 'subword-mode)
+;;(diminish 'auto-revert-mode)
+;;(diminish 'subword-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom initialization for after packages have loaded
@@ -498,10 +510,13 @@
  ;; If there is more than one, they won't work right.
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.saves"))))
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file "/Users/stoltene/.emacs.d/bookmarks")
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
  '(create-lockfiles nil)
+ '(custom-safe-themes
+   (quote
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(delete-old-versions t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(haskell-indent-spaces 2)
@@ -512,6 +527,10 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-type (quote stack-ghci))
  '(haskell-process-use-presentation-mode t)
+ '(jenkins-api-token "4c735bff78fcb014d7d7c0f716ac0fb4")
+ '(jenkins-url "http://http://cdlrdbxdvmstr01:8080/jenkins/")
+ '(jenkins-username "stoltene")
+ '(jenkins-viewname "Redbox SPA")
  '(js-indent-level 2)
  '(js2-auto-insert-catch-block nil)
  '(js2-bounce-indent-p nil)
@@ -542,16 +561,15 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (psci psc-ide org sass-mode urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
  '(projectile-test-suffix-function (function es/projectile-test-suffix))
+ '(rg-group-result t)
  '(safe-local-variable-values
    (quote
-    ((intero-targets "MiniMathematicians:lib" "MiniMathematicians:test:Tests")
-     (intero-targets "MiniMathematicians:lib" "MiniMathematicians:exe:mini-web" "MiniMathematicians:test:Tests")
-     (haskell-process-use-ghci . t)
+    ((haskell-process-use-ghci . t)
      (haskell-indent-spaces . 4)
      (projectile-test-suffix-function lambda
                                       (project-type)
@@ -580,3 +598,4 @@
  '(git-gutter:added ((t (:background "#276B22" :foreground "#276B22" :weight bold))))
  '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
  '(git-gutter:modified ((t (:background "#272888" :foreground "#272888" :weight bold)))))
+(put 'narrow-to-region 'disabled nil)

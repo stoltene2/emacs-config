@@ -1,9 +1,11 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: beforeEach(inject(function($injector) { ... }))
-# key: befi
-# condition: (looking-back "^\s*befi")
+# name: ng_module
+# key: ng_module
+# condition: (looking-back "^\s*ng_module")
 # expand-env: ((yas-indent-line 'fixed))
 # --
+load("@angular//:index.bzl", "ng_module")
+
 ng_module(
     name = "${1:component-name}",
     srcs = glob(

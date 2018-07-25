@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: ts_library
+# key: ts_library
+# condition: (looking-back "^\s*ts_library")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_library")
+
+ts_library(
+    name = "$1",
+    srcs = glob([
+        "**/*.ts"
+    ]),
+    deps = [
+      $0
+    ],
+    tsconfig = "//:tsconfig.json",
+)
