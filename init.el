@@ -81,8 +81,10 @@
   :config
   (setq default-text-scale-amount 8)
   :bind
-  ([f2] . default-text-scale-increase)
-  ([S-f2] . default-text-scale-decrease))
+  ;; Plus makes it better
+  ("M-+" . default-text-scale-increase)
+  ;; Underscore makes it smaller (- is already bound)
+  ("M-_" . default-text-scale-decrease))
 
 (use-package deft
   :ensure t
@@ -129,7 +131,8 @@
   :ensure t
   :diminish (flycheck-mode . "\u24BB") ;; Circled F
   :bind (:map flycheck-mode-map
-              ("C-c ! h" . helm-flycheck))
+              ([f8] . flycheck-next-error)
+              ([S-f8] . flycheck-list-errors))
 
   :config
   (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
@@ -422,10 +425,15 @@
 
 (use-package tide
   :ensure t
+
+  :bind
+  (:map tide-mode-map
+        ([f2] . tide-rename-symbol))
+
   :config
+  (setq tide-completion-enable-autoimport-suggestions t)
 
   ;; Highlight identifier at points
-
   (defface font-lock-keyword-typescript-face
     '((t :foreground "SlateBlue1"))
     "My custom face for typescript keywords"
@@ -561,7 +569,7 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))

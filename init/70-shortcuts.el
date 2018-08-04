@@ -1,8 +1,8 @@
 ;; Quickly jump to a line
 (global-set-key [(meta g)] 'goto-line)
 
-(global-set-key [S-f8] 'compile)
-(global-set-key [f8] 'recompile)
+;; (global-set-key [S-f8] 'compile)
+;; (global-set-key [f8] 'recompile)
 
 ;; Quick switch to the last buffer
 (global-set-key [backtab] (lambda ()
@@ -27,8 +27,6 @@
 
 (global-set-key [f5] 'helm-do-ag)
 (global-set-key [S-f5] 'helm-swoop)
-
-;;(global-set-key [f7] 'neotree-toggle)
 
 (global-set-key [f1] 'delete-other-windows)
 (global-set-key [S-f1] 'delete-window)
