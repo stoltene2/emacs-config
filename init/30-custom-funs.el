@@ -139,7 +139,7 @@ This above the current snippet expansion to find the name of the constructor use
              (found-template-p (re-search-forward "^\s*templateUrl\s*:\s*'\\(.*?\.html\\)'\s*,?\s*$" nil t)))
         (if found-template-p
             (let* ((matched-text (match-string 1))
-                   (is-relative-path (s-prefix-p "." matched-text)))
+                   (is-relative-path (not (s-prefix-p "/" matched-text))))
               (if is-relative-path
                   matched-text
                 (concat app-root-dir (match-string 1)))))))))

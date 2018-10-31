@@ -74,7 +74,7 @@
                 (setq company-tooltip-margin 1)
                 (setq company-tooltip-minimum-width 30))))
   :bind
-  ("C-'" . company-complete))
+  (("C-'" . company-complete)))
 
 (use-package default-text-scale
   :ensure t
@@ -199,6 +199,19 @@
   (eval-after-load 'helm
     '(progn
        (require 'helm-ag))))
+
+(use-package helm-c-yasnippet
+  :ensure t
+
+  ; Diminish the mode in the menu-bar
+  :diminish helm-c-yasnippet-mode
+
+  ; Code that runs after the mode is loaded
+  :config
+  (setq helm-yas-space-match-any-greedy t)
+
+  ; Keyboard bindings
+  :bind ("C-\"" . 'helm-yas-complete))
 
 (use-package helm-dash
   :ensure t)
@@ -336,14 +349,16 @@
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
-
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :bind (:map projectile-mode-map
               ("C-c p s r" . rg-project))
 
   :config
   (projectile-global-mode)
   (setq projectile-completion-system 'helm)
-
+  (setq projectile-switch-project-action #'magit-status)
+  (setq projectile-generic-command "fd . -0")
   (defun es/projectile-test-suffix (project-type)
     "This is the default ending for javascript test files"
     "-spec")
