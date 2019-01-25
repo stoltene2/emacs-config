@@ -34,9 +34,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package configuration
 
-(use-package ag
-  :ensure t)
-
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
 (use-package all-the-icons
@@ -146,7 +143,6 @@
 
 ;; Scheme related mode for Racket development
 (use-package geiser
-  :ensure t
   :config
   (add-hook 'geiser-mode-hook 'rainbow-delimiters-mode))
 
@@ -213,9 +209,6 @@
   ; Keyboard bindings
   :bind ("C-\"" . 'helm-yas-complete))
 
-(use-package helm-dash
-  :ensure t)
-
 (use-package helm-projectile
   :ensure t
   :init
@@ -229,7 +222,6 @@
 ;; Helper mode for emacs but requires emacs 24.5
 ;; http://commercialhaskell.github.io/intero/
 (use-package intero
-  :ensure t
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
@@ -246,9 +238,6 @@
               (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
 
   (add-hook 'js2-mode-hook (lambda () (jasminejs-mode))))
-
-(use-package jenkins
-  :ensure t)
 
 (use-package js2-mode
   :ensure t
@@ -349,10 +338,12 @@
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
   :bind (:map projectile-mode-map
-              ("C-c p s r" . rg-project))
+              ("C-c p" . 'projectile-command-map)
+              ("s-p" . 'projectile-command-map)
+
+         :map projectile-command-map
+              ("s r" . rg-project))
 
   :config
   (projectile-global-mode)
@@ -368,9 +359,10 @@
     (interactive)
     (find-file-other-window (projectile-find-implementation-or-test (buffer-file-name))))
 
+  ;; These should be setq'd
   (custom-set-variables
    '(projectile-test-files-suffices
-     '("_test" "_spec" "Spec" "Test" "-test" "-spec"))
+     '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
    '(projectile-test-suffix-function #'es/projectile-test-suffix)
    '(projectile-haskell-cabal-test-cmd
      (concat haskell-process-path-stack " test"))
@@ -388,23 +380,8 @@
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
 
-(use-package psc-ide
-  :ensure t
-  :after purescript-mode
 
-  :config
-  (add-hook 'purescript-mode-hook
-            (lambda ()
-              (psc-ide-mode)
-              (company-mode)
-              (flycheck-mode)
-              (turn-on-purescript-indentation))))
-
-(use-package purescript-mode
-  :ensure t)
-
-(use-package rainbow-delimiters
-  :ensure t)
+(use-package rainbow-delimiters)
 
 (use-package restclient)
 
@@ -412,7 +389,6 @@
   :ensure t
   :custom
   (rg-group-result t "Group the results by filename"))
-
 
 (use-package ruby-mode
   :mode (("\\.rb$" . ruby-mode)
@@ -438,9 +414,36 @@
   :ensure spacemacs-theme
   :config (load-theme 'spacemacs-dark t))
 
-(use-package tide
-  :ensure t
+(defun es/typescript-mode-extra-font-locks ()
+  (font-lock-add-keywords nil
+                          (list
+                           '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend))))
 
+;; (use-package tide
+;;   :commands (tide-mode tide-setup tide-hl-identifier-mode)
+;;   :after (typescript-mode company flycheck)
+
+;;   :config
+;;   (setq tide-completion-enable-autoimport-suggestions t)
+;;   (setq company-tooltip-align-annotations t)
+;;   (defface font-lock-keyword-typescript-face
+;;     '((t :foreground "SlateBlue1"))
+;;     "My custom face for typescript keywords"
+;;     :group 'font-lock-faces)
+
+
+;;   :hook ((typescript-mode . tide-setup)
+;;          (typescript-mode . flycheck-mode)
+;;          (typescript-mode . eldoc-mode)
+;;          (typescript-mode . company-mode)
+;;          (typescript-mode . tide-hl-identifier-mode)
+;;          (typescript-mode . #'es/typescript-mode-extra-font-locks))
+
+;;   :bind
+;;   (:map tide-mode-map
+;;         ([f2] . tide-rename-symbol)))
+
+(use-package tide
   :bind
   (:map tide-mode-map
         ([f2] . tide-rename-symbol))
@@ -456,13 +459,14 @@
 
   (add-hook 'typescript-mode-hook
             (lambda ()
+              (interactive)
               (tide-setup)
-              ;;(flycheck-mode +1)
-              ;;(setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (flycheck-mode +1)
+              (setq flycheck-check-syntax-automatically '(save mode-enabled))
               (eldoc-mode +1)
               ;; company is an optional dependency. You have to
               ;; install it separately via package-install
-              (company-mode-on)
+              (company-mode +1)
               (tide-hl-identifier-mode +1)
               (setq company-tooltip-align-annotations t)
               (font-lock-add-keywords nil
@@ -539,7 +543,7 @@
  '(create-lockfiles nil)
  '(custom-safe-themes
    (quote
-    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(delete-old-versions t)
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(haskell-indent-spaces 2)
@@ -584,10 +588,12 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
- '(projectile-test-files-suffices (quote ("_test" "_spec" "Spec" "Test" "-test" "-spec")))
+ '(projectile-test-files-suffices
+   (quote
+    ("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec")))
  '(projectile-test-suffix-function (function es/projectile-test-suffix))
  '(rg-group-result t)
  '(safe-local-variable-values

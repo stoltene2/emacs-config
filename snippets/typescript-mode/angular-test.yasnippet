@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# name: a.angular-test
+# expand-env: ((yas-indent-line 'fixed'))
+# --
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Mock } from 'ts-mockery';
+
+import { ${1:$(s-upper-camel-case yas-text)}Component } from './$1.component';
+
+describe('${1:$(s-upper-camel-case yas-text)}Component', () => {
+  let fixture: ComponentFixture<${1:$(s-upper-camel-case yas-text)}Component>;
+  let component: ${1:$(s-upper-camel-case yas-text)}Component;
+
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [${1:$(s-upper-camel-case yas-text)}Component],
+        providers: [],
+        imports: [],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      }).compileComponents();
+    })
+  );
+
+  describe('Component initialization', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(${1:$(s-upper-camel-case yas-text)}Component);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should fail the first test', () => {
+      expect(true).toEqual(false);
+    });
+  });
+});

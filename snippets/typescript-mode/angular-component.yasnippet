@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: angular-component
+# expand-env: ((yas-indent-line 'fixed'))
+# --
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: '${1:prefix}-$2',
+  templateUrl: '${2:$(s-dashed-words yas-text)}.component.html',
+  styleUrls: ['${2:$(s-dashed-words yas-text)}.component.scss']
+})
+export class ${2:$(s-upper-camel-case yas-text)}Component implements OnInit {
+  constructor() { return; }
+
+  ngOnInit() { return; }
+}

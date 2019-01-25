@@ -271,3 +271,35 @@ Given to me by Surya."
   "Go up a directory in neotree"
   (interactive)
   (neotree-dir ".."))
+
+
+(defun es/comment-and-copy-line ()
+  "Copies the current line, comments it and duplicates below.
+
+This was taken from the following gist:
+
+https://gist.github.com/rejeep/2922929
+"
+  (interactive)
+  (let* ((beg (line-beginning-position))
+         (end (line-end-position))
+         (line (buffer-substring-no-properties beg end))
+         (column (current-column)))
+    (comment-region beg end)
+    (goto-char (line-end-position))
+    (newline)
+    (insert line)
+    (move-to-column column)))
+
+
+
+(defun es/convert-vscode-snippet-to-yasnippet (file)
+  "Given a vscode snippet we convert it to yasnippet"
+  (interactive)
+  (json-read-file file))
+
+
+
+;; This wil grab the bodies, join the lines, and convert tabs to spaces.
+;; (s-replace "\t" "  "
+;;            (s-join "\n" (alist-get 'body (alist-get 'Angular\ Component (es/convert-vscode-snippet-to-yasnippet "/tmp/snippet.json")))))
