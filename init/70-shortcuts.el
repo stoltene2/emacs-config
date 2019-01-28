@@ -32,3 +32,6 @@
 (global-set-key [S-f1] 'delete-window)
 
 (global-set-key (kbd "C-c C-d") #'es/comment-and-copy-line)
+
+;; Org-mode
+(global-set-key (kbd "C-c l") #'org-store-link)
