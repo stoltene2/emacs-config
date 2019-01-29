@@ -233,11 +233,13 @@
             (lambda ()
               (jasminejs-add-snippets-to-yas-snippet-dirs)))
 
+  ;; This can be done differently
   (add-hook 'jasminejs-mode-hook
             (lambda ()
               (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
 
-  (add-hook 'js2-mode-hook (lambda () (jasminejs-mode))))
+  (add-hook 'js2-mode-hook #'jasminejs-mode)
+  (add-hook 'typescript-mode-hook #'jasminejs-mode))
 
 (use-package js2-mode
   :ensure t
