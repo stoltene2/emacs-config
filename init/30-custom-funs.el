@@ -292,6 +292,17 @@ https://gist.github.com/rejeep/2922929
     (move-to-column column)))
 
 
+(defun es/copy-buffer-file-name-to-clipboard ()
+  "Copies the buffer file name to the clipboard"
+  (let ((buf-name (buffer-file-name)))
+    (if buf-name
+        (with-temp-buffer
+          (insert buf-name)
+          (copy-region-as-kill (point-min) (point-max))
+          (message "Copied %s to clipboard" buf-name))
+      (message "Your buffer is not backed by a file"))))
+
+
 
 (defun es/convert-vscode-snippet-to-yasnippet (file)
   "Given a vscode snippet we convert it to yasnippet"
