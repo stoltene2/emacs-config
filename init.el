@@ -307,6 +307,10 @@
     (interactive)
     (magit-restore-window-configuration)))
 
+(use-package major-mode-hydra
+  :ensure t
+  :bind
+  ("C-M-m" . major-mode-hydra))
 
 (use-package markdown-mode
   :ensure t)
