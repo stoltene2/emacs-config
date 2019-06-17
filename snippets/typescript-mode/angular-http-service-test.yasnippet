@@ -1,0 +1,83 @@
+# -*- mode: snippet -*-
+# name: a.angular-http-service-test
+# expand-env: ((yas-indent-line 'fixed'))
+# --
+
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ${1:$(s-upper-camel-case yas-text)}Service } from './$1.service';
+import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import { Mock } from 'ts-mockery';
+import { of, throwError } from 'rxjs';
+import { DependentService } from 'path/to/dependent.service';
+
+describe('Testing ${1:$(s-upper-camel-case yas-text)}Service', () => {
+  let ${1:$(s-lower-camel-case yas-text)}Service: ${1:$(s-upper-camel-case yas-text)}Service;
+  let httpTestingController: HttpTestingController;
+  let mockDependentService: DependentService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        ${1:$(s-upper-camel-case yas-text)}Service,
+        {provide: DependentService, useValue: Mock.of<DependentService>()},
+      ]
+    });
+
+    // Mocks need to be updated from instances that live in TestBed
+    httpTestingController = TestBed.get(HttpTestingController);
+    ${1:$(s-lower-camel-case yas-text)}Service = TestBed.get(${1:$(s-upper-camel-case yas-text)}Service);
+    mockDependentService = TestBed.get(DependentService);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  describe('getting myResponse', () => {
+    describe('When I do not have permissions', () => {
+      it('should throw an error', () => {
+        Mock.extend<DependentService>(mockDependentService).with({
+          property: value
+        });
+
+        ${1:$(s-lower-camel-case yas-text)}Service.myObservable().subscribe(fail, e => {
+          expect(e).toEqual('User does not have permission');
+        });
+      });
+    });
+
+    describe('When I have permissions', () => {
+      it('should return a response', () => {
+        ${1:$(s-lower-camel-case yas-text)}Service.myObservable().subscribe(d => {
+          expect(d).toEqual(myResponse);
+        }, fail);
+
+        httpTestingController.expectOne(URL).flush({});
+      });
+
+      it('should retry up to two more times', () => {
+
+        // For tests which use retry(2)
+        ${1:$(s-lower-camel-case yas-text)}Service.myObservable().subscribe(d => {
+          expect(d).toBeEqual(myResponse);
+        }, fail);
+
+        httpTestingController.expectOne(URL).error(new ErrorEvent('failed'));
+        httpTestingController.expectOne(URL).error(new ErrorEvent('failed'));
+        httpTestingController.expectOne(URL).flush({});
+      });
+
+      it('should fail after three attempts', () => {
+        ${1:$(s-lower-camel-case yas-text)}Service.myObservable().subscribe(fail, e => {
+          expect(e).toEqual('Failed to get data');
+        });
+
+        httpTestingController.expectOne(URL).error(new ErrorEvent('failed'));
+        httpTestingController.expectOne(URL).error(new ErrorEvent('failed'));
+        httpTestingController.expectOne(URL).error(new ErrorEvent('failed'));
+      });
+    });
+  });
+});
