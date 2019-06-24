@@ -142,9 +142,7 @@
 
 
 ;; Scheme related mode for Racket development
-(use-package geiser
-  :config
-  (add-hook 'geiser-mode-hook 'rainbow-delimiters-mode))
+;;(use-package geiser)
 
 (use-package git-gutter
   :ensure t
@@ -163,60 +161,6 @@
    '(haskell-indentation-left-offset 4)
    '(haskell-indent-spaces 4)))
 
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :bind (("M-x" . helm-M-x)
-         :map helm-map
-         ([tab] . helm-execute-persistent-action)
-         ("C-z" . helm-select-action))
-  :config
-  (global-unset-key (kbd "C-x c"))
-  (setq helm-quick-update                     t
-        helm-split-window-in-side-p           nil
-        helm-buffers-fuzzy-matching           t
-        helm-recentf-fuzzy-match              t
-        helm-locate-fuzzy-match               t
-        helm-M-x-fuzzy-match                  t
-        helm-semantic-fuzzy-match             t
-        helm-apropos-fuzzy-match              t
-        helm-imenu-fuzzy-match                t
-        helm-lisp-fuzzy-completion            t
-        helm-move-to-line-cycle-in-source     t
-        helm-scroll-amount                    8
-        helm-ff-search-library-in-sexp        t
-        helm-ff-file-name-history-use-recentf t)
-
-  (helm-mode 1))
-
-(use-package helm-ag
-  :ensure t
-  :config
-  (eval-after-load 'helm
-    '(progn
-       (require 'helm-ag))))
-
-(use-package helm-c-yasnippet
-  :ensure t
-
-  ; Diminish the mode in the menu-bar
-  :diminish helm-c-yasnippet-mode
-
-  ; Code that runs after the mode is loaded
-  :config
-  (setq helm-yas-space-match-any-greedy t)
-
-  ; Keyboard bindings
-  :bind ("C-\"" . 'helm-yas-complete))
-
-(use-package helm-projectile
-  :ensure t
-  :init
-  (setq helm-projectile-fuzzy-match t))
-
-(use-package helm-swoop
-  :ensure t)
-
 (use-package idris-mode)
 
 ;; Helper mode for emacs but requires emacs 24.5
@@ -225,14 +169,52 @@
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
+(use-package ivy
+  :ensure t
+  ;; :init
+  ;; (some-init-that-must-always-succeed)
+
+  :config
+  (ivy-mode 1)
+  (setq ivy-height 16)
+
+  ;; :hook (ivy-mode . other-mode-to-load)
+
+  ;; Keyboard bindings
+  :bind (("C-s" . swiper))
+  ;;        ([f8] . do-something-with-f8))
+
+  ;;Add shortcuts to a modemap
+  ;; :map ivy-mode-map
+  ;; ("M-p" . sequences-bound-to-key-map)
+  )
+
+(use-package counsel
+  :ensure t
+  ;; :init
+  ;; (some-init-that-must-always-succeed)
+
+  ;; :config
+  ;; (config-expression-here ...)
+
+  ;; :hook (ivy-mode . other-mode-to-load)
+
+  ;; Keyboard bindings
+  ;; :bind (("C-c C-d" . unquoted-function-to-call)
+  ;;        ([f8] . do-something-with-f8))
+
+  ;;Add shortcuts to a modemap
+  ;; :map ivy-mode-map
+  ;; ("M-p" . sequences-bound-to-key-map)
+  )
+
+(use-package counsel-projectile
+  :ensure t)
+
 (use-package jasminejs-mode
   :ensure t
   :diminish jasminejs-mode
   :config
-  (add-hook 'jasminejs-mode-hook
-            (lambda ()
-              (jasminejs-add-snippets-to-yas-snippet-dirs)))
-
   ;; This can be done differently
   (add-hook 'jasminejs-mode-hook
             (lambda ()
@@ -338,9 +320,6 @@
 (use-package paredit
   :ensure t)
 
-;; pomadoro mode
-;;(use-package pomidor)
-
 (use-package projectile
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
@@ -352,8 +331,8 @@
               ("s r" . rg-project))
 
   :config
-  (projectile-global-mode)
-  (setq projectile-completion-system 'helm)
+  (projectile-mode 1)
+  (counsel-projectile-mode 1)
   (setq projectile-switch-project-action #'magit-status)
   (setq projectile-generic-command "fd . -0")
   (defun es/projectile-test-suffix (project-type)
@@ -380,9 +359,6 @@
   (add-hook 'after-init-hook
             (lambda ()
               '(progn
-                 (require 'helm-projectile)
-                 (setq projectile-completion-system 'helm)
-                 (helm-projectile-on)
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
 
@@ -594,7 +570,7 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices
