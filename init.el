@@ -178,35 +178,10 @@
   (ivy-mode 1)
   (setq ivy-height 16)
 
-  ;; :hook (ivy-mode . other-mode-to-load)
-
-  ;; Keyboard bindings
-  :bind (("C-s" . swiper))
-  ;;        ([f8] . do-something-with-f8))
-
-  ;;Add shortcuts to a modemap
-  ;; :map ivy-mode-map
-  ;; ("M-p" . sequences-bound-to-key-map)
-  )
+  :bind (("C-s" . swiper)))
 
 (use-package counsel
-  :ensure t
-  ;; :init
-  ;; (some-init-that-must-always-succeed)
-
-  ;; :config
-  ;; (config-expression-here ...)
-
-  ;; :hook (ivy-mode . other-mode-to-load)
-
-  ;; Keyboard bindings
-  ;; :bind (("C-c C-d" . unquoted-function-to-call)
-  ;;        ([f8] . do-something-with-f8))
-
-  ;;Add shortcuts to a modemap
-  ;; :map ivy-mode-map
-  ;; ("M-p" . sequences-bound-to-key-map)
-  )
+  :ensure t)
 
 (use-package counsel-projectile
   :ensure t)
@@ -378,10 +353,8 @@
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
 
-;;(use-package sass-mode)
 
 (use-package shakespeare-mode)
-
 
 (use-package smartparens
   :ensure t
@@ -471,11 +444,12 @@
   :ensure t
   :commands global-undo-tree-mode
   :config
+  (global-undo-tree-mode 1)
   (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-relative-timestamps t)
-  (global-undo-tree-mode))
+  (setq undo-tree-visualizer-relative-timestamps t))
+
 
 (use-package urlenc
   :ensure t)
