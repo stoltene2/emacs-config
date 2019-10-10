@@ -1,23 +1,32 @@
 ;; Allow this to function outside of an emacs.d directory
 (setq debug-on-error t)
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory "~/.emacs.d/"))
 
-(setenv "PATH" (concat "/usr/local/bin:"
-                       (concat (getenv "HOME") "/.local/bin:")
+(setenv "PATH" (concat "/usr/local/bin" ":"
+                       (concat (getenv "HOME") "/.rbenv/shims") ":"
+                       (concat (getenv "HOME") "/.local/bin") ":"
                        (getenv "PATH")))
 
+(add-to-list 'exec-path (concat (getenv "HOME") "/.rbenv/shims"))
+(add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
+(add-to-list 'exec-path "/usr/local/bin" t)
 
-(setq exec-path (cons (concat (getenv "HOME") "/.local/bin") exec-path ))
-(setq exec-path (cons "/usr/local/bin" exec-path ))
+(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
+(add-hook 'js-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 '((company-dabbrev-code company-yasnippet)))))
 
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
              ;; The 't' means to append, so that MELPA comes after the more
              ;; stable ELPA archive.
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Switch to use-package
@@ -55,6 +64,7 @@
   :diminish bazel-mode)
 
 (use-package bookmark+
+  :disabled
   :ensure t)
 
 (use-package company
@@ -122,6 +132,8 @@
 
   :hook ((js2-mode-hook . fic-mode)
          (html-mode . fic-mode)
+         (ruby-mode . fic-mode)
+         (js-mode . fic-mode)
          (typescript-mode . fic-mode)))
 
 (use-package flycheck
@@ -136,13 +148,12 @@
   (setq flycheck-checkers '(javascript-eslint typescript-tslint))
 
   (flycheck-add-mode 'javascript-eslint 'js-mode)
-  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+;;  (flycheck-add-mode 'javascript-eslint 'js2-mode)
 
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-
-;; Scheme related mode for Racket development
-;;(use-package geiser)
+(use-package forge
+  :after magit)
 
 (use-package git-gutter
   :ensure t
@@ -196,36 +207,36 @@
               (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
 
   (add-hook 'js2-mode-hook #'jasminejs-mode)
+  (add-hook 'js-mode-hook #'jasminejs-mode)
   (add-hook 'typescript-mode-hook #'jasminejs-mode))
 
-(use-package js2-mode
-  :ensure t
-  :mode ("\\.js$" . js2-mode)
-  :diminish (js2-minor-mode . "\u24BF") ;; J
-  :config
-  (add-hook 'js2-mode-hook
-            (lambda () (subword-mode)))
-  (add-hook 'js2-mode-hook #'hs-minor-mode)
-  ;; Setup company mode for js2-mode
-  (add-hook 'js2-mode-hook
-            (lambda ()
-              (set (make-local-variable 'company-backends)
-                   '((company-dabbrev-code company-yasnippet)))))
+;; (use-package js2-mode
+;;   :ensure t
+;;   :mode ("\\.js$" . js2-mode)
+;;   :diminish (js2-minor-mode . "\u24BF") ;; J
+;;   :config
+;;   (add-hook 'js2-mode-hook
+;;             (lambda () (subword-mode)))
+;;   (add-hook 'js2-mode-hook #'hs-minor-mode)
+;;   ;; Setup company mode for js2-mode
+;;   (add-hook 'js2-mode-hook
+;;             (lambda ()
+;;               (set (make-local-variable 'company-backends)
+;;                    '((company-dabbrev-code company-yasnippet)))))
 
-  (custom-set-variables
-   '(js2-auto-insert-catch-block nil)
-   '(js2-basic-offset 2)
-   '(js2-bounce-indent-p nil)
-   '(js2-mode-indent-ignore-first-tab nil))
+;;   (custom-set-variables
+;;    '(js2-auto-insert-catch-block nil)
+;;    '(js2-basic-offset 2)
+;;    '(js2-bounce-indent-p nil)
+;;    '(js2-mode-indent-ignore-first-tab nil))
 
-  (eval-after-load 'js2-mode
-    (progn (flycheck-mode))))
+;;   (eval-after-load 'js2-mode
+;;     (progn (flycheck-mode))))
 
 (use-package js2-refactor
-  :ensure t
+  :after (js2-mode)
   :diminish js2-refactor-mode
   :config
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
   (js2r-add-keybindings-with-prefix "C-c RET"))
 
 (use-package json-mode
@@ -282,6 +293,7 @@
 
 (use-package neotree
   :ensure t
+  :after (all-the-icons)
   :bind
   (([f7] . neotree-toggle)
    :map neotree-mode-map
@@ -296,6 +308,7 @@
   :ensure t)
 
 (use-package projectile
+  ;; https://docs.projectile.mx/en/latest/
   :ensure t
   :diminish (projectile-mode . "\u24C5") ;; Ⓟ
   :bind (:map projectile-mode-map
@@ -308,6 +321,7 @@
   :config
   (projectile-mode 1)
   (counsel-projectile-mode 1)
+  (setq projectile-completion-system 'ivy)
   (setq projectile-switch-project-action #'magit-status)
   (setq projectile-generic-command "fd . -0")
   (defun es/projectile-test-suffix (project-type)
@@ -336,6 +350,14 @@
               '(progn
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
+
+(use-package projectile-rails
+  ;; https://github.com/asok/projectile-rails
+  :after (projectile)
+  :config
+  (projectile-rails-global-mode)
+  :bind (:map projectile-rails-mode-map
+              ("s-r" . 'hydra-projectile-rails/body)))
 
 
 (use-package rainbow-delimiters)
