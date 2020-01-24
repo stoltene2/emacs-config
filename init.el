@@ -125,8 +125,6 @@
          ("M-=" . er/contract-region)))
 
 
-(use-package feature-mode)
-
 (use-package fic-mode
   :ensure t
 
@@ -172,13 +170,11 @@
    '(haskell-indentation-left-offset 4)
    '(haskell-indent-spaces 4)))
 
-(use-package idris-mode)
-
 ;; Helper mode for emacs but requires emacs 24.5
 ;; http://commercialhaskell.github.io/intero/
-(use-package intero
-  :config
-  (add-hook 'haskell-mode-hook 'intero-mode))
+;; (use-package intero
+;;   :config
+;;   (add-hook 'haskell-mode-hook 'intero-mode))
 
 (use-package ivy
   :ensure t
@@ -302,7 +298,8 @@
   (setq neo-window-width 50)
   (setq neo-theme 'icons))
 
-(use-package org-pomodoro)
+(use-package org-pomodoro
+  :ensure t)
 
 (use-package paredit
   :ensure t)
@@ -360,9 +357,11 @@
               ("s-r" . 'hydra-projectile-rails/body)))
 
 
+;; TODO: add to lisp, clojure, etc
 (use-package rainbow-delimiters)
 
-(use-package restclient)
+(use-package restclient
+  :ensure t)
 
 (use-package rg
   :ensure t
@@ -374,9 +373,6 @@
          ("Gemfile" . ruby-mode)
          ("Rakefile" . ruby-mode)
          ("\\.rake$" . ruby-mode)))
-
-
-(use-package shakespeare-mode)
 
 (use-package smartparens
   :ensure t
@@ -395,30 +391,6 @@
   (font-lock-add-keywords nil
                           (list
                            '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend))))
-
-;; (use-package tide
-;;   :commands (tide-mode tide-setup tide-hl-identifier-mode)
-;;   :after (typescript-mode company flycheck)
-
-;;   :config
-;;   (setq tide-completion-enable-autoimport-suggestions t)
-;;   (setq company-tooltip-align-annotations t)
-;;   (defface font-lock-keyword-typescript-face
-;;     '((t :foreground "SlateBlue1"))
-;;     "My custom face for typescript keywords"
-;;     :group 'font-lock-faces)
-
-
-;;   :hook ((typescript-mode . tide-setup)
-;;          (typescript-mode . flycheck-mode)
-;;          (typescript-mode . eldoc-mode)
-;;          (typescript-mode . company-mode)
-;;          (typescript-mode . tide-hl-identifier-mode)
-;;          (typescript-mode . #'es/typescript-mode-extra-font-locks))
-
-;;   :bind
-;;   (:map tide-mode-map
-;;         ([f2] . tide-rename-symbol)))
 
 (use-package tide
   :bind
@@ -566,7 +538,7 @@
  '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
  '(package-selected-packages
    (quote
-    (counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+    (nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices
