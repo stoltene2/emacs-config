@@ -354,7 +354,9 @@
 
 
 ;; TODO: add to lisp, clojure, etc
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters
+  :ensure t
+  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)))
 
 (use-package restclient
   :ensure t)
