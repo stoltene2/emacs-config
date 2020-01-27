@@ -86,6 +86,12 @@
   :bind
   (("C-'" . company-complete)))
 
+(use-package counsel
+  :ensure t)
+
+(use-package counsel-projectile
+  :ensure t)
+
 (use-package default-text-scale
   :ensure t
   :config
@@ -173,12 +179,6 @@
    '(haskell-indentation-left-offset 4)
    '(haskell-indent-spaces 4)))
 
-;; Helper mode for emacs but requires emacs 24.5
-;; http://commercialhaskell.github.io/intero/
-;; (use-package intero
-;;   :config
-;;   (add-hook 'haskell-mode-hook 'intero-mode))
-
 (use-package ivy
   :ensure t
   ;; :init
@@ -189,12 +189,6 @@
   (setq ivy-height 16)
 
   :bind (("C-s" . swiper)))
-
-(use-package counsel
-  :ensure t)
-
-(use-package counsel-projectile
-  :ensure t)
 
 (use-package jasminejs-mode
   :ensure t
@@ -281,7 +275,6 @@
 
 (use-package markdown-mode
   :ensure t)
-
 
 (use-package multiple-cursors
   :ensure t
