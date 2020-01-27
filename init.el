@@ -77,11 +77,17 @@
   (setq company-dabbrev-downcase nil)
   (setq company-minimum-prefix-length 3)
   (setq company-tooltip-margin 1)
-  (setq company-tooltip-minimum-width 30)
+  (setq company-tooltip-minimum-width 40)
   (global-company-mode)
 
   :bind
   (("C-'" . company-complete)))
+
+;; Show fancy icons next to company suggestions
+(use-package company-box
+  :ensure t
+  :after company
+  :hook (company-mode . company-box-mode))
 
 (use-package counsel
   :ensure t)
