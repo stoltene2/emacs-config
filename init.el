@@ -108,6 +108,10 @@
   (setq deft-use-filename-as-title t)
   (setq deft-auto-save-interval 0))
 
+(use-package direnv
+  :ensure t
+  :config (direnv-mode))
+
 (use-package dumb-jump
   :ensure t
   :bind
