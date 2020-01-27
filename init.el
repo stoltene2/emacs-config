@@ -7,12 +7,15 @@
     (setq user-emacs-directory "~/.emacs.d/"))
 
 (setenv "PATH" (concat "/usr/local/bin" ":"
+                       (concat (getenv "HOME") "/.cargo/bin") ":"
                        (concat (getenv "HOME") "/.rbenv/shims") ":"
                        (concat (getenv "HOME") "/.local/bin") ":"
                        (getenv "PATH")))
 
 (add-to-list 'exec-path (concat (getenv "HOME") "/.rbenv/shims"))
 (add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
+(add-to-list 'exec-path (concat (getenv "HOME") "/.cargo/bin"))
+(add-to-list 'exec-path (concat (getenv "HOME") "/.nix-profile/bin"))
 (add-to-list 'exec-path "/usr/local/bin" t)
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
