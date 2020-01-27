@@ -250,6 +250,25 @@
   :config
   (setq css-indent-offset 2))
 
+(use-package lsp-mode
+  :ensure t
+
+  :commands lsp
+  :bind (:map lsp-mode-map
+              ("s-." . #'lsp-ui-peek-find-references)
+              ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
+  :hook ((rust-mode . lsp)
+         (rust-mode . company-mode)))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+
 (use-package magit
   :ensure t
   :diminish ((magit-mode . "") (magit-status-mode . ""))
@@ -423,6 +442,13 @@
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
 
 
+(use-package treemacs
+  :ensure t
+  :bind (:map treemacs-mode-map
+              ([mouse-1] . #'treemacs-single-click-expand-action)))
+
+(use-package treemacs-projectile
+  :ensure t)
 
 (use-package typescript-mode
   :ensure t
