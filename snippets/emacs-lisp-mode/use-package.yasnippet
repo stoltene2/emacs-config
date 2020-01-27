@@ -7,27 +7,28 @@
 (use-package $1
   :ensure t
 
-  ; Ensure that a system package is loaded, alternative to :ensure
+  ;; Ensure that a system package is loaded, alternative to :ensure
   :ensure-system-package rg
 
-  ; Diminish the mode in the menu-bar
+  ;; Diminish the mode in the menu-bar
   :diminish $1-mode
 
-  ; Optionally register a file extension for this mode
+  ;; Optionally register a file extension for this mode
   :mode ("\\\.ext$" . $1-mode)
 
-  ; Code that _always_ runs when the file is processed and before the
-  ; mode is loaded.
+  ;; Code that _always_ runs when the file is processed and before the
+  ;; mode is loaded.
   :init
   (some-init-that-must-always-succeed)
 
-  ; Code that runs after the mode is loaded
+  ;; Code that runs after the mode is loaded
   :config
   (config-expression-here ...)
 
-  :hook ($1-mode . other-mode-to-load)
+  ;; Load $1-mode when other module is loaded
+  :hook ((other-mode-to-load . $1-mode))
 
-  ; Keyboard bindings
+  ;; Keyboard bindings
   :bind (("C-c C-d" . unquoted-function-to-call)
          ([f8] . do-something-with-f8))
 
