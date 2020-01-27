@@ -74,15 +74,12 @@
   :diminish (company-mode . "\u24B8") ;; Circled C
   :ensure t
   :config
-  (add-hook 'after-init-hook
-            (lambda ()
-              (progn
-                (global-company-mode)
-                ;; Stop dabbrev from throwing case away
-                (setq company-dabbrev-downcase nil)
-                (setq company-minimum-prefix-length 3)
-                (setq company-tooltip-margin 1)
-                (setq company-tooltip-minimum-width 30))))
+  (setq company-dabbrev-downcase nil)
+  (setq company-minimum-prefix-length 3)
+  (setq company-tooltip-margin 1)
+  (setq company-tooltip-minimum-width 30)
+  (global-company-mode)
+
   :bind
   (("C-'" . company-complete)))
 
@@ -478,6 +475,7 @@
         (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
 
 (setq debug-on-error nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
