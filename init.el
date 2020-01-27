@@ -266,6 +266,9 @@
   :hook ((rust-mode . lsp)
          (rust-mode . company-mode)))
 
+(use-package dap-mode
+  :ensure t)
+
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
