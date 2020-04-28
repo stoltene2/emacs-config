@@ -67,9 +67,12 @@
   :diminish bazel-mode)
 
 (use-package bookmark+
+  ;; This needs to be pulled from the emacs wiki because the author
+  ;; doesn't publish to git
   :disabled
   :ensure t)
 
+;; TODO: Figure out why this doesn't seem to load company-snippets
 (use-package company
   :diminish (company-mode . "\u24B8") ;; Circled C
   :ensure t
@@ -520,8 +523,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(backup-by-copying t)
- '(backup-directory-alist (quote (("." . "~/.saves"))))
  '(bmkp-last-as-first-bookmark-file "/Users/stoltene/.emacs.d/bookmarks")
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
