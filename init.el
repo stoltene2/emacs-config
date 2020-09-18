@@ -1,7 +1,6 @@
 ;; Allow this to function outside of an emacs.d directory
 (setq debug-on-error t)
 
-
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory "~/.emacs.d/"))
 
@@ -42,13 +41,22 @@
 (eval-when-compile
   (require 'use-package))
 
+(defun reload-config ()
+  "Expects literate org file to exist in the default emacs directory at the root"
+  (interactive)
+  (let ((literate-config (concat user-emacs-directory "readme.org")))
+    (org-babel-load-file literate-config)))
+
+;; Not sure if this is needed
+(setq max-lisp-eval-depth 2000)
+
+(reload-config)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package configuration
 
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
-(use-package all-the-icons
-  :ensure t)
 
 (use-package auto-yasnippet
   :ensure t)
@@ -85,27 +93,12 @@
   :bind
   (("C-'" . company-complete)))
 
-;; Show fancy icons next to company suggestions
-(use-package company-box
-  :ensure t
-  :after company
-  :hook (company-mode . company-box-mode))
-
 (use-package counsel
   :ensure t)
 
 (use-package counsel-projectile
   :ensure t)
 
-(use-package default-text-scale
-  :ensure t
-  :config
-  (setq default-text-scale-amount 8)
-  :bind
-  ;; Plus makes it better
-  ("M-+" . default-text-scale-increase)
-  ;; Underscore makes it smaller (- is already bound)
-  ("M-_" . default-text-scale-decrease))
 
 (use-package deft
   :ensure t
@@ -143,14 +136,6 @@
          ("M-=" . er/contract-region)))
 
 
-(use-package fic-mode
-  :ensure t
-
-  :hook ((js2-mode-hook . fic-mode)
-         (html-mode . fic-mode)
-         (ruby-mode . fic-mode)
-         (js-mode . fic-mode)
-         (typescript-mode . fic-mode)))
 
 (use-package flycheck
   :ensure t

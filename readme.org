@@ -1,0 +1,63 @@
+* Welcome
+Let's get started with the configuration!
+
+#+begin_src emacs-lisp
+(setq lexical-binding t)
+ #+end_src
+
+** Bells and whistles
+
+   I've been using Emacs for decades but that doesn't mean I only run it
+   in a terminal. Sometimes bells and whistles make me feel good.
+
+   When emacs is first installed it probably doesn't have any of the
+   fancy fonts installed. Don't forget to execute
+   `all-the-icons-install-fonts`.
+
+*** All the icons
+    This [[https://github.com/domtronn/all-the-icons.el][package]] adds beautiful icons to Emacs and makes it feel more modern.
+
+    #+begin_src emacs-lisp
+    (use-package all-the-icons
+      :ensure t)
+    #+end_src
+
+*** Company Box
+    Get more context with [[https://github.com/sebastiencs/company-box][Company Box]] while using Company Mode
+   #+begin_src emacs-lisp
+   (use-package company-box
+     :ensure t
+     :after company
+     :hook (company-mode . company-box-mode))
+    #+end_src
+
+*** Default text scale
+    When I screenshare with someone there are times when I need to
+    scale up all my buffers font size at once for all buffers. This is
+    an incredibly useful library.
+   #+begin_src emacs-lisp
+   (use-package default-text-scale
+     :ensure t
+     :config
+     (setq default-text-scale-amount 8)
+     :bind
+     ;; Plus makes it better
+     ("M-+" . default-text-scale-increase)
+     ;; Underscore makes it smaller (- is already bound)
+     ("M-_" . default-text-scale-decrease))
+   #+end_src
+
+*** Fix me and todo mode
+
+    Change the visual appearance of a TODO/FIXME item inside of comments.
+
+    #+begin_src emacs-lisp
+    (use-package fic-mode
+      :ensure t
+
+      :hook ((js2-mode-hook . fic-mode)
+             (html-mode . fic-mode)
+             (ruby-mode . fic-mode)
+             (js-mode . fic-mode)
+             (typescript-mode . fic-mode)))
+    #+end_src
