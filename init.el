@@ -1,7 +1,6 @@
 ;; Allow this to function outside of an emacs.d directory
 (setq debug-on-error t)
 
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory "~/.emacs.d/"))
@@ -24,17 +23,17 @@
             (set (make-local-variable 'company-backends)
                  '((company-dabbrev-code company-yasnippet)))))
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-             ;; The 't' means to append, so that MELPA comes after the more
-             ;; stable ELPA archive.
-             '("melpa" . "http://melpa.org/packages/") t)
+(setq use-package-verbose t)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+(package-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Switch to use-package
-
-(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -475,11 +474,11 @@
   :ensure t
   :commands global-undo-tree-mode
   :config
-  (global-undo-tree-mode 1)
   (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-relative-timestamps t))
+  (setq undo-tree-visualizer-relative-timestamps t)
+  (global-undo-tree-mode 1))
 
 
 (use-package urlenc
