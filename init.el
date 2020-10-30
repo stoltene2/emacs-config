@@ -152,13 +152,6 @@
 (use-package git-timemachine
   :ensure t)
 
-(use-package haskell-mode
-  :ensure t
-  :config
-
-  (custom-set-variables
-   '(haskell-indentation-left-offset 4)
-   '(haskell-indent-spaces 4)))
 
 (use-package ivy
   :ensure t
@@ -212,17 +205,6 @@
   :config
   (js2r-add-keybindings-with-prefix "C-c RET"))
 
-(use-package json-mode
-  :ensure t
-  :config
-  (add-hook 'json-mode-hook #'hs-minor-mode)
-  (add-hook 'json-mode-hook
-            (lambda ()
-              (setq js-indent-level 2))))
-
-;; Needs emacs 25
-;; (use-package json-navigator
-;;   :ensure t)
 
 (use-package less-css-mode
   :ensure t
@@ -368,11 +350,6 @@
   :custom
   (rg-group-result t "Group the results by filename"))
 
-(use-package ruby-mode
-  :mode (("\\.rb$" . ruby-mode)
-         ("Gemfile" . ruby-mode)
-         ("Rakefile" . ruby-mode)
-         ("\\.rake$" . ruby-mode)))
 
 (use-package smartparens
   :ensure t
@@ -387,42 +364,6 @@
   :ensure spacemacs-theme
   :config (load-theme 'spacemacs-dark t))
 
-(defun es/typescript-mode-extra-font-locks ()
-  (font-lock-add-keywords nil
-                          (list
-                           '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend))))
-
-(use-package tide
-  :bind
-  (:map tide-mode-map
-        ([f2] . tide-rename-symbol))
-
-  :config
-  (setq tide-completion-enable-autoimport-suggestions t)
-
-  ;; Highlight identifier at points
-  (defface font-lock-keyword-typescript-face
-    '((t :foreground "SlateBlue1"))
-    "My custom face for typescript keywords"
-    :group 'font-lock-faces)
-
-  (add-hook 'typescript-mode-hook
-            (lambda ()
-              (interactive)
-              (tide-setup)
-              (flycheck-mode +1)
-              (setq flycheck-check-syntax-automatically '(save mode-enabled))
-              (eldoc-mode +1)
-              ;; company is an optional dependency. You have to
-              ;; install it separately via package-install
-              (company-mode +1)
-              (tide-hl-identifier-mode +1)
-              (setq company-tooltip-align-annotations t)
-              (font-lock-add-keywords nil
-                                      (list
-                                       '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
-
 
 (use-package treemacs
   :ensure t
@@ -432,14 +373,6 @@
 (use-package treemacs-projectile
   :ensure t)
 
-(use-package typescript-mode
-  :ensure t
-  :mode ("\\.ts\\'" . typescript-mode)
-  :init (setq typescript-indent-level 2)
-  :config
-  (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
-  (add-hook 'typescript-mode-hook #'hs-minor-mode)
-  (add-hook 'typescript-mode-hook #'subword-mode))
 
 (use-package undo-tree
   :ensure t
@@ -468,13 +401,6 @@
   :demand t
   :init (auto-insert-mode)
   :config (yatemplate-fill-alist))
-
-(use-package yaml-mode
-  :mode ("\\.yml" . yaml-mode))
-
-;; Diminish included modes
-;;(diminish 'auto-revert-mode)
-;;(diminish 'subword-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom initialization for after packages have loaded
