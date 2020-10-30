@@ -199,12 +199,6 @@
 ;;   (eval-after-load 'js2-mode
 ;;     (progn (flycheck-mode))))
 
-(use-package js2-refactor
-  :after (js2-mode)
-  :diminish js2-refactor-mode
-  :config
-  (js2r-add-keybindings-with-prefix "C-c RET"))
-
 
 (use-package less-css-mode
   :ensure t
