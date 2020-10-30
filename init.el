@@ -79,19 +79,6 @@
   :disabled
   :ensure t)
 
-;; TODO: Figure out why this doesn't seem to load company-snippets
-(use-package company
-  :diminish (company-mode . "\u24B8") ;; Circled C
-  :ensure t
-  :config
-  (setq company-dabbrev-downcase nil)
-  (setq company-minimum-prefix-length 3)
-  (setq company-tooltip-margin 1)
-  (setq company-tooltip-minimum-width 40)
-  (global-company-mode)
-
-  :bind
-  (("C-'" . company-complete)))
 
 (use-package counsel
   :ensure t)
@@ -175,11 +162,10 @@
 
 (use-package ivy
   :ensure t
-  ;; :init
-  ;; (some-init-that-must-always-succeed)
-
   :config
   (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "%d/%d ")
   (setq ivy-height 16)
 
   :bind (("C-s" . swiper)))
@@ -507,22 +493,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(backup-by-copying t)
+ '(backup-directory-alist '(("." . "~/.saves")))
  '(bmkp-last-as-first-bookmark-file "/Users/stoltene/.emacs.d/bookmarks")
  '(compilation-ask-about-save nil)
- '(compilation-scroll-output (quote first-error))
+ '(compilation-scroll-output 'first-error)
  '(create-lockfiles nil)
  '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(delete-old-versions t)
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(haskell-indent-spaces 2)
  '(haskell-indentation-left-offset 2)
- '(haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans")))
+ '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
- '(haskell-process-type (quote stack-ghci))
+ '(haskell-process-type 'stack-ghci)
  '(haskell-process-use-presentation-mode t)
  '(jenkins-api-token "4c735bff78fcb014d7d7c0f716ac0fb4")
  '(jenkins-url "http://http://cdlrdbxdvmstr01:8080/jenkins/")
@@ -534,14 +521,13 @@
  '(js2-mode-indent-ignore-first-tab nil)
  '(kept-new-versions 6)
  '(kept-old-versions 2)
- '(org-agenda-files (quote ("~/Documents/deft")))
- '(org-clock-clocktable-default-properties (quote (:maxlevel 3 :scope file)))
+ '(org-agenda-files '("~/Documents/deft"))
+ '(org-clock-clocktable-default-properties '(:maxlevel 3 :scope file))
  '(org-clock-idle-time 15)
  '(org-clock-into-drawer "LOGBOOK")
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-clocktable-defaults
-   (quote
-    (:maxlevel 3 :lang "en" :scope file :block nil :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil :formatter nil)))
+   '(:maxlevel 3 :lang "en" :scope file :block nil :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil :formatter nil))
  '(org-enforce-todo-checkbox-dependencies t)
  '(org-enforce-todo-dependencies t)
  '(org-fontify-emphasized-text t)
@@ -551,31 +537,26 @@
  '(org-habit-today-glyph 124)
  '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
- '(org-log-done (quote time))
+ '(org-log-done 'time)
  '(org-modules nil)
  '(org-src-fontify-natively t)
  '(org-tags-column -120)
- '(org-todo-keyword-faces (quote (("TODO" . "#b58900") ("NEXT" . "#2aa198"))))
+ '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   (quote
-    (nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag)))
+   '(all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
- '(projectile-test-files-suffices
-   (quote
-    ("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec")))
- '(projectile-test-suffix-function (function es/projectile-test-suffix))
+ '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
+ '(projectile-test-suffix-function #'es/projectile-test-suffix)
  '(rg-group-result t)
  '(safe-local-variable-values
-   (quote
-    ((haskell-process-use-ghci . t)
+   '((haskell-process-use-ghci . t)
      (haskell-indent-spaces . 4)
      (projectile-test-suffix-function lambda
                                       (project-type)
                                       "" "Spec")
      (eval progn
-           (require
-            (quote projectile))
+           (require 'projectile)
            (puthash
             (projectile-project-root)
             (concat haskell-process-path-stack " build")
@@ -583,8 +564,8 @@
            (puthash
             (projectile-project-root)
             (concat haskell-process-path-stack " test")
-            projectile-test-cmd-map)))))
- '(show-paren-style (quote parenthesis))
+            projectile-test-cmd-map))))
+ '(show-paren-style 'parenthesis)
  '(version-control t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

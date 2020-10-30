@@ -5,6 +5,29 @@ Let's get started with the configuration!
 (setq lexical-binding t)
  #+end_src
 
+** General packages and configuration
+
+*** TODO Company mode
+
+    Not sure if I should be using both this and Counsel+Ivy+Swiper
+    #+begin_src emacs-lisp
+    ;; TODO: Figure out why this doesn't seem to load company-snippets
+    (use-package company
+      :diminish (company-mode . "\u24B8") ;; Circled C
+      :ensure t
+      :config
+      (setq company-dabbrev-downcase nil)
+      (setq company-minimum-prefix-length 3)
+      (setq company-tooltip-margin 1)
+      (setq company-tooltip-minimum-width 40)
+      (global-company-mode)
+
+      :bind
+      (("C-'" . company-complete)))
+
+    #+end_src
+
+
 ** Bells and whistles
 
    I've been using Emacs for decades but that doesn't mean I only run it
