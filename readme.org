@@ -45,6 +45,17 @@ Let's get started with the configuration!
       :ensure t)
     #+end_src
 
+    #+begin_src emacs-lisp
+    (use-package all-the-icons-ivy
+      :after ivy
+      :init
+      (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
+
+      :config
+      (setq all-the-icons-ivy-file-commands
+      '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir)))
+    #+end_src
+
 *** Company Box
     Get more context with [[https://github.com/sebastiencs/company-box][Company Box]] while using Company Mode
    #+begin_src emacs-lisp
