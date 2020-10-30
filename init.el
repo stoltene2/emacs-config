@@ -200,11 +200,6 @@
 ;;     (progn (flycheck-mode))))
 
 
-(use-package less-css-mode
-  :ensure t
-  :config
-  (setq css-indent-offset 2))
-
 (use-package lsp-mode
   :ensure t
 
