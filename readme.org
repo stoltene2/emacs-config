@@ -2,7 +2,7 @@
 Let's get started with the configuration!
 
 #+begin_src emacs-lisp
-(setq lexical-binding t)
+  (setq lexical-binding t)
  #+end_src
 
 ** General packages and configuration
@@ -11,19 +11,19 @@ Let's get started with the configuration!
 
     Not sure if I should be using both this and Counsel+Ivy+Swiper
     #+begin_src emacs-lisp
-    ;; TODO: Figure out why this doesn't seem to load company-snippets
-    (use-package company
-      :diminish (company-mode . "\u24B8") ;; Circled C
-      :ensure t
-      :config
-      (setq company-dabbrev-downcase nil)
-      (setq company-minimum-prefix-length 3)
-      (setq company-tooltip-margin 1)
-      (setq company-tooltip-minimum-width 40)
-      (global-company-mode)
+      ;; TODO: Figure out why this doesn't seem to load company-snippets
+      (use-package company
+        :diminish (company-mode . "\u24B8") ;; Circled C
+        :ensure t
+        :config
+        (setq company-dabbrev-downcase nil)
+        (setq company-minimum-prefix-length 3)
+        (setq company-tooltip-margin 1)
+        (setq company-tooltip-minimum-width 40)
+        (global-company-mode)
 
-      :bind
-      (("C-'" . company-complete)))
+        :bind
+        (("C-'" . company-complete)))
 
     #+end_src
 
@@ -32,50 +32,57 @@ Let's get started with the configuration!
 *** JSON Mode
 
     #+begin_src emacs-lisp
-    (use-package json-mode
-      :ensure t
-      :config
-      (add-hook 'json-mode-hook #'hs-minor-mode)
-      (add-hook 'json-mode-hook
-                (lambda ()
-                  (setq js-indent-level 2))))
+      (use-package json-mode
+        :ensure t
+        :config
+        (add-hook 'json-mode-hook #'hs-minor-mode)
+        (add-hook 'json-mode-hook
+                  (lambda ()
+                    (setq js-indent-level 2))))
 
     #+end_src
 
 *** Haskell Mode
 
     #+begin_src emacs-lisp
-    (use-package haskell-mode
-      :ensure t
-      :config
+      (use-package haskell-mode
+        :ensure t
+        :config
 
-      (custom-set-variables
-       '(haskell-indentation-left-offset 4)
-       '(haskell-indent-spaces 4)))
+        (custom-set-variables
+         '(haskell-indentation-left-offset 4)
+         '(haskell-indent-spaces 4)))
 
+    #+end_src
+
+*** Markdown mode
+    #+begin_src emacs-lisp
+      (use-package markdown-mode
+        :ensure t)
     #+end_src
 
 *** Ruby and Rails Configurations
 
     #+begin_src emacs-lisp
-    (use-package ruby-mode
-      :mode (("\\.rb$" . ruby-mode)
-             ("Gemfile" . ruby-mode)
-             ("Rakefile" . ruby-mode)
-             ("\\.rake$" . ruby-mode)))
+      (use-package ruby-mode
+        :mode
+        (("\\.rb$" . ruby-mode)
+         ("Gemfile" . ruby-mode)
+         ("Rakefile" . ruby-mode)
+         ("\\.rake$" . ruby-mode)))
     #+end_src
 
 *** Typescript
 
     #+begin_src emacs-lisp
-    (use-package typescript-mode
-      :ensure t
-      :mode ("\\.ts\\'" . typescript-mode)
-      :init (setq typescript-indent-level 2)
-      :config
-      (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
-      (add-hook 'typescript-mode-hook #'hs-minor-mode)
-      (add-hook 'typescript-mode-hook #'subword-mode))
+      (use-package typescript-mode
+        :ensure t
+        :mode ("\\.ts\\'" . typescript-mode)
+        :init (setq typescript-indent-level 2)
+        :config
+        (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
+        (add-hook 'typescript-mode-hook #'hs-minor-mode)
+        (add-hook 'typescript-mode-hook #'subword-mode))
     #+end_src
 
     In typescript I like having some keywords stand out a little more
@@ -84,52 +91,52 @@ Let's get started with the configuration!
     in the context of the buffer it is running.
 
     #+begin_src emacs-lisp
-    (defun es/typescript-mode-extra-font-locks ()
-      (font-lock-add-keywords nil
-        (list '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend))))
+      (defun es/typescript-mode-extra-font-locks ()
+        (font-lock-add-keywords nil
+                                (list '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend))))
     #+end_src
 
     Load the bespoke highlighting through Tide. Tide is a pretty good
     mode which makes editing Typscript decent.
 
     #+begin_src emacs-lisp
-    (use-package tide
-      :bind
-      (:map tide-mode-map
-            ([f2] . tide-rename-symbol))
+      (use-package tide
+        :bind
+        (:map tide-mode-map
+              ([f2] . tide-rename-symbol))
 
-      :config
-      (setq tide-completion-enable-autoimport-suggestions t)
+        :config
+        (setq tide-completion-enable-autoimport-suggestions t)
 
-      ;; Highlight identifier at points
-      (defface font-lock-keyword-typescript-face
-        '((t :foreground "SlateBlue1"))
-        "My custom face for typescript keywords"
-        :group 'font-lock-faces)
+        ;; Highlight identifier at points
+        (defface font-lock-keyword-typescript-face
+          '((t :foreground "SlateBlue1"))
+          "My custom face for typescript keywords"
+          :group 'font-lock-faces)
 
-      (add-hook 'typescript-mode-hook
-                (lambda ()
-                  (interactive)
-                  (tide-setup)
-                  (flycheck-mode +1)
-                  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-                  (eldoc-mode +1)
-                  ;; company is an optional dependency. You have to
-                  ;; install it separately via package-install
-                  (company-mode +1)
-                  (tide-hl-identifier-mode +1)
-                  (setq company-tooltip-align-annotations t)
-                  (font-lock-add-keywords nil
-                                          (list
-                                           '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
-      (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
+        (add-hook 'typescript-mode-hook
+                  (lambda ()
+                    (interactive)
+                    (tide-setup)
+                    (flycheck-mode +1)
+                    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+                    (eldoc-mode +1)
+                    ;; company is an optional dependency. You have to
+                    ;; install it separately via package-install
+                    (company-mode +1)
+                    (tide-hl-identifier-mode +1)
+                    (setq company-tooltip-align-annotations t)
+                    (font-lock-add-keywords nil
+                                            (list
+                                             '("\\<\\(constructor\\|type\\|declare\\|var\\|interface\\|static\\|public\\|private\\|this\\|implements\\|let\\|function\\|const\\|new\\|false\\|true\\)\\>"  1 'font-lock-keyword-typescript-face prepend)))))
+        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
 
     #+end_src
 *** YAML Mode
 
     #+begin_src emacs-lisp
-    (use-package yaml-mode
-      :mode ("\\.yml" . yaml-mode))
+      (use-package yaml-mode
+        :mode ("\\.yml" . yaml-mode))
 
     #+end_src
 ** Bells and whistles
@@ -145,28 +152,32 @@ Let's get started with the configuration!
     This [[https://github.com/domtronn/all-the-icons.el][package]] adds beautiful icons to Emacs and makes it feel more modern.
 
     #+begin_src emacs-lisp
-    (use-package all-the-icons
-      :ensure t)
+      (use-package all-the-icons
+        :ensure t)
     #+end_src
 
     #+begin_src emacs-lisp
-    (use-package all-the-icons-ivy
-      :after ivy
-      :init
-      (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
+      (use-package all-the-icons-ivy
+        :after ivy
+        :init
+        (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
 
-      :config
-      (setq all-the-icons-ivy-file-commands
-      '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir)))
+        :config
+        (setq all-the-icons-ivy-file-commands
+              '(counsel-find-file
+                counsel-file-jump
+                counsel-recentf
+                counsel-projectile-find-file
+                counsel-projectile-find-dir)))
     #+end_src
 
 *** Company Box
     Get more context with [[https://github.com/sebastiencs/company-box][Company Box]] while using Company Mode
    #+begin_src emacs-lisp
-   (use-package company-box
-     :ensure t
-     :after company
-     :hook (company-mode . company-box-mode))
+     (use-package company-box
+       :ensure t
+       :after company
+       :hook (company-mode . company-box-mode))
     #+end_src
 
 *** Default text scale
@@ -174,15 +185,15 @@ Let's get started with the configuration!
     scale up all my buffers font size at once for all buffers. This is
     an incredibly useful library.
    #+begin_src emacs-lisp
-   (use-package default-text-scale
-     :ensure t
-     :config
-     (setq default-text-scale-amount 8)
-     :bind
-     ;; Plus makes it better
-     ("M-+" . default-text-scale-increase)
-     ;; Underscore makes it smaller (- is already bound)
-     ("M-_" . default-text-scale-decrease))
+     (use-package default-text-scale
+       :ensure t
+       :config
+       (setq default-text-scale-amount 8)
+       :bind
+       ;; Plus makes it better
+       ("M-+" . default-text-scale-increase)
+       ;; Underscore makes it smaller (- is already bound)
+       ("M-_" . default-text-scale-decrease))
    #+end_src
 
 *** Fix me and todo mode

@@ -163,18 +163,23 @@
 
   :bind (("C-s" . swiper)))
 
+
 (use-package jasminejs-mode
   :ensure t
   :diminish jasminejs-mode
   :config
-  ;; This can be done differently
+  ;; This can be done differently by doing the binding
+  ;; Also by using the hook syntax
+  ;:hook ( ;(js2-mode-hook . jasminejs-mode)
+         ; (js-mode-hook . jasminejs-mode)
+         ;(typescript-mode-hook . jasminejs-mode)
+	; )
+
+;;  :bind-keymap
+
   (add-hook 'jasminejs-mode-hook
             (lambda ()
-              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map)))
-
-  (add-hook 'js2-mode-hook #'jasminejs-mode)
-  (add-hook 'js-mode-hook #'jasminejs-mode)
-  (add-hook 'typescript-mode-hook #'jasminejs-mode))
+              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map))))
 
 ;; (use-package js2-mode
 ;;   :ensure t
@@ -245,9 +250,6 @@
   :ensure t
   :bind
   ("C-M-m" . major-mode-hydra))
-
-(use-package markdown-mode
-  :ensure t)
 
 (use-package multiple-cursors
   :ensure t
