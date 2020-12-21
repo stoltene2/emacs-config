@@ -261,6 +261,13 @@
     (interactive)
     (magit-restore-window-configuration)))
 
+(use-package magit-delta
+  ;; https://github.com/dandavison/delta
+  ;; https://github.com/dandavison/magit-delta
+  :ensure t
+  :ensure-system-package (delta . git-delta)
+  :hook (magit-mode . (lambda () (magit-delta-mode 1))))
+
 (use-package major-mode-hydra
   :ensure t
   :bind
