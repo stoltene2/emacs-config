@@ -129,8 +129,6 @@
   :bind (("C-=" . er/expand-region)
          ("M-=" . er/contract-region)))
 
-
-
 (use-package flycheck
   :ensure t
   :diminish (flycheck-mode . "\u24BB") ;; Circled F
@@ -266,7 +264,9 @@
          ("C-c C-<" . mc/mark-all-like-this)))
 
 (use-package neotree
-  :ensure t
+  ;; Disabled because I've been using treemacs a ton more
+  :disabled
+  ;;:ensure t
   :after (all-the-icons)
   :bind
   (([f7] . neotree-toggle)
@@ -365,8 +365,10 @@
 
 (use-package treemacs
   :ensure t
-  :bind (:map treemacs-mode-map
-              ([mouse-1] . #'treemacs-single-click-expand-action)))
+  :bind
+  (([f7] . treemacs)
+   :map treemacs-mode-map
+        ([mouse-1] . #'treemacs-single-click-expand-action)))
 
 (use-package treemacs-projectile
   :ensure t)
