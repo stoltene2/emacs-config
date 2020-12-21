@@ -33,6 +33,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Switch to use-package
+;; https://github.com/jwiegley/use-package/blob/master/README.md
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -54,6 +55,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package configuration
+
+(use-package use-package-ensure-system-package
+  ;; Ensure that system dependencies exist and are installed
+  ;; https://github.com/jwiegley/use-package/blob/7d925367ef0857d513d62eab4cb57b7436b9ffe9/README.md#use-package-ensure-system-package
+  :ensure t)
+
 
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
