@@ -355,6 +355,7 @@
 
 (use-package rg
   :ensure t
+  :ensure-system-package (rg . ripgrep)
   :custom
   (rg-group-result t "Group the results by filename"))
 
