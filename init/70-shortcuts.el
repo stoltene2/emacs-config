@@ -1,8 +1,8 @@
 ;; Quickly jump to a line
 (global-set-key [(meta g)] 'goto-line)
 
-;; (global-set-key [S-f8] 'compile)
-;; (global-set-key [f8] 'recompile)
+(global-set-key [S-f8] 'compile)
+(global-set-key [f8] 'recompile)
 
 ;; Quick switch to the last buffer
 (global-set-key [backtab] (lambda ()
