@@ -227,8 +227,12 @@
   ;; Ensure that you have gopls installed for lsp support
   ;; https://github.com/dominikh/go-mode.el
   :ensure-system-package gopls
-  :hook ((before-save-hook . gofmt-before-save))
-  :ensure t)
+  :hook ((before-save-hook . gofmt-before-save)
+         (go-mode . subword-mode)
+         (go-mode . electric-pair-mode))
+  :ensure t
+  :config
+  (setq tab-width 4))
 
 (use-package go-eldoc
   :requires go-mode)
@@ -277,7 +281,9 @@
   :ensure t
   :bind (("C-c C-S-c" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
+         ("C-M->" . mc/skip-to-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
+         ("C-M-<" . mc/skip-to-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this)))
 
 (use-package neotree
@@ -316,6 +322,9 @@
   (setq projectile-completion-system 'ivy)
   (setq projectile-switch-project-action #'magit-status)
   (setq projectile-generic-command "fd . -0")
+  ;; 'hybrid indexing is a little slower but respects .projectile config
+  (setq projectile-indexing-method 'hybrid)
+
   (defun es/projectile-test-suffix (project-type)
     "This is the default ending for javascript test files"
     "-spec")
