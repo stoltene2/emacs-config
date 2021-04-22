@@ -265,12 +265,6 @@
     (interactive)
     (magit-restore-window-configuration)))
 
-(use-package magit-delta
-  ;; https://github.com/dandavison/delta
-  ;; https://github.com/dandavison/magit-delta
-  :ensure t
-  :ensure-system-package (delta . git-delta)
-  :hook (magit-mode . (lambda () (magit-delta-mode 1))))
 
 (use-package major-mode-hydra
   :ensure t
@@ -496,7 +490,7 @@
  '(org-tags-column -120)
  '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   '(all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
+   '(elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))

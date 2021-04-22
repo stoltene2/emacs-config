@@ -47,3 +47,6 @@
 
 (custom-set-variables
  '(ediff-window-setup-function (quote ediff-setup-windows-plain)))
+
+(custom-set-variables
+ '(tab-width 4))
