@@ -4,17 +4,22 @@
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory "~/.emacs.d/"))
 
-(setenv "PATH" (concat "/usr/local/bin" ":"
-                       (concat (getenv "HOME") "/.cargo/bin") ":"
-                       (concat (getenv "HOME") "/.rbenv/shims") ":"
-                       (concat (getenv "HOME") "/.local/bin") ":"
-                       (getenv "PATH")))
 
-(add-to-list 'exec-path (concat (getenv "HOME") "/.rbenv/shims"))
-(add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
-(add-to-list 'exec-path (concat (getenv "HOME") "/.cargo/bin"))
-(add-to-list 'exec-path (concat (getenv "HOME") "/.nix-profile/bin"))
-(add-to-list 'exec-path "/usr/local/bin" t)
+(let ((home (getenv "HOME"))
+      (path (getenv "PATH")))
+  (setenv "PATH" (concat "/usr/local/bin" ":"
+                         (concat home "/.cargo/bin") ":"
+                         (concat home "/.rbenv/shims") ":"
+                         (concat home "/.local/bin") ":"
+                         path)))
+
+(let ((home (getenv "HOME")))
+  (progn
+    (add-to-list 'exec-path (concat home "/.rbenv/shims"))
+    (add-to-list 'exec-path (concat home "/.local/bin"))
+    (add-to-list 'exec-path (concat home "/.cargo/bin"))
+    (add-to-list 'exec-path (concat home "/.nix-profile/bin"))
+    (add-to-list 'exec-path "/usr/local/bin" t)))
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
 (add-hook 'js-mode-hook
@@ -490,7 +495,7 @@
  '(org-tags-column -120)
  '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   '(elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
+   '(elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
@@ -513,6 +518,7 @@
             (concat haskell-process-path-stack " test")
             projectile-test-cmd-map))))
  '(show-paren-style 'parenthesis)
+ '(tab-width 4)
  '(version-control t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
