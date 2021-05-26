@@ -1,10 +1,6 @@
 ;; Put your theme loading and customization in here
 
-
-(let ((set-font (if (fboundp 'set-default-font)
-                    #'set-default-font
-                  #'set-frame-font))
-      (os-font (if (eq system-type 'darwin)
-                   "Monaco-16"
-                 "SourceCodePro-16")))
-  (apply set-font '(os-font)))
+(if (fboundp 'set-frame-font)
+   (if (eq system-type 'darwin)
+	(set-frame-font "Monaco-16")
+     (set-frame-font "Fira Code")))

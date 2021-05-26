@@ -177,8 +177,11 @@ Let's get started with the configuration! This format is inspired by [[https://g
     #+begin_src emacs-lisp
 
       (use-package all-the-icons-ivy
-        :disabled
+;;        :disabled
         :after ivy
+        :ensure t
+        :init
+        (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
 
         :config
         (setq all-the-icons-ivy-file-commands
