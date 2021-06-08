@@ -196,29 +196,6 @@
             (lambda ()
               (local-set-key (kbd "C-c j") 'jasminejs-prefix-map))))
 
-;; (use-package js2-mode
-;;   :ensure t
-;;   :mode ("\\.js$" . js2-mode)
-;;   :diminish (js2-minor-mode . "\u24BF") ;; J
-;;   :config
-;;   (add-hook 'js2-mode-hook
-;;             (lambda () (subword-mode)))
-;;   (add-hook 'js2-mode-hook #'hs-minor-mode)
-;;   ;; Setup company mode for js2-mode
-;;   (add-hook 'js2-mode-hook
-;;             (lambda ()
-;;               (set (make-local-variable 'company-backends)
-;;                    '((company-dabbrev-code company-yasnippet)))))
-
-;;   (custom-set-variables
-;;    '(js2-auto-insert-catch-block nil)
-;;    '(js2-basic-offset 2)
-;;    '(js2-bounce-indent-p nil)
-;;    '(js2-mode-indent-ignore-first-tab nil))
-
-;;   (eval-after-load 'js2-mode
-;;     (progn (flycheck-mode))))
-
 
 (use-package lsp-mode
   :ensure t
