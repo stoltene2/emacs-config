@@ -1,6 +1,12 @@
 ;; Allow this to function outside of an emacs.d directory
 (setq debug-on-error t)
 
+;; Enable really large output from server processes
+(setq read-process-output-max 8000000)
+
+;; Set the gc threshold to be larger. We've got big enough machines now
+(setq gc-cons-threshold 100000000)
+
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory "~/.emacs.d/"))
 
