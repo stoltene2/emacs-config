@@ -47,7 +47,7 @@
 (eval-when-compile
   (require 'use-package))
 
-(defun reload-config ()
+(defun es/reload-config ()
   "Expects literate org file to exist in the default emacs directory at the root"
   (interactive)
   (let ((literate-config (concat user-emacs-directory "readme.org")))
@@ -56,7 +56,7 @@
 ;; Not sure if this is needed
 (setq max-lisp-eval-depth 2000)
 
-(reload-config)
+(es/reload-config)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package configuration
