@@ -24,6 +24,7 @@
     (add-to-list 'exec-path (concat home "/.rbenv/shims"))
     (add-to-list 'exec-path (concat home "/.local/bin"))
     (add-to-list 'exec-path (concat home "/.cargo/bin"))
+    (add-to-list 'exec-path (concat home "/.npm/bin"))
     (add-to-list 'exec-path (concat home "/.nix-profile/bin"))
     (add-to-list 'exec-path "/usr/local/bin" t)))
 
