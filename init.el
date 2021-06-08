@@ -157,8 +157,6 @@
 
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-(use-package forge
-  :after magit)
 
 (use-package git-gutter
   :ensure t
