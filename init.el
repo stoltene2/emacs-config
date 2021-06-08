@@ -196,17 +196,7 @@
             (lambda ()
               (local-set-key (kbd "C-c j") 'jasminejs-prefix-map))))
 
-
-(use-package lsp-mode
-  :ensure t
-
-  :commands lsp
-  :bind (:map lsp-mode-map
-              ("s-." . #'lsp-ui-peek-find-references)
-              ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
-  :hook ((rust-mode . lsp)
-         (rust-mode . company-mode)))
-
+;; Debugging mode for use with lsp
 (use-package dap-mode
   :ensure t)
 
@@ -224,14 +214,19 @@
 (use-package go-eldoc
   :requires go-mode)
 
+(use-package lsp-mode
+  :ensure t
+
+  :commands lsp
+  :bind (:map lsp-mode-map
+              ("M-?" . #'lsp-ui-peek-find-references)
+              ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
+  :hook ((rust-mode . lsp)
+         (rust-mode . company-mode)))
+
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
-
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
 
 (use-package magit
   :ensure t
