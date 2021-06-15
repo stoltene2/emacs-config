@@ -88,9 +88,9 @@
   :config
   (setq avy-background t))
 
-(use-package bazel-mode
+(use-package bazel
   :ensure t
-  :diminish bazel-mode)
+  :diminish bazel)
 
 (use-package bookmark+
   ;; This needs to be pulled from the emacs wiki because the author
@@ -115,9 +115,9 @@
   (setq deft-use-filename-as-title t)
   (setq deft-auto-save-interval 0))
 
-(use-package direnv
-  :ensure t
-  :config (direnv-mode))
+;; (use-package direnv
+;;   :ensure t
+;;   :config (direnv-mode))
 
 (use-package dumb-jump
   :ensure t
@@ -328,13 +328,12 @@
                  (eval-after-load 'magit
                    '(setq projectile-switch-project-action #'magit-status))))))
 
-;; (use-package projectile-rails
-;;   ;; https://github.com/asok/projectile-rails
-;;   :after (projectile)
-;;   :config
-;;   (projectile-rails-global-mode)
-;;   :bind (:map projectile-rails-mode-map
-;;               ("s-r" . 'hydra-projectile-rails/body)))
+(use-package projectile-rails
+  ;; https://github.com/asok/projectile-rails
+  :config
+  (projectile-rails-global-mode)
+  :bind (:map projectile-rails-mode-map
+              ("s-r" . 'hydra-projectile-rails/body)))
 
 
 ;; TODO: add to lisp, clojure, etc
