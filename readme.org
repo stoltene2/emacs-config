@@ -29,6 +29,15 @@ Let's get started with the configuration!
 
 ** Language support
 
+*** Elm Mode
+    #+begin_src emacs-lisp
+        (use-package elm-mode
+      :commands (lsp lsp-deferred lsp-format-buffer)
+      :init
+      (add-hook 'elm-mode-hook #'lsp-deferred)
+      (add-hook 'before-save-hook #'lsp-format-buffer)
+      :ensure t)
+    #+end_src
 *** JSON Mode
 
     #+begin_src emacs-lisp
@@ -157,10 +166,10 @@ Let's get started with the configuration!
     #+end_src
 
     #+begin_src emacs-lisp
+
       (use-package all-the-icons-ivy
+        :disabled
         :after ivy
-        :init
-        (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
 
         :config
         (setq all-the-icons-ivy-file-commands
