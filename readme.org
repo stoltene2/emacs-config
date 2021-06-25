@@ -156,7 +156,15 @@ Let's get started with the configuration!
    When emacs is first installed it probably doesn't have any of the
    fancy fonts installed. Don't forget to execute
    `all-the-icons-install-fonts`.
+*** Themes
 
+    I haven't gone full in on doom but I really like the doom-one
+    color scheme. It's subtly different than spacemacs-dark.
+    #+begin_src emacs-lisp
+      (use-package doom-themes
+        :ensure t
+        :config (load-theme 'doom-one t))
+    #+end_src
 *** All the icons
     This [[https://github.com/domtronn/all-the-icons.el][package]] adds beautiful icons to Emacs and makes it feel more modern.
 

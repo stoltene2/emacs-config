@@ -360,11 +360,6 @@
   (sp-use-paredit-bindings))
 
 
-(use-package spacemacs-common
-  :ensure spacemacs-theme
-  :config (load-theme 'spacemacs-dark t))
-
-
 (use-package treemacs
   :ensure t
   :bind
