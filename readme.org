@@ -1,5 +1,5 @@
 * Welcome
-Let's get started with the configuration!
+Let's get started with the configuration! This format is inspired by [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Emacs from Scratch Configuration]] and
 
 #+begin_src emacs-lisp
   (setq lexical-binding t)
@@ -159,7 +159,8 @@ Let's get started with the configuration!
 *** Themes
 
     I haven't gone full in on doom but I really like the doom-one
-    color scheme. It's subtly different than spacemacs-dark.
+    color scheme. It's subtly different than spacemacs-dark. There is
+    a [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][collection of screenshots]] for doom themes.
     #+begin_src emacs-lisp
       (use-package doom-themes
         :ensure t
