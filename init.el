@@ -291,10 +291,10 @@
               ("s-r" . 'hydra-projectile-rails/body)))
 
 
-;; TODO: add to lisp, clojure, etc
 (use-package rainbow-delimiters
   :ensure t
-  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)))
+  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+         (clojure-mode . rainbow-delimiters-mode)))
 
 (use-package restclient
   :ensure t)
