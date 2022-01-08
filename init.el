@@ -89,6 +89,7 @@
   (setq avy-background t))
 
 (use-package bazel
+  :disabled
   :ensure t
   :diminish bazel)
 
