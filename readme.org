@@ -29,6 +29,20 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
 ** Language support
 
+*** Golang mode
+    Make sure `gopls` is installed for lsp support to work correctly.
+    [[https://github.com/dominikh/go-mode.el][Go mode docs]]
+    #+begin_src emacs-lisp
+      (use-package go-mode
+        :ensure-system-package gopls
+        :hook ((before-save-hook . gofmt-before-save)
+               (go-mode . subword-mode)
+               (go-mode . electric-pair-mode))
+        :ensure t
+        :config
+        (setq tab-width 4)
+        (use-package go-eldoc))
+    #+end_src
 *** Elm Mode
     #+begin_src emacs-lisp
       (use-package elm-mode

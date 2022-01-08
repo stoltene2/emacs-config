@@ -200,19 +200,7 @@
 (use-package dap-mode
   :ensure t)
 
-(use-package go-mode
-  ;; Ensure that you have gopls installed for lsp support
-  ;; https://github.com/dominikh/go-mode.el
-  :ensure-system-package gopls
-  :hook ((before-save-hook . gofmt-before-save)
-         (go-mode . subword-mode)
-         (go-mode . electric-pair-mode))
-  :ensure t
-  :config
-  (setq tab-width 4))
 
-(use-package go-eldoc
-  :requires go-mode)
 
 (use-package lsp-mode
   :ensure t
