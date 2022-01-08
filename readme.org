@@ -3,7 +3,7 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
 #+begin_src emacs-lisp
   (setq lexical-binding t)
- #+end_src
+#+end_src
 
 ** General packages and configuration
 
@@ -26,6 +26,53 @@ Let's get started with the configuration! This format is inspired by [[https://g
         (("C-'" . company-complete)))
 
     #+end_src
+
+*** Git
+
+**** Magit
+     [[https://magit.vc/manual/magit.html][Magit documentation]]
+     #+begin_src emacs-lisp
+       (use-package magit
+         :ensure t
+         :diminish ((magit-mode . "") (magit-status-mode . ""))
+         :bind (("C-c g" . magit-status)
+                :map magit-status-mode-map
+                ("q" . magit-quit-session))
+
+         :config
+
+         (defadvice magit-status (around magit-fullscreen activate)
+           (magit-save-window-configuration)
+           ad-do-it
+           (delete-other-windows))
+
+         (defun magit-quit-session ()
+           "Restores the previous window configuration and kills the magit buffer"
+           (interactive)
+           (magit-restore-window-configuration)))
+
+     #+end_src
+
+**** Git gutter
+     [[https://github.com/emacsorphanage/git-gutter][Git gutter documentation]]
+
+     #+begin_src emacs-lisp
+       (use-package git-gutter
+         :ensure t
+         :diminish git-gutter-mode
+         :config
+         (global-git-gutter-mode 1))
+
+     #+end_src
+
+**** Git Timemachine
+     [[https://github.com/emacsmirror/git-timemachine][Git timemachine documentation]]
+
+     #+begin_src emacs-lisp
+       (use-package git-timemachine
+         :ensure t)
+
+     #+end_src
 
 ** Language support
 

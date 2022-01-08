@@ -154,7 +154,6 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
-
 (use-package ivy
   :ensure t
   :config
@@ -202,34 +201,6 @@
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
-
-(use-package magit
-  :ensure t
-  :diminish ((magit-mode . "") (magit-status-mode . ""))
-  :bind (("C-c g" . magit-status)
-         :map magit-status-mode-map
-         ("q" . magit-quit-session))
-
-  :config
-
-  (defadvice magit-status (around magit-fullscreen activate)
-    (magit-save-window-configuration)
-    ad-do-it
-    (delete-other-windows))
-
-  (defun magit-quit-session ()
-    "Restores the previous window configuration and kills the magit buffer"
-    (interactive)
-    (magit-restore-window-configuration)))
-
-(use-package git-gutter
-  :ensure t
-  :diminish git-gutter-mode
-  :config
-  (global-git-gutter-mode 1))
-
-(use-package git-timemachine
-  :ensure t)
 
 
 (use-package major-mode-hydra
