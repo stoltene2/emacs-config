@@ -74,6 +74,32 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
      #+end_src
 
+*** Navigation and coding
+    #+begin_src emacs-lisp
+
+    #+end_src
+
+**** TODO Dumb jump                                                                                           :disabled:
+     Usage needs to be tweaked to use xref mode
+     [[https://github.com/jacktasia/dumb-jump#usage][Dumb jump documentation]]
+     #+begin_src emacs-lisp
+       (use-package dumb-jump
+
+         :disabled
+         :ensure t
+         :bind
+         ("C-M-g" . dumb-jump-go))
+
+     #+end_src
+
+**** Expand Region
+     #+begin_src emacs-lisp
+       (use-package expand-region
+         :ensure t
+         :bind (("C-=" . er/expand-region)
+                ("M-=" . er/contract-region)))
+     #+end_src
+
 ** Language support
 *** Bazel mode                                                                                                :disabled:
     #+begin_src emacs-lisp
@@ -214,6 +240,21 @@ Let's get started with the configuration! This format is inspired by [[https://g
       (use-package yaml-mode
         :mode ("\\.yml" . yaml-mode))
 
+    #+end_src
+** Utilities
+*** Restclient
+    [[https://github.com/pashky/restclient.el][Restclient documentation]]
+    #+begin_src emacs-lisp
+      (use-package restclient
+        :ensure t)
+
+    #+end_src
+*** Url encode
+    Utility for encoding/decoding urls. This is useful when looking at
+    a really long encoded url, ~urlenc:decode-region~.
+    #+begin_src emacs-lisp
+      (use-package urlenc
+        :ensure t)
     #+end_src
 ** Bells and whistles
 

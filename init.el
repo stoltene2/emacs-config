@@ -116,22 +116,11 @@
 ;;   :ensure t
 ;;   :config (direnv-mode))
 
-(use-package dumb-jump
-  :ensure t
-  :bind
-  ("C-M-g" . dumb-jump-go))
-
 (use-package emmet-mode
   :ensure t
   :config
   (setq emmet-indentation 2)
   (add-hook 'web-mode-hook #'emmet-mode))
-
-
-(use-package expand-region
-  :ensure t
-  :bind (("C-=" . er/expand-region)
-         ("M-=" . er/contract-region)))
 
 (use-package flycheck
   :ensure t
@@ -292,8 +281,6 @@
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
          (clojure-mode . rainbow-delimiters-mode)))
 
-(use-package restclient
-  :ensure t)
 
 (use-package rg
   :ensure t
@@ -334,9 +321,6 @@
   (setq undo-tree-visualizer-relative-timestamps t)
   (global-undo-tree-mode 1))
 
-
-(use-package urlenc
-  :ensure t)
 
 (use-package yasnippet
   :ensure t
