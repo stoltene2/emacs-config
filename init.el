@@ -132,6 +132,7 @@
   (add-hook 'web-mode-hook #'emmet-mode))
 
 (use-package ensime
+  :disabled
   :commands ensime ensime-mode
   :config
   (add-hook 'scala-mode-hook 'ensime-mode)
