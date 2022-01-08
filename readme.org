@@ -75,9 +75,16 @@ Let's get started with the configuration! This format is inspired by [[https://g
      #+end_src
 
 ** Language support
+*** Bazel mode                                                                                                :disabled:
+    #+begin_src emacs-lisp
+      (use-package bazel
+        :disabled
+        :ensure t
+        :diminish bazel)
 
+    #+end_src
 *** Golang mode
-    Make sure `gopls` is installed for lsp support to work correctly.
+    Make sure ~gopls~ is installed for lsp support to work correctly.
     [[https://github.com/dominikh/go-mode.el][Go mode docs]]
     #+begin_src emacs-lisp
       (use-package go-mode

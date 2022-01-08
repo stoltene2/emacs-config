@@ -88,10 +88,6 @@
   :config
   (setq avy-background t))
 
-(use-package bazel
-  :disabled
-  :ensure t
-  :diminish bazel)
 
 (use-package bookmark+
   ;; This needs to be pulled from the emacs wiki because the author
