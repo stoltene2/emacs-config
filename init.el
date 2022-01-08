@@ -154,15 +154,6 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
-(use-package git-gutter
-  :ensure t
-  :diminish git-gutter-mode
-  :config
-  (global-git-gutter-mode 1))
-
-(use-package git-timemachine
-  :ensure t)
-
 
 (use-package ivy
   :ensure t
@@ -230,6 +221,15 @@
     "Restores the previous window configuration and kills the magit buffer"
     (interactive)
     (magit-restore-window-configuration)))
+
+(use-package git-gutter
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode 1))
+
+(use-package git-timemachine
+  :ensure t)
 
 
 (use-package major-mode-hydra
