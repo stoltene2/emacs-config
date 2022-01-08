@@ -131,12 +131,6 @@
   (setq emmet-indentation 2)
   (add-hook 'web-mode-hook #'emmet-mode))
 
-(use-package ensime
-  :disabled
-  :commands ensime ensime-mode
-  :config
-  (add-hook 'scala-mode-hook 'ensime-mode)
-  (setq exec-path (append exec-path '("/usr/local/bin"))))
 
 (use-package expand-region
   :ensure t
