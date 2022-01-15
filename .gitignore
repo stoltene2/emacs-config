@@ -22,3 +22,5 @@
 /.cache/
 /readme.el
 /transient/
+/org-roam.db
+/.org-id-locations
