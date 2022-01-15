@@ -151,16 +151,17 @@ Let's get started with the configuration! This format is inspired by [[https://g
         (add-hook 'elm-mode-hook #'lsp-deferred)
         (add-hook 'before-save-hook #'lsp-format-buffer))
     #+end_src
-*** JSON Mode
+*** TODO JSON Mode
+    - [ ] Move hooks to their own section
 
     #+begin_src emacs-lisp
       (use-package json-mode
         :ensure t
+        :custom
+        ;; Maybe not best for here?
+        (js-indent-level 2)
         :config
-        (add-hook 'json-mode-hook #'hs-minor-mode)
-        (add-hook 'json-mode-hook
-                  (lambda ()
-                    (setq js-indent-level 2))))
+        (add-hook 'json-mode-hook #'hs-minor-mode))
 
     #+end_src
 
@@ -169,11 +170,9 @@ Let's get started with the configuration! This format is inspired by [[https://g
     #+begin_src emacs-lisp
       (use-package haskell-mode
         :ensure t
-        :config
-
-        (custom-set-variables
-         '(haskell-indentation-left-offset 4)
-         '(haskell-indent-spaces 4)))
+        :custom
+        (haskell-indentation-left-offset 4)
+        (haskell-indent-spaces 4))
 
     #+end_src
 
@@ -227,9 +226,10 @@ Let's get started with the configuration! This format is inspired by [[https://g
         (:map tide-mode-map
               ([f2] . tide-rename-symbol))
 
-        :config
-        (setq tide-completion-enable-autoimport-suggestions t)
+        :custom
+        (tide-completion-enable-autoimport-suggestions t)
 
+        :config
         ;; Highlight identifier at points
         (defface font-lock-keyword-typescript-face
           '((t :foreground "SlateBlue1"))
