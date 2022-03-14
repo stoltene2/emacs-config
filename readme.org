@@ -134,7 +134,6 @@ Let's get started with the configuration! This format is inspired by [[https://g
     [[https://github.com/dominikh/go-mode.el][Go mode docs]]
     #+begin_src emacs-lisp
       (use-package go-mode
-        :ensure-system-package gopls
         :hook ((before-save-hook . gofmt-before-save)
                (go-mode . subword-mode)
                (go-mode . electric-pair-mode))

@@ -429,8 +429,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-scrollbar-fg ((t (:background "#3b3b3b"))))
  '(company-tooltip-annotation ((t (:inherit company-tooltip))))
+ '(company-tooltip-scrollbar-thumb ((t (:background "#3b3b3b"))))
  '(company-tooltip-selection ((t (:background "#6b6b6b" :foreground "#BBF7EF"))))
  '(git-gutter:added ((t (:background "#276B22" :foreground "#276B22" :weight bold))))
  '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
