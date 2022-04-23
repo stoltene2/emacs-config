@@ -133,8 +133,6 @@
   ("C-M-m" . major-mode-hydra))
 
 
-
-
 (use-package projectile
   ;; https://docs.projectile.mx/en/latest/
   :ensure t
@@ -204,8 +202,6 @@
 (use-package rustic
   :ensure t)
 
-
-
 (use-package treemacs
   :ensure t
   :bind
@@ -215,17 +211,6 @@
 
 (use-package treemacs-projectile
   :ensure t)
-
-
-(use-package undo-tree
-  :ensure t
-  :commands global-undo-tree-mode
-  :config
-  (setq undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-relative-timestamps t)
-  (global-undo-tree-mode 1))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -166,6 +166,34 @@ enabled.
     (require 'org-roam-protocol))
 #+end_src
 
+**** Undo Tree
+
+     #+begin_src emacs-lisp
+       (use-package undo-tree
+         :ensure t
+         :commands (global-undo-tree-mode undo-tree-mode undo-tree-visualize)
+
+         :bind (("C-x u" . undo-tree-visualize))
+         :custom
+         (undo-tree-history-directory-alist `((".*" . ,(locate-user-emacs-file ".undo-tree"))))
+         (undo-tree-auto-save-history t)
+         (undo-tree-visualizer-timestamps t)
+         (undo-tree-visualizer-relative-timestamps t)
+
+         :config
+         (global-undo-tree-mode))
+
+     #+end_src
+
+*** Project Management
+
+
+**** Projectile
+
+
+**** Treemacs
+
+
 *** Snippets and Templating
 
 
