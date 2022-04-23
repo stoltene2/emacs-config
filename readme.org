@@ -124,6 +124,27 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
      #+end_src
 
+**** Smartparens
+
+     Make navigating parens and s-exps easier with smartparents. I
+keep the disabled ~paredit~ because I'm not sure why I had both of them
+enabled.
+
+     #+begin_src emacs-lisp
+       (use-package paredit
+         :disabled
+         :ensure t)
+
+       (use-package smartparens
+         :ensure t
+         :diminish smartparens-mode
+         :config
+         (require 'smartparens-config)
+         (smartparens-global-mode t)
+         (sp-use-paredit-bindings))
+
+     #+end_src
+
 **** TODO Org Roam
      Move this out of the navigating section
 

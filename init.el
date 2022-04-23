@@ -133,17 +133,6 @@
   ("C-M-m" . major-mode-hydra))
 
 
-;; Not sure why I have both of these or if they are compatible
-(use-package paredit
-  :ensure t)
-
-(use-package smartparens
-  :ensure t
-  :diminish smartparens-mode
-  :config
-  (require 'smartparens-config)
-  (smartparens-global-mode t)
-  (sp-use-paredit-bindings))
 
 
 (use-package projectile
