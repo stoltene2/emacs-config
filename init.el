@@ -77,67 +77,12 @@
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
 
-(use-package auto-yasnippet
-  :ensure t)
-
-;; https://github.com/abo-abo/auto-yasnippet
-(use-package avy
-  :ensure t
-  :bind (("C-c SPC" . avy-goto-word-1))
-
-  :config
-  (setq avy-background t))
-
-
-(use-package bookmark+
-  ;; This needs to be pulled from the emacs wiki because the author
-  ;; doesn't publish to git
-  :disabled
-  :ensure t)
-
 
 (use-package counsel
   :ensure t)
 
 (use-package counsel-projectile
   :ensure t)
-
-
-(use-package deft
-  :ensure t
-  :config
-  (setq deft-extension "org")
-  (setq deft-text-mode 'org-mode)
-  (setq deft-directory "~/Documents/deft")
-  (setq deft-use-filename-as-title t)
-  (setq deft-auto-save-interval 0))
-
-;; (use-package direnv
-;;   :ensure t
-;;   :config (direnv-mode))
-
-(use-package emmet-mode
-  :ensure t
-  :config
-  (setq emmet-indentation 2)
-  (add-hook 'web-mode-hook #'emmet-mode))
-
-(use-package flycheck
-  :ensure t
-  :diminish (flycheck-mode . "\u24BB") ;; Circled F
-  :bind (:map flycheck-mode-map
-              ([f8] . flycheck-next-error)
-              ([S-f8] . flycheck-list-errors))
-
-  :config
-  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
-  (setq flycheck-checkers '(javascript-eslint typescript-tslint))
-
-  (flycheck-add-mode 'javascript-eslint 'js-mode)
-;;  (flycheck-add-mode 'javascript-eslint 'js2-mode)
-
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
 
 (use-package ivy
   :ensure t
@@ -150,28 +95,22 @@
   :bind (("C-s" . swiper)))
 
 
-(use-package jasminejs-mode
+(use-package flycheck
   :ensure t
-  :diminish jasminejs-mode
+  :diminish (flycheck-mode . "\u24BB") ;; Circled F
+  :bind (:map flycheck-mode-map
+              ([f8] . flycheck-next-error)
+              ([S-f8] . flycheck-list-errors))
+
   :config
-  ;; This can be done differently by doing the binding
-  ;; Also by using the hook syntax
-  ;:hook ( ;(js2-mode-hook . jasminejs-mode)
-         ; (js-mode-hook . jasminejs-mode)
-         ;(typescript-mode-hook . jasminejs-mode)
-	; )
-
-;;  :bind-keymap
-
-  (add-hook 'jasminejs-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c j") 'jasminejs-prefix-map))))
+  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
+  (setq flycheck-checkers '(javascript-eslint typescript-tslint))
+  (flycheck-add-mode 'javascript-eslint 'js-mode)
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;; Debugging mode for use with lsp
 (use-package dap-mode
   :ensure t)
-
-
 
 (use-package lsp-mode
   :ensure t
@@ -193,33 +132,19 @@
   :bind
   ("C-M-m" . major-mode-hydra))
 
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-M->" . mc/skip-to-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-M-<" . mc/skip-to-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this)))
 
-(use-package neotree
-  ;; Disabled because I've been using treemacs a ton more
-  :disabled
-  ;;:ensure t
-  :after (all-the-icons)
-  :bind
-  (([f7] . neotree-toggle)
-   :map neotree-mode-map
-   ("^" . es/neotree-dir-up))
-  :config
-  (setq neo-window-width 50)
-  (setq neo-theme 'icons))
-
-(use-package org-pomodoro
-  :ensure t)
-
+;; Not sure why I have both of these or if they are compatible
 (use-package paredit
   :ensure t)
+
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  (sp-use-paredit-bindings))
+
 
 (use-package projectile
   ;; https://docs.projectile.mx/en/latest/
@@ -284,20 +209,12 @@
 
 (use-package rg
   :ensure t
-  :ensure-system-package (rg . ripgrep)
   :custom
   (rg-group-result t "Group the results by filename"))
 
 (use-package rustic
   :ensure t)
 
-(use-package smartparens
-  :ensure t
-  :diminish smartparens-mode
-  :config
-  (require 'smartparens-config)
-  (smartparens-global-mode t)
-  (sp-use-paredit-bindings))
 
 
 (use-package treemacs
@@ -321,20 +238,6 @@
   (setq undo-tree-visualizer-relative-timestamps t)
   (global-undo-tree-mode 1))
 
-
-(use-package yasnippet
-  :ensure t
-  :diminish (yas-minor-mode . "\u24CE")
-  :demand t
-  :config
-  (yas-global-mode)
-  (define-key yas-keymap (kbd "<return>") 'yas-next-field))
-
-(use-package yatemplate
-  :ensure t
-  :demand t
-  :init (auto-insert-mode)
-  :config (yatemplate-fill-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom initialization for after packages have loaded

@@ -74,11 +74,18 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
      #+end_src
 
-*** Navigation and coding
-    #+begin_src emacs-lisp
+*** Editing and Navigation
 
-    #+end_src
+**** Avy jump mode
+     #+begin_src emacs-lisp
+       (use-package avy
+         :ensure t
+         :bind (("C-c SPC" . avy-goto-word-1))
 
+         :config
+         (setq avy-background t))
+
+     #+end_src
 **** TODO Dumb jump                                                                                           :disabled:
      Usage needs to be tweaked to use xref mode
      [[https://github.com/jacktasia/dumb-jump#usage][Dumb jump documentation]]
@@ -100,7 +107,25 @@ Let's get started with the configuration! This format is inspired by [[https://g
                 ("M-=" . er/contract-region)))
      #+end_src
 
-**** Org Roam
+
+**** Multiple cursor mode
+
+     [[https://github.com/magnars/multiple-cursors.el][Multiple cursor mode]]
+
+     #+begin_src emacs-lisp
+       (use-package multiple-cursors
+         :ensure t
+         :bind (("C-S-c C-S-c" . mc/edit-lines)
+                ("C->" . mc/mark-next-like-this)
+                ("C-M->" . mc/skip-to-next-like-this)
+                ("C-<" . mc/mark-previous-like-this)
+                ("C-M-<" . mc/skip-to-previous-like-this)
+                ("C-c C-<" . mc/mark-all-like-this)))
+
+     #+end_src
+
+**** TODO Org Roam
+     Move this out of the navigating section
 
 #+begin_src emacs-lisp
   (use-package org-roam
@@ -119,6 +144,54 @@ Let's get started with the configuration! This format is inspired by [[https://g
     ;; If using org-roam-protocol
     (require 'org-roam-protocol))
 #+end_src
+
+*** Snippets and Templating
+
+
+**** Auto yasnippet mode
+
+     [[https://github.com/abo-abo/auto-yasnippet][Auto yasnippet mode]]
+
+     #+BEGIN_QUOTE
+This is a hybrid of keyboard macros and yasnippet. You create the
+snippet on the go, usually to be used just in the one place. It's
+fast, because you're not leaving the current buffer, and all you do is
+enter the code you'd enter anyway, just placing ~ where you'd like
+yasnippet fields and mirrors to be.
+     #+END_QUOTE
+
+     #+begin_src emacs-lisp
+       (use-package auto-yasnippet
+         :ensure t)
+
+     #+end_src
+
+**** Yasnippet
+     #+begin_src emacs-lisp
+       (use-package yasnippet
+         :ensure t
+         :diminish (yas-minor-mode . "\u24CE")
+         :demand t
+         :config
+         (yas-global-mode)
+         (define-key yas-keymap (kbd "<return>") 'yas-next-field))
+
+
+     #+end_src
+
+**** yatemplate
+     [[https://github.com/mineo/yatemplate][YATemplate]] creates templates from files listed in ~.emacs.d/templates~. I'm
+     not using these a ton right now because they were originally
+     really useful for AngularJS development. I keep them around
+     because some of the templates of non-trivial mirrors.
+
+     #+begin_src emacs-lisp
+       (use-package yatemplate
+         :ensure t
+         :demand t
+         :init (auto-insert-mode)
+         :config (yatemplate-fill-alist))
+     #+end_src
 
 ** Language support
 *** Bazel mode                                                                                                :disabled:
@@ -149,6 +222,19 @@ Let's get started with the configuration! This format is inspired by [[https://g
         :init
         (add-hook 'elm-mode-hook #'lsp-deferred)
         (add-hook 'before-save-hook #'lsp-format-buffer))
+    #+end_src
+*** JasmineJS mode
+    [[https://github.com/stoltene2/jasminejs-mode][My mode]] for easily working on Jasmine tests
+    #+begin_src emacs-lisp
+      (use-package jasminejs-mode
+        :ensure t
+        :diminish jasminejs-mode
+        :config
+        (add-hook 'jasminejs-mode-hook
+                  (lambda ()
+                    (local-set-key (kbd "C-c j") 'jasminejs-prefix-map))))
+
+
     #+end_src
 *** TODO JSON Mode
     - [ ] Move hooks to their own section
@@ -258,6 +344,16 @@ Let's get started with the configuration! This format is inspired by [[https://g
     #+begin_src emacs-lisp
       (use-package yaml-mode
         :mode ("\\.yml" . yaml-mode))
+
+    #+end_src
+*** Web Development
+    [[https://github.com/smihica/emmet-mode][Emmet mode]] is helpful for expanding shorthand notation into full HTML tags.
+    #+begin_src emacs-lisp
+      (use-package emmet-mode
+        :ensure t
+        :config
+        (setq emmet-indentation 2)
+        (add-hook 'web-mode-hook #'emmet-mode))
 
     #+end_src
 ** Utilities
