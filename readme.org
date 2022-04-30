@@ -292,6 +292,27 @@ yasnippet fields and mirrors to be.
      #+end_src
 
 ** Language support
+*** LSP
+    #+begin_src emacs-lisp
+
+      (use-package dap-mode
+        :ensure t)
+
+      (use-package lsp-mode
+        :ensure t
+
+        :commands lsp
+        :bind (:map lsp-mode-map
+                    ("M-?" . #'lsp-ui-peek-find-references)
+                    ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
+        :hook ((rust-mode . lsp)
+               (rust-mode . company-mode)))
+
+      (use-package lsp-ui
+        :ensure t
+        :commands lsp-ui-mode)
+
+    #+end_src
 *** Bazel mode                                                                                                :disabled:
     #+begin_src emacs-lisp
       (use-package bazel

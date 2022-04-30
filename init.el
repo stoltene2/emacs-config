@@ -77,7 +77,6 @@
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
 
-
 (use-package counsel
   :ensure t)
 
@@ -108,23 +107,6 @@
   (flycheck-add-mode 'javascript-eslint 'js-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-;; Debugging mode for use with lsp
-(use-package dap-mode
-  :ensure t)
-
-(use-package lsp-mode
-  :ensure t
-
-  :commands lsp
-  :bind (:map lsp-mode-map
-              ("M-?" . #'lsp-ui-peek-find-references)
-              ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
-  :hook ((rust-mode . lsp)
-         (rust-mode . company-mode)))
-
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
 
 
 (use-package major-mode-hydra
