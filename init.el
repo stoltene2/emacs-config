@@ -133,61 +133,6 @@
   ("C-M-m" . major-mode-hydra))
 
 
-(use-package projectile
-  ;; https://docs.projectile.mx/en/latest/
-  :ensure t
-  :diminish (projectile-mode . "\u24C5") ;; Ⓟ
-  :bind (:map projectile-mode-map
-              ("C-c p" . 'projectile-command-map)
-              ("s-p" . 'projectile-command-map)
-
-         :map projectile-command-map
-              ("s r" . rg-project))
-
-  :config
-  (projectile-mode 1)
-  (counsel-projectile-mode 1)
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-switch-project-action #'magit-status)
-  (setq projectile-generic-command "fd . -0")
-  ;; 'hybrid indexing is a little slower but respects .projectile config
-  (setq projectile-indexing-method 'hybrid)
-
-  (defun es/projectile-test-suffix (project-type)
-    "This is the default ending for javascript test files"
-    "-spec")
-
-  (defun es/projectile-find-implementation-or-test-other-window ()
-    "Toggle between the implementation and test in the other window"
-    (interactive)
-    (find-file-other-window (projectile-find-implementation-or-test (buffer-file-name))))
-
-  ;; These should be setq'd
-  (custom-set-variables
-   '(projectile-test-files-suffices
-     '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
-   '(projectile-test-suffix-function #'es/projectile-test-suffix)
-   '(projectile-haskell-cabal-test-cmd
-     (concat haskell-process-path-stack " test"))
-   '(projectile-haskell-cabal-compile-cmd
-     (concat haskell-process-path-stack " build"))
-   '(haskell-indent-spaces 2)
-   '(haskell-indentation-left-offset 2))
-
-  (add-hook 'after-init-hook
-            (lambda ()
-              '(progn
-                 (eval-after-load 'magit
-                   '(setq projectile-switch-project-action #'magit-status))))))
-
-(use-package projectile-rails
-  ;; https://github.com/asok/projectile-rails
-  :config
-  (projectile-rails-global-mode)
-  :bind (:map projectile-rails-mode-map
-              ("s-r" . 'hydra-projectile-rails/body)))
-
-
 (use-package rainbow-delimiters
   :ensure t
   :hook ((emacs-lisp-mode . rainbow-delimiters-mode)

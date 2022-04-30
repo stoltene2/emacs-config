@@ -151,15 +151,16 @@ enabled.
 #+begin_src emacs-lisp
   (use-package org-roam
     :ensure t
+    :disabled
     :custom
     (org-roam-directory (file-truename "~/Documents/roam"))
     :bind (("C-c n l" . org-roam-buffer-toggle)
-           ("C-c n f" . org-roam-node-find)
-           ("C-c n g" . org-roam-graph)
-           ("C-c n i" . org-roam-node-insert)
-           ("C-c n c" . org-roam-capture)
-           ;; Dailies
-           ("C-c n j" . org-roam-dailies-capture-today))
+	   ("C-c n f" . org-roam-node-find)
+	   ("C-c n g" . org-roam-graph)
+	   ("C-c n i" . org-roam-node-insert)
+	   ("C-c n c" . org-roam-capture)
+	   ;; Dailies
+	   ("C-c n j" . org-roam-dailies-capture-today))
     :config
     (org-roam-db-autosync-mode)
     ;; If using org-roam-protocol
@@ -189,7 +190,55 @@ enabled.
 
 
 **** Projectile
+     #+begin_src emacs-lisp
+       (defun es/projectile-test-suffix (project-type)
+         "This is the default ending for javascript test files"
+         "-spec")
 
+       (defun es/projectile-find-implementation-or-test-other-window ()
+         "Toggle between the implementation and test in the other window"
+         (interactive)
+         (find-file-other-window (projectile-find-implementation-or-test (buffer-file-name))))
+
+       (use-package projectile
+         ;; https://docs.projectile.mx/en/latest/
+         :ensure t
+         :diminish (projectile-mode . "\u24C5") ;; Ⓟ
+         :bind (:map projectile-mode-map
+                     ("C-c p" . 'projectile-command-map)
+                     ("s-p" . 'projectile-command-map)
+
+                     :map projectile-command-map
+                     ("s r" . rg-project))
+
+         :config
+         (projectile-mode 1)
+         (counsel-projectile-mode 1)
+
+         (add-hook 'after-init-hook
+                   (lambda ()
+                     '(progn
+                        (eval-after-load 'magit
+                          '(setq projectile-switch-project-action #'magit-status)))))
+
+         :custom
+         (projectile-completion-system 'ivy)
+         (projectile-switch-project-action #'magit-status)
+         (projectile-generic-command "fd . -0")
+         ;; 'hybrid indexing is a little slower but respects .projectile config
+         (projectile-indexing-method 'hybrid)
+         ;; These should be setq'd
+         (projectile-test-files-suffices
+          '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
+         (projectile-test-suffix-function #'es/projectile-test-suffix))
+
+       (use-package projectile-rails
+         ;; https://github.com/asok/projectile-rails
+         :config
+         (projectile-rails-global-mode)
+         :bind (:map projectile-rails-mode-map
+                     ("s-r" . 'hydra-projectile-rails/body)))
+     #+end_src
 
 **** Treemacs
 
