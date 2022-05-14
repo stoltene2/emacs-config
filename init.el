@@ -115,29 +115,11 @@
   ("C-M-m" . major-mode-hydra))
 
 
-(use-package rainbow-delimiters
-  :ensure t
-  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-         (clojure-mode . rainbow-delimiters-mode)))
-
 
 (use-package rg
   :ensure t
   :custom
   (rg-group-result t "Group the results by filename"))
-
-(use-package rustic
-  :ensure t)
-
-(use-package treemacs
-  :ensure t
-  :bind
-  (([f7] . treemacs)
-   :map treemacs-mode-map
-        ([mouse-1] . #'treemacs-single-click-expand-action)))
-
-(use-package treemacs-projectile
-  :ensure t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -159,7 +141,7 @@
  ;; If there is more than one, they won't work right.
  '(backup-by-copying t)
  '(backup-directory-alist '(("." . "~/.saves")))
- '(bmkp-last-as-first-bookmark-file "/Users/stoltene/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file (concat user-emacs-directory "bookmarks"))
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output 'first-error)
  '(create-lockfiles nil)
@@ -167,14 +149,6 @@
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(delete-old-versions t)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(haskell-indent-spaces 2)
- '(haskell-indentation-left-offset 2)
- '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"))
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
- '(haskell-process-type 'stack-ghci)
- '(haskell-process-use-presentation-mode t)
  '(js-indent-level 2)
  '(js2-auto-insert-catch-block nil)
  '(js2-bounce-indent-p nil)
