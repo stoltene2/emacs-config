@@ -77,49 +77,9 @@
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
 
-(use-package counsel
-  :ensure t)
-
-(use-package counsel-projectile
-  :ensure t)
-
-(use-package ivy
-  :ensure t
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "%d/%d ")
-  (setq ivy-height 16)
-
-  :bind (("C-s" . swiper)))
-
-
-(use-package flycheck
-  :ensure t
-  :diminish (flycheck-mode . "\u24BB") ;; Circled F
-  :bind (:map flycheck-mode-map
-              ([f8] . flycheck-next-error)
-              ([S-f8] . flycheck-list-errors))
-
-  :config
-  (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
-  (setq flycheck-checkers '(javascript-eslint typescript-tslint))
-  (flycheck-add-mode 'javascript-eslint 'js-mode)
-  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
 
-(use-package major-mode-hydra
-  :ensure t
-  :bind
-  ("C-M-m" . major-mode-hydra))
-
-
-
-(use-package rg
-  :ensure t
-  :custom
-  (rg-group-result t "Group the results by filename"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -27,6 +27,14 @@ Let's get started with the configuration! This format is inspired by [[https://g
 
     #+end_src
 
+*** Major mode Hydra
+    #+begin_src emacs-lisp
+      (use-package major-mode-hydra
+        :ensure t
+        :bind
+        ("C-M-m" . major-mode-hydra))
+    #+end_src
+
 *** Git
 
 **** Magit
@@ -254,6 +262,52 @@ enabled.
 
      #+end_src
 
+**** Ripgrep
+
+     #+begin_src emacs-lisp
+       (use-package rg
+         :ensure t
+         :custom
+         (rg-group-result t "Group the results by filename"))
+     #+end_src
+
+
+**** Counsel, Ivy, and Swiper
+
+     #+begin_src emacs-lisp
+       (use-package counsel
+         :ensure t)
+
+       (use-package counsel-projectile
+         :ensure t)
+
+       (use-package ivy
+         :ensure t
+         :config
+         (ivy-mode 1)
+         (setq ivy-use-virtual-buffers t)
+         (setq ivy-count-format "%d/%d ")
+         (setq ivy-height 16)
+
+         :bind (("C-s" . swiper)))
+     #+end_src
+
+**** Flycheck
+     #+begin_src emacs-lisp
+       (use-package flycheck
+         :ensure t
+         :diminish (flycheck-mode . "\u24BB") ;; Circled F
+         :bind (:map flycheck-mode-map
+                     ([f8] . flycheck-next-error)
+                     ([S-f8] . flycheck-list-errors))
+
+         :config
+         (setq flycheck-disabled-checkers '(javascript-jshint json-jsonlist typescript-tide))
+         (setq flycheck-checkers '(javascript-eslint typescript-tslint))
+         (flycheck-add-mode 'javascript-eslint 'js-mode)
+         (add-hook 'after-init-hook #'global-flycheck-mode))
+     #+end_src
+
 *** Snippets and Templating
 
 
@@ -301,6 +355,8 @@ yasnippet fields and mirrors to be.
          :init (auto-insert-mode)
          :config (yatemplate-fill-alist))
      #+end_src
+
+
 
 ** Language support
 *** LSP
