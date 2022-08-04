@@ -65,30 +65,13 @@
 
 (es/reload-config)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; package configuration
-
-(use-package use-package-ensure-system-package
-  ;; Ensure that system dependencies exist and are installed
-  ;; https://github.com/jwiegley/use-package/blob/7d925367ef0857d513d62eab4cb57b7436b9ffe9/README.md#use-package-ensure-system-package
-  :ensure t)
-
-
 ;; Fancy icons for use with neo-tree
 ;; M-x all-the-icons-install-fonts
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom initialization for after packages have loaded
 
 (message "My emacs directory is: %s" user-emacs-directory)
-
-(mapcar (lambda (f)
-          (message "loading %s" f)
-          (load-file f))
-        (file-expand-wildcards (concat user-emacs-directory "init/*.el")))
 
 (setq debug-on-error nil)
 
