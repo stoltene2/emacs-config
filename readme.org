@@ -1,5 +1,6 @@
 * Welcome
-Let's get started with the configuration! This format is inspired by [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Emacs from Scratch Configuration]] and
+Let's get started with the configuration! This format is inspired by
+[[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Emacs from Scratch Configuration]] and [[https://github.com/patrickt/emacs][Patrick Thomson's org configuration]].
 
 #+begin_src emacs-lisp
   (setq lexical-binding t)
@@ -478,7 +479,7 @@ yasnippet fields and mirrors to be.
         :mode ("\\.ts\\'" . typescript-mode)
         :init (setq typescript-indent-level 2)
         :config
-        (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
+        ;; (add-hook 'flycheck-mode-hook #'es/use-tslint-from-node-modules)
         (add-hook 'typescript-mode-hook #'hs-minor-mode)
         (add-hook 'typescript-mode-hook #'subword-mode))
     #+end_src
@@ -588,6 +589,7 @@ yasnippet fields and mirrors to be.
         :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
                (clojure-mode . rainbow-delimiters-mode)))
     #+end_src
+*** Mood modeline
 
 *** All the icons
     This [[https://github.com/domtronn/all-the-icons.el][package]] adds beautiful icons to Emacs and makes it feel more modern.

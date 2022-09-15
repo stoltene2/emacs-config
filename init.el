@@ -75,6 +75,11 @@
 
 (setq debug-on-error nil)
 
+(bind-key* "C-;" #'execute-extended-command)
+(bind-key* "C-:" #'execute-extended-command-for-buffer)
+(bind-key* "C-c ;" #'execute-extended-command)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
