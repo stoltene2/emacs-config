@@ -233,6 +233,7 @@ enabled.
          :custom
          (projectile-completion-system 'ivy)
          (projectile-switch-project-action #'magit-status)
+         (projectile-project-search-path '("~/workspace"))
          (projectile-generic-command "fd . -0")
          ;; 'hybrid indexing is a little slower but respects .projectile config
          (projectile-indexing-method 'hybrid)
