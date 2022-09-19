@@ -62,6 +62,18 @@ Let's get started with the configuration! This format is inspired by
 
      #+end_src
 
+**** Git link
+
+     Tool used to create a link to the point that goes to the
+     appropriate server. Use `M-x git-link` to add the link to the
+     paste ring.
+
+     #+begin_src emacs-lisp
+       (use-package git-link
+         :ensure t)
+     #+end_src
+
+
 **** Git gutter
      [[https://github.com/emacsorphanage/git-gutter][Git gutter documentation]]
 
