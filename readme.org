@@ -66,11 +66,35 @@ Let's get started with the configuration! This format is inspired by
 
      Tool used to create a link to the point that goes to the
      appropriate server. Use `M-x git-link` to add the link to the
-     paste ring.
+     paste ring. I wrote a custom formatter because of a bug that sets
+     branch to "" when in a detached head state.
 
      #+begin_src emacs-lisp
        (use-package git-link
-         :ensure t)
+         :ensure t
+         :config
+
+         (defun es/git-link-github (hostname dirname filename branch commit start end)
+           "This method overrides the github formatter because of a bug when
+       you are detached from head. If we receive an empty string for a
+       branch we fall back to the commit."
+           (format "https://%s/%s/blob/%s/%s"
+                   hostname
+                   dirname
+                   (if (string= "" branch)
+                       commit
+                     (or branch commit))
+                   (concat filename
+                           (when start
+                             (concat (if (git-link--should-render-plain filename) "?plain=1#" "#")
+                                     (if end
+                                         (format "L%s-L%s" start end)
+                                       (format "L%s" start)))))))
+
+         (progn
+           (setq git-link-remote-alist (assoc-delete-all "github" git-link-remote-alist))
+           (add-to-list 'git-link-remote-alist
+                        '("github" es/git-link-github))))
      #+end_src
 
 
