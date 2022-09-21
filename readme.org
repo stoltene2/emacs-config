@@ -72,12 +72,14 @@ Let's get started with the configuration! This format is inspired by
      #+begin_src emacs-lisp
        (use-package git-link
          :ensure t
+         :custom
+         (setq git-link-use-commit t)
          :config
-
          (defun es/git-link-github (hostname dirname filename branch commit start end)
            "This method overrides the github formatter because of a bug when
        you are detached from head. If we receive an empty string for a
-       branch we fall back to the commit."
+       branch we fall back to the commit. If `git-link-use-commit` is
+       `nil` then try to use the branch."
            (format "https://%s/%s/blob/%s/%s"
                    hostname
                    dirname
