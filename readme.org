@@ -8,6 +8,19 @@ Let's get started with the configuration! This format is inspired by
 
 ** General packages and configuration
 
+First, I want to load private variables that are not checked into
+source control. I provide defaults so that I don't throw any errors
+during usage later.
+
+#+begin_src emacs-lisp
+  (defvar es/github-team-members []
+    "Individuals on my team. I avoid checking these files in to
+  source control so that I don't expose anything potentially
+  private.")
+
+  (load (file-name-concat default-directory "private-variables"))
+#+end_src
+
 *** TODO Company mode
 
     Not sure if I should be using both this and Counsel+Ivy+Swiper
@@ -49,7 +62,27 @@ Let's get started with the configuration! This format is inspired by
                 ("q" . magit-quit-session))
 
          :config
+         (defvar es/forge-pull-request-topic-list-columns
+           '(("#"         5 forge-topic-list-sort-by-number (:right-align t) number nil)
+             ("State"     6 t   nil state  nil)
+             ("Author"    20 t   nil author nil)
+             ("Title"     45 t   nil title nil)
+             ))
 
+         (defun es/forge-list-team-pullreqs (id)
+           "List pull-requests of the current repository in a separate buffer."
+           (interactive (list (oref (forge-get-repository t) id)))
+           (forge-topic-list-setup #'forge-pullreq-list-mode id nil es/forge-pull-request-topic-list-columns
+             (lambda ()
+               (forge-sql [:select $i1
+                                   :from pullreq
+                                   :where
+                                   (and (= repository $s2)
+                                        (in pullreq:author es/github-team-members)
+                                        (or (= state 'open)
+                                            (= state 'draft)))]
+                          (forge--tablist-columns-vector)
+                          id))))
          (defadvice magit-status (around magit-fullscreen activate)
            (magit-save-window-configuration)
            ad-do-it
