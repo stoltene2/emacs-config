@@ -10,7 +10,8 @@ Let's get started with the configuration! This format is inspired by
 
 First, I want to load private variables that are not checked into
 source control. I provide defaults so that I don't throw any errors
-during usage later.
+during usage later. By convention I'm storing my private configuration
+inside of a `private` directory inside of my emacs directory.
 
 #+begin_src emacs-lisp
   (defvar es/github-team-members []
@@ -18,7 +19,14 @@ during usage later.
   source control so that I don't expose anything potentially
   private.")
 
-  (load (file-name-concat default-directory "private-variables"))
+  (add-to-list 'load-path (file-name-concat user-emacs-directory "private"))
+
+  (condition-case err
+      (load "private-variables")
+    ((file-error)
+     (message "Initialization Error:  %S" err)
+     (yes-or-no-p "Could not find private-variables. Just a warning.")))
+
 #+end_src
 
 *** TODO Company mode
@@ -78,6 +86,27 @@ during usage later.
                 ("q" . magit-quit-session))
 
          :config
+
+         (defadvice magit-status (around magit-fullscreen activate)
+           (magit-save-window-configuration)
+           ad-do-it
+           (delete-other-windows))
+
+         (defun magit-quit-session ()
+           "Restores the previous window configuration and kills the magit buffer"
+           (interactive)
+           (magit-restore-window-configuration))
+
+     #+end_src
+
+
+**** Magit Forge
+
+     #+begin_src emacs-lisp
+       (use-package forge
+         :ensure t
+         :after magit
+         :config
          (defvar es/forge-pull-request-topic-list-columns
            '(("#"         5 forge-topic-list-sort-by-number (:right-align t) number nil)
              ("State"     6 t   nil state  nil)
@@ -103,7 +132,7 @@ during usage later.
 
          (defun es/forge-insert-team-pullreqs ()
            "Insert a list of mostly recent and/or open pull-requests matching team members from `es/github-team-members'.
-       Also see option `forge-topic-list-limit'."
+              Also see option `forge-topic-list-limit'."
            (when forge-display-in-status-buffer
              (when-let ((repo (forge-get-repository nil)))
                (unless (oref repo sparse-p)
@@ -114,14 +143,18 @@ during usage later.
 
          (cl-defmethod es/forge-ls-recent-team-topics ((repo forge-repository) table)
            "This is modeled after `forge-ls-recent-topics' with overloaded
-       sql that queries for individuals on my team so I can give them
-       priority review."
+              sql that queries for individuals on my team so I can give them
+              priority review."
            (magit--with-repository-local-cache (list 'forge-ls-recent-topics table)
              (let* ((id (oref repo id))
                     (limit forge-topic-list-limit)
                     (open-limit   (if (consp limit) (car limit) limit))
                     (closed-limit (if (consp limit) (cdr limit) limit))
-                    (topics '()))
+                    (topics '())
+                    (class (if (eq table 'pullreq)
+                               'forge-pullreq
+                             'forge-issue)))
+
                (mapc (lambda (row)
                        (cl-pushnew row topics :test #'equal))
                      (forge-sql [:select * :from $i1
@@ -135,31 +168,18 @@ during usage later.
                                 es/github-team-members
                                 (or open-limit 20)))
 
-               (cl-sort (mapcar (let ((class (if (eq table 'pullreq)
-                                                 'forge-pullreq
-                                               'forge-issue)))
-                                  (lambda (row)
-                                    (closql--remake-instance class (forge-db) row)))
+               (cl-sort (mapcar (lambda (row)
+                                  (closql--remake-instance class (forge-db) row))
                                 topics)
                         (cdr forge-topic-list-order)
-                        :key (lambda (it) (eieio-oref it (car forge-topic-list-order)))))))
+                        :key (lambda (it) (eieio-oref it (car forge-topic-list-order))))))))
 
-         (defadvice magit-status (around magit-fullscreen activate)
-           (magit-save-window-configuration)
-           ad-do-it
-           (delete-other-windows))
+       ;; Replace the hook that lists all open pull requests
+       (magit-add-section-hook 'magit-status-sections-hook 'es/forge-insert-team-pullreqs 'forge-insert-pullreqs 'after))
 
-         (defun magit-quit-session ()
-           "Restores the previous window configuration and kills the magit buffer"
-           (interactive)
-           (magit-restore-window-configuration))
-
-         ;; Replace the hook that lists all open pull requests
-         (magit-add-section-hook 'magit-status-sections-hook 'es/forge-insert-team-pullreqs 'forge-insert-pullreqs 'replace))
 
 
      #+end_src
-
 **** Git link
 
      Tool used to create a link to the point that goes to the
