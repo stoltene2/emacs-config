@@ -53,6 +53,22 @@ during usage later.
 
 **** Magit
      [[https://magit.vc/manual/magit.html][Magit documentation]]
+
+     I've made some customizations to the status buffer for this
+     mode. In order to reap these benefits you need to use magit
+     forge. First, you need to configure the mode by generating a
+     token (on github at least).
+
+     Next, if you would like to see pull requests scoped to your team
+     you need to configure `es/github-team-members`. This vector is
+     empty by default and I `setq` the values in an elisp file named
+     `private-variables` which is not checked into source control.
+
+     I replace the default show all pull requests with
+     `es/forge-insert-team-pullreqs`. Conceptually, this could be
+     configured as an alist/plist that uses specific individuals by
+     forge name.
+
      #+begin_src emacs-lisp
        (use-package magit
          :ensure t
@@ -78,11 +94,56 @@ during usage later.
                                    :from pullreq
                                    :where
                                    (and (= repository $s2)
-                                        (in pullreq:author es/github-team-members)
+                                        (in pullreq:author $v3)
                                         (or (= state 'open)
                                             (= state 'draft)))]
                           (forge--tablist-columns-vector)
-                          id))))
+                          id
+                          es/github-team-members))))
+
+         (defun es/forge-insert-team-pullreqs ()
+           "Insert a list of mostly recent and/or open pull-requests matching team members from `es/github-team-members'.
+       Also see option `forge-topic-list-limit'."
+           (when forge-display-in-status-buffer
+             (when-let ((repo (forge-get-repository nil)))
+               (unless (oref repo sparse-p)
+                 (forge-insert-topics "Team pull requests"
+                                      (es/forge-ls-recent-team-topics repo 'pullreq)
+                                      (forge--topic-type-prefix repo 'pullreq))))))
+
+
+         (cl-defmethod es/forge-ls-recent-team-topics ((repo forge-repository) table)
+           "This is modeled after `forge-ls-recent-topics' with overloaded
+       sql that queries for individuals on my team so I can give them
+       priority review."
+           (magit--with-repository-local-cache (list 'forge-ls-recent-topics table)
+             (let* ((id (oref repo id))
+                    (limit forge-topic-list-limit)
+                    (open-limit   (if (consp limit) (car limit) limit))
+                    (closed-limit (if (consp limit) (cdr limit) limit))
+                    (topics '()))
+               (mapc (lambda (row)
+                       (cl-pushnew row topics :test #'equal))
+                     (forge-sql [:select * :from $i1
+                                         :where (and (= repository $s2)
+                                                     (isnull closed)
+                                                     (in author $v3))
+                                         :order-by [(desc updated)]
+                                         :limit $s4]
+                                table
+                                id
+                                es/github-team-members
+                                (or open-limit 20)))
+
+               (cl-sort (mapcar (let ((class (if (eq table 'pullreq)
+                                                 'forge-pullreq
+                                               'forge-issue)))
+                                  (lambda (row)
+                                    (closql--remake-instance class (forge-db) row)))
+                                topics)
+                        (cdr forge-topic-list-order)
+                        :key (lambda (it) (eieio-oref it (car forge-topic-list-order)))))))
+
          (defadvice magit-status (around magit-fullscreen activate)
            (magit-save-window-configuration)
            ad-do-it
@@ -91,7 +152,11 @@ during usage later.
          (defun magit-quit-session ()
            "Restores the previous window configuration and kills the magit buffer"
            (interactive)
-           (magit-restore-window-configuration)))
+           (magit-restore-window-configuration))
+
+         ;; Replace the hook that lists all open pull requests
+         (magit-add-section-hook 'magit-status-sections-hook 'es/forge-insert-team-pullreqs 'forge-insert-pullreqs 'replace))
+
 
      #+end_src
 
