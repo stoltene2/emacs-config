@@ -95,12 +95,13 @@
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(delete-old-versions t)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(js-indent-level 2)
+ '(js-indent-level 2 nil nil "Customized with use-package json-mode")
  '(js2-auto-insert-catch-block nil)
  '(js2-bounce-indent-p nil)
  '(js2-mode-indent-ignore-first-tab nil)
  '(kept-new-versions 6)
  '(kept-old-versions 2)
+ '(magit-repository-directories '(("~/workspace" . 2)))
  '(org-agenda-files '("~/Documents/deft"))
  '(org-clock-clocktable-default-properties '(:maxlevel 3 :scope file))
  '(org-clock-idle-time 15)
@@ -123,16 +124,14 @@
  '(org-tags-column -120)
  '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   '(org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
+   '(code-review org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
- '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec"))
- '(projectile-test-suffix-function #'es/projectile-test-suffix)
- '(rg-group-result t)
+ '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec") nil nil "Customized with use-package projectile")
+ '(projectile-test-suffix-function #'es/projectile-test-suffix nil nil "Customized with use-package projectile")
+ '(rg-group-result t nil nil "Group the results by filename")
  '(safe-local-variable-values
-   '((haskell-process-use-ghci . t)
-     (haskell-indent-spaces . 4)
-     (projectile-test-suffix-function lambda
+   '((projectile-test-suffix-function lambda
                                       (project-type)
                                       "" "Spec")
      (eval progn
@@ -146,7 +145,7 @@
             (concat haskell-process-path-stack " test")
             projectile-test-cmd-map))))
  '(show-paren-style 'parenthesis)
- '(tab-width 4)
+ '(tab-width 4 nil nil "Set from custom settings")
  '(version-control t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
