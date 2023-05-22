@@ -25,3 +25,5 @@
 /org-roam.db
 /.org-id-locations
 /*.sqlite
+/elpy/
+/workspace/
