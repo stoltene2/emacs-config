@@ -124,14 +124,18 @@
  '(org-tags-column -120)
  '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   '(code-review org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
+   '(elpy lsp-pyright dockerfile-mode docker code-review org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec") nil nil "Customized with use-package projectile")
  '(projectile-test-suffix-function #'es/projectile-test-suffix nil nil "Customized with use-package projectile")
  '(rg-group-result t nil nil "Group the results by filename")
  '(safe-local-variable-values
-   '((projectile-test-suffix-function lambda
+   '((python-shell-interpreter . "docker")
+     (python-shell-interpreter-args . "compose run -w /usr/src/app -i -v /var/folders/ns/:/var/folders/ns web /root/.cache/pypoetry/virtualenvs/parsely-VA82Wl8V-py3.9/bin/python")
+     (python-shell-interpreter-interactive-arg . "-i")
+     (lsp-pyright-venv-directory . "/Users/eric.stolten/Library/Caches/pypoetry/virtualenvs/parsely-ts4HD_Mz-py3.9")
+     (projectile-test-suffix-function lambda
                                       (project-type)
                                       "" "Spec")
      (eval progn
@@ -146,7 +150,8 @@
             projectile-test-cmd-map))))
  '(show-paren-style 'parenthesis)
  '(tab-width 4 nil nil "Set from custom settings")
- '(version-control t))
+ '(version-control t)
+ '(warning-suppress-types '(((python python-shell-completion-native-turn-on-maybe)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -159,3 +164,4 @@
  '(git-gutter:deleted ((t (:background "#592822" :foreground "#592822" :weight bold))))
  '(git-gutter:modified ((t (:background "#272888" :foreground "#272888" :weight bold)))))
 (put 'narrow-to-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
