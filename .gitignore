@@ -27,3 +27,5 @@
 /*.sqlite
 /elpy/
 /workspace/
+/eln-cache/
+/session.*

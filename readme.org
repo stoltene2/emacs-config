@@ -49,7 +49,10 @@ inside of a `private` directory inside of my emacs directory.
 
     #+end_src
 
-*** Major mode Hydra
+*** TODO Major mode Hydra
+
+I should abandon this in favor of custom transients
+
     #+begin_src emacs-lisp
       (use-package major-mode-hydra
         :ensure t
@@ -103,81 +106,83 @@ inside of a `private` directory inside of my emacs directory.
 **** Magit Forge
 
      #+begin_src emacs-lisp
-       (use-package forge
-         :ensure t
-         :after magit
-         :config
-         (defvar es/forge-pull-request-topic-list-columns
-           '(("#"         5 forge-topic-list-sort-by-number (:right-align t) number nil)
-             ("State"     6 t   nil state  nil)
-             ("Author"    20 t   nil author nil)
-             ("Title"     45 t   nil title nil)
-             ))
+	      (use-package forge
+		:ensure t
+		:disabled
+		:after magit
+		:config
+		(defvar es/forge-pull-request-topic-list-columns
+		  '(("#"         5 forge-topic-list-sort-by-number (:right-align t) number nil)
+		    ("State"     6 t   nil state  nil)
+		    ("Author"    20 t   nil author nil)
+		    ("Title"     45 t   nil title nil)
+		    ))
 
-         (defun es/forge-list-team-pullreqs (id)
-           "List pull-requests of the current repository in a separate buffer."
-           (interactive (list (oref (forge-get-repository t) id)))
-           (forge-topic-list-setup #'forge-pullreq-list-mode id nil es/forge-pull-request-topic-list-columns
-             (lambda ()
-               (forge-sql [:select $i1
-                                   :from pullreq
-                                   :where
-                                   (and (= repository $s2)
-                                        (in pullreq:author $v3)
-                                        (or (= state 'open)
-                                            (= state 'draft)))]
-                          (forge--tablist-columns-vector)
-                          id
-                          es/github-team-members))))
+		(defun es/forge-list-team-pullreqs (id)
+		  "List pull-requests of the current repository in a separate buffer."
+		  (interactive (list (oref (forge-get-repository t) id)))
+		  (forge-topic-list-setup #'forge-pullreq-list-mode id nil es/forge-pull-request-topic-list-columns
+		    (lambda ()
+		      (forge-sql [:select $i1
+					  :from pullreq
+					  :where
+					  (and (= repository $s2)
+					       (in pullreq:author $v3)
+					       (or (= state 'open)
+						   (= state 'draft)))]
+				 (forge--tablist-columns-vector)
+				 id
+				 es/github-team-members))))
 
-         (defun es/forge-insert-team-pullreqs ()
-           "Insert a list of mostly recent and/or open pull-requests matching team members from `es/github-team-members'.
-              Also see option `forge-topic-list-limit'."
-           (when forge-display-in-status-buffer
-             (when-let ((repo (forge-get-repository nil)))
-               (unless (oref repo sparse-p)
-                 (progn
-                   (message (oref repo name))
-                   (forge-insert-topics "Team pull requests"
-                                        (es/forge-ls-recent-team-topics repo 'pullreq)
-                                        (forge--topic-type-prefix repo 'pullreq)))))))
+		(defun es/forge-insert-team-pullreqs ()
+		  "Insert a list of mostly recent and/or open pull-requests matching team members from `es/github-team-members'.
+		     Also see option `forge-topic-list-limit'."
+		  (when forge-display-in-status-buffer
+		    (when-let ((repo (forge-get-repository nil)))
+		      (unless (oref repo sparse-p)
+			(progn
+			  (message (oref repo name))
+			  (forge-insert-topics "Team pull requests"
+					       (es/forge-ls-recent-team-topics repo 'pullreq)
+					       (forge--topic-type-prefix repo 'pullreq)))))))
 
 
-         (cl-defmethod es/forge-ls-recent-team-topics ((repo forge-repository) table)
-           "This is modeled after `forge-ls-recent-topics' with overloaded
-              sql that queries for individuals on my team so I can give them
-              priority review."
-           (magit--with-repository-local-cache (list 'forge-ls-recent-topics table)
-             (let* ((id (oref repo id))
-                    (limit forge-topic-list-limit)
-                    (open-limit   (if (consp limit) (car limit) limit))
-                    (closed-limit (if (consp limit) (cdr limit) limit))
-                    (topics '())
-                    (class (if (eq table 'pullreq)
-                               'forge-pullreq
-                             'forge-issue)))
+		(cl-defmethod es/forge-ls-recent-team-topics ((repo forge-repository) table)
+		  "This is modeled after `forge-ls-recent-topics' with overloaded
+		     sql that queries for individuals on my team so I can give them
+		     priority review."
+		  (magit--with-repository-local-cache (list 'forge-ls-recent-topics table)
+		    (let* ((id (oref repo id))
+			   (limit forge-topic-list-limit)
+			   (open-limit   (if (consp limit) (car limit) limit))
+			   (closed-limit (if (consp limit) (cdr limit) limit))
+			   (topics '())
+			   (class (if (eq table 'pullreq)
+				      'forge-pullreq
+				    'forge-issue)))
 
-               (mapc (lambda (row)
-                       (cl-pushnew row topics :test #'equal))
-                     (forge-sql [:select * :from $i1
-                                         :where (and (= repository $s2)
-                                                     (isnull closed)
-                                                     (in author $v3))
-                                         :order-by [(desc updated)]
-                                         :limit $s4]
-                                table
-                                id
-                                es/github-team-members
-                                (or open-limit 20)))
+		      (mapc (lambda (row)
+			      (cl-pushnew row topics :test #'equal))
+			    (forge-sql [:select * :from $i1
+						:where (and (= repository $s2)
+							    (isnull closed)
+							    (in author $v3))
+						:order-by [(desc updated)]
+						:limit $s4]
+				       table
+				       id
+				       es/github-team-members
+				       (or open-limit 20)))
 
-               (cl-sort (mapcar (lambda (row)
-                                  (closql--remake-instance class (forge-db) row))
-                                topics)
-                        (cdr forge-topic-list-order)
-                        :key (lambda (it) (eieio-oref it (car forge-topic-list-order))))))))
+		      (cl-sort (mapcar (lambda (row)
+					 (closql--remake-instance class (forge-db) row))
+				       topics)
+			       (cdr forge-topic-list-order)
+			       :key (lambda (it) (eieio-oref it (car forge-topic-list-order))))))))
 
-       ;; Replace the hook that lists all open pull requests
-       (magit-add-section-hook 'magit-status-sections-hook 'es/forge-insert-team-pullreqs 'forge-insert-pullreqs 'replace))
+	      ;; Replace the hook that lists all open pull requests
+	      ;; (magit-add-section-hook 'magit-status-sections-hook 'es/forge-insert-team-pullreqs 'forge-insert-pullreqs 'replace)
+       )
 
 
 
@@ -380,11 +385,14 @@ enabled.
 
        (use-package projectile-rails
          ;; https://github.com/asok/projectile-rails
+         :disabled
          :config
          (projectile-rails-global-mode)
          :bind (:map projectile-rails-mode-map
                      ("s-r" . 'hydra-projectile-rails/body)))
      #+end_src
+
+     #+RESULTS:
 
 **** Treemacs
      #+begin_src emacs-lisp
@@ -500,22 +508,25 @@ yasnippet fields and mirrors to be.
 *** LSP
     #+begin_src emacs-lisp
 
-      (use-package dap-mode
-        :ensure t)
+                    (use-package dap-mode
+                      :ensure t)
 
-      (use-package lsp-mode
-        :ensure t
+                    (use-package lsp-mode
+                      :ensure t
 
-        :commands lsp
-        :bind (:map lsp-mode-map
-                    ("M-?" . #'lsp-ui-peek-find-references)
-                    ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
-        :hook ((rust-mode . lsp)
-               (rust-mode . company-mode)))
+                      :commands lsp
+                      :bind (:map lsp-mode-map
+                                  ("M-?" . #'lsp-ui-peek-find-references)
+                                  ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
+                      :hook ((rust-mode . lsp)
+                             (rust-mode . company-mode)
+                             (elixir-mode . lsp))
+                      :init
+                      (add-to-list 'exec-path "/nix/store/mvsxc9z8zfkcgb5n1bmap1sa1d1ld2bg-devenv-profile/bin"))
 
-      (use-package lsp-ui
-        :ensure t
-        :commands lsp-ui-mode)
+                    (use-package lsp-ui
+                      :ensure t
+                      :commands lsp-ui-mode)
 
     #+end_src
 *** Bazel mode                                                                                                :disabled:
@@ -539,6 +550,31 @@ yasnippet fields and mirrors to be.
         (setq tab-width 4)
         (use-package go-eldoc))
     #+end_src
+*** Elixir Mode
+
+#+begin_src emacs-lisp
+  (use-package elixir-mode
+    :ensure t)
+
+  ;; elixir-ts-mode
+  ;; TODO Need to install the grammar
+
+  ;; Need to set the lsp directory based on a project config of
+  ;; `.devenv/profile/elixir-ls`
+
+  ;; set ASDF_DIR with (setenv VARIABLE &optional VALUE SUBSTITUTE-ENV-VARS)
+
+  ;; These packages might need to know how to look in the local
+  ;; path. More important to set the right path variable.
+  ;; ~inf-elixi~ found the wrong mix
+  (use-package inf-elixir
+    :ensure t)
+
+  ;; Install elixir-mix
+  (use-package mix
+    :ensure t)
+
+#+end_src
 *** Elm Mode
     #+begin_src emacs-lisp
       (use-package elm-mode
@@ -599,6 +635,12 @@ yasnippet fields and mirrors to be.
         :ensure t)
     #+end_src
 
+*** Nix mode
+
+#+begin_src emacs-lisp
+  (use-package nix-mode
+    :ensure t)
+#+end_src
 *** Ruby and Rails Configurations
 
     #+begin_src emacs-lisp
@@ -1223,14 +1265,16 @@ yasnippet fields and mirrors to be.
       (defvar browse-url-browser-function)
 
       ;; Get to the browser
-      (dolist (executable (list "google-chrome" "chromium-browser" "firefox"))
-        (let ((browser-path (executable-find executable)))
-          (when browser-path
-            (setq browse-url-generic-program browser-path
-                  browse-url-browser-function 'browse-url-generic)
-            (return browser-path))))
+      (require 'cl-lib)
+      (cl-loop for executable in '("google-chrome" "chromium-browser" "firefox")
+               do (progn
+                    (let ((browser-path (executable-find executable)))
+                      (when browser-path
+                        (setq browse-url-generic-program browser-path
+                              browse-url-browser-function 'browse-url-generic)
+                        (cl-return browser-path)))))
 
-      ;; Bad tabs, bad.
+      ;; BAD tabs, bad.
       (setq-default indent-tabs-mode nil)
 
       ;; Kill that trailing whitespace
@@ -1251,14 +1295,14 @@ yasnippet fields and mirrors to be.
       ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 
-      ;;; Dired customizations
+        ;;; Dired customizations
       (defun dired-back-to-top ()
         (interactive)
         (beginning-of-buffer)
         (dired-next-line 4))
 
       (define-key dired-mode-map
-        (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+                  (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
 
       (defun dired-jump-to-bottom ()
         (interactive)
@@ -1266,9 +1310,9 @@ yasnippet fields and mirrors to be.
         (dired-next-line -1))
 
       (define-key dired-mode-map
-        (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
+                  (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
 
-      ;;; Backup
+        ;;; Backup
       (custom-set-variables
        ;; don't clobber symlinks
        '(backup-by-copying t)

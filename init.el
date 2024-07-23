@@ -95,6 +95,9 @@
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(delete-old-versions t)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(inf-elixir-base-command "/home/eric/workspace/book-app/.devenv/profile/bin/iex")
+ '(inf-elixir-project-command
+   "/home/eric/workspace/book-app/.devenv/profile/bin/iex -S /home/eric/workspace/book-app/.devenv/profile/bin/mix phx.server")
  '(js-indent-level 2 nil nil "Customized with use-package json-mode")
  '(js2-auto-insert-catch-block nil)
  '(js2-bounce-indent-p nil)
@@ -127,8 +130,6 @@
    '(elpy lsp-pyright dockerfile-mode docker code-review org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
- '(projectile-test-files-suffices '("_test" "_spec" "Spec" "Test" "-test" "-spec" ".spec") nil nil "Customized with use-package projectile")
- '(projectile-test-suffix-function #'es/projectile-test-suffix nil nil "Customized with use-package projectile")
  '(rg-group-result t nil nil "Group the results by filename")
  '(safe-local-variable-values
    '((python-shell-interpreter . "docker")
