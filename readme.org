@@ -508,25 +508,23 @@ yasnippet fields and mirrors to be.
 *** LSP
     #+begin_src emacs-lisp
 
-                    (use-package dap-mode
-                      :ensure t)
+      (use-package dap-mode
+        :ensure t)
 
-                    (use-package lsp-mode
-                      :ensure t
+      (use-package lsp-mode
+        :ensure t
 
-                      :commands lsp
-                      :bind (:map lsp-mode-map
-                                  ("M-?" . #'lsp-ui-peek-find-references)
-                                  ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
-                      :hook ((rust-mode . lsp)
-                             (rust-mode . company-mode)
-                             (elixir-mode . lsp))
-                      :init
-                      (add-to-list 'exec-path "/nix/store/mvsxc9z8zfkcgb5n1bmap1sa1d1ld2bg-devenv-profile/bin"))
+        :commands lsp
+        :bind (:map lsp-mode-map
+                    ("M-?" . #'lsp-ui-peek-find-references)
+                    ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions))
+        :hook ((rust-mode . lsp)
+               (rust-mode . company-mode)
+               (elixir-mode . lsp)))
 
-                    (use-package lsp-ui
-                      :ensure t
-                      :commands lsp-ui-mode)
+      (use-package lsp-ui
+        :ensure t
+        :commands lsp-ui-mode)
 
     #+end_src
 *** Bazel mode                                                                                                :disabled:
