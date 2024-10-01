@@ -854,11 +854,18 @@ yasnippet fields and mirrors to be.
 
     #+end_src
 *** Font decxlaration
+
+You can list out all the fonts available in the system using
+~(dolist (font (x-list-fonts "*")) (insert (format "%s\n" font)))~
+
+It is noisy but helps.
+
+Install the FiraCode Nerd Font from [[https://www.nerdfonts.com/font-downloads][NerdFonts]].
     #+begin_src emacs-lisp
       (if (fboundp 'set-frame-font)
           (if (eq system-type 'darwin)
               (set-frame-font "Monaco-16")
-            (set-frame-font "Fira Code")))
+            (set-frame-font "FiraCode Nerd Font")))
 
     #+end_src
 *** OSX customizations
