@@ -17,6 +17,8 @@
                          (concat home "/.cargo/bin") ":"
                          (concat home "/.rbenv/shims") ":"
                          (concat home "/.local/bin") ":"
+                         (concat home "/.nix-profile/bin") ":"
+                         "/nix/var/nix/profiles/default/bin" ":"
                          path)))
 
 (let ((home (getenv "HOME")))
@@ -26,6 +28,8 @@
     (add-to-list 'exec-path (concat home "/.cargo/bin"))
     (add-to-list 'exec-path (concat home "/.npm/bin"))
     (add-to-list 'exec-path (concat home "/.nix-profile/bin"))
+    ;; If darwin
+    (add-to-list 'exec-path "/nix/var/nix/profiles/default/bin")
     (add-to-list 'exec-path "/usr/local/bin" t)))
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
@@ -92,7 +96,9 @@
  '(compilation-scroll-output 'first-error)
  '(create-lockfiles nil)
  '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+     "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088"
+     default))
  '(delete-old-versions t)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(inf-elixir-base-command "/home/eric/workspace/book-app/.devenv/profile/bin/iex")
@@ -111,7 +117,11 @@
  '(org-clock-into-drawer "LOGBOOK")
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-clocktable-defaults
-   '(:maxlevel 3 :lang "en" :scope file :block nil :tstart nil :tend nil :step nil :stepskip0 nil :fileskip0 nil :tags nil :emphasize nil :link nil :narrow 40! :indent t :formula nil :timestamp nil :level nil :tcolumns nil :formatter nil))
+   '(:maxlevel 3 :lang "en" :scope file :block nil :tstart nil :tend nil
+               :step nil :stepskip0 nil :fileskip0 nil :tags nil
+               :emphasize nil :link nil :narrow 40! :indent t :formula
+               nil :timestamp nil :level nil :tcolumns nil :formatter
+               nil))
  '(org-enforce-todo-checkbox-dependencies t)
  '(org-enforce-todo-dependencies t)
  '(org-fontify-emphasized-text t)
@@ -127,28 +137,35 @@
  '(org-tags-column -120)
  '(org-todo-keyword-faces '(("TODO" . "#b58900") ("NEXT" . "#2aa198")))
  '(package-selected-packages
-   '(elpy lsp-pyright dockerfile-mode docker code-review org-roam-ui org-roam rustic elm-mode elixir-mode all-the-icons-ivy-rich-mode all-the-icons-ivy nix-mode rust-mode gnu-elpa-keyring-update forge magithub projectile-rails flow-js2-mode counsel-projectile ivy-hydra counsel ivy helm-cider cider 2048-game helm-c-yasnippet clojure-cheatsheet clojure-mode-extra-font-locking clojure-mode origami helm-rg all-the-icons auto-yasnippet gh-md urlenc undo-tree yatemplate yaml-mode web-mode use-package tide sr-speedbar spacemacs-theme smartparens shakespeare-mode restclient rainbow-delimiters puppet-mode paredit org-pomodoro neotree monokai-theme markdown-mode magit less-css-mode json-mode js2-refactor jenkins jasminejs-mode intero idris-mode helm-swoop helm-projectile helm-ag git-timemachine git-gutter fic-mode feature-mode expand-region ensime emmet-mode dumb-jump deft default-text-scale bookmark+ avy ag))
+   '(all-the-icons-ivy auto-yasnippet cider company-box
+                       counsel-projectile dap-mode default-text-scale
+                       doom-themes elixir-mode emmet-mode envrc
+                       expand-region fic-mode flycheck git-gutter
+                       git-link git-timemachine go-mode haskell-mode
+                       inf-elixir jasminejs-mode json-mode lsp-ui
+                       magit major-mode-hydra mix multiple-cursors
+                       nix-mode rainbow-delimiters restclient rg
+                       rustic smartparens treemacs-projectile
+                       typescript-mode undo-tree urlenc yatemplate
+                       zig-mode))
  '(projectile-haskell-cabal-compile-cmd (concat haskell-process-path-stack " build"))
  '(projectile-haskell-cabal-test-cmd (concat haskell-process-path-stack " test"))
  '(rg-group-result t nil nil "Group the results by filename")
  '(safe-local-variable-values
    '((python-shell-interpreter . "docker")
-     (python-shell-interpreter-args . "compose run -w /usr/src/app -i -v /var/folders/ns/:/var/folders/ns web /root/.cache/pypoetry/virtualenvs/parsely-VA82Wl8V-py3.9/bin/python")
+     (python-shell-interpreter-args
+      . "compose run -w /usr/src/app -i -v /var/folders/ns/:/var/folders/ns web /root/.cache/pypoetry/virtualenvs/parsely-VA82Wl8V-py3.9/bin/python")
      (python-shell-interpreter-interactive-arg . "-i")
-     (lsp-pyright-venv-directory . "/Users/eric.stolten/Library/Caches/pypoetry/virtualenvs/parsely-ts4HD_Mz-py3.9")
-     (projectile-test-suffix-function lambda
-                                      (project-type)
-                                      "" "Spec")
-     (eval progn
-           (require 'projectile)
-           (puthash
-            (projectile-project-root)
-            (concat haskell-process-path-stack " build")
-            projectile-compilation-cmd-map)
-           (puthash
-            (projectile-project-root)
-            (concat haskell-process-path-stack " test")
-            projectile-test-cmd-map))))
+     (lsp-pyright-venv-directory
+      . "/Users/eric.stolten/Library/Caches/pypoetry/virtualenvs/parsely-ts4HD_Mz-py3.9")
+     (projectile-test-suffix-function lambda (project-type) "" "Spec")
+     (eval progn (require 'projectile)
+           (puthash (projectile-project-root)
+                    (concat haskell-process-path-stack " build")
+                    projectile-compilation-cmd-map)
+           (puthash (projectile-project-root)
+                    (concat haskell-process-path-stack " test")
+                    projectile-test-cmd-map))))
  '(show-paren-style 'parenthesis)
  '(tab-width 4 nil nil "Set from custom settings")
  '(version-control t)

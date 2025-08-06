@@ -363,7 +363,7 @@ enabled.
 
          :config
          (projectile-mode 1)
-         (counsel-projectile-mode 1)
+         ;;(counsel-projectile-mode 1)
 
          (add-hook 'after-init-hook
                    (lambda ()
@@ -527,6 +527,12 @@ yasnippet fields and mirrors to be.
         :commands lsp-ui-mode)
 
     #+end_src
+*** Environment setup
+
+#+begin_src emacs-lisp
+(use-package envrc
+        :ensure t)
+#+end_src
 *** Bazel mode                                                                                                :disabled:
     #+begin_src emacs-lisp
       (use-package bazel
@@ -734,6 +740,15 @@ yasnippet fields and mirrors to be.
         (add-hook 'web-mode-hook #'emmet-mode))
 
     #+end_src
+*** Zig mode
+
+    #+begin_src emacs-lisp
+      (use-package zig-mode
+        :ensure t)
+
+    #+end_src
+
+
 ** Utilities
 *** Restclient
     [[https://github.com/pashky/restclient.el][Restclient documentation]]
